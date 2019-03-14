@@ -1,0 +1,21 @@
+<Frame>
+    BoxLayout:
+        id:menu
+        Menu
+    BoxLayout:
+        Splitter:
+            sizable_from: 'right'
+            BoxLayout:
+                id:source_tree
+        BoxLayout:
+            orientation: 'vertical'
+            # rescale_with_parent: rescale_box.active
+            Splitter:
+                sizable_from: 'bottom'
+                BoxLayout
+                    id:options
+                # rescale_with_parent: rescale_box.active
+            BoxLayout:
+                id:results
+                Button:
+                    text:'3'
