@@ -3,9 +3,9 @@ from kivy.uix.treeview import TreeView,TreeViewLabel
 from kivy.app import App
 
 
-class SourceTree(TreeView):
+class ResourceTree(TreeView):
     def __init__(self, data):
-        super(SourceTree, self).__init__()
+        super(ResourceTree, self).__init__()
         self.data = data
         self.populate_tree_view(None, data)
 
@@ -31,7 +31,7 @@ class TestApp(App):
                                     'children': []}]},
                       {'node_id': '1.2',
                        'children': []}]}
-        return SourceTree(data)
+        return ResourceTree(data)
 
 
 if __name__ == '__main__':
