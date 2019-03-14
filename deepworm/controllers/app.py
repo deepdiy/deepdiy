@@ -8,7 +8,7 @@ from kivy.app import App
 from kivy.lang import Builder
 
 from kivy.uix.boxlayout import BoxLayout
-from controllers.open_panel import OpenPanel
+from controllers.select_path_panel import SelectPathPanel
 from controllers.resource_tree import ResourceTree
 from kivy.event import EventDispatcher
 
@@ -43,8 +43,8 @@ class MainWindow(App):
         frame=Frame()
         frame.ids.source_tree.add_widget(ResourceTree(data))
 
-        open_panel=OpenPanel()
-        frame.ids.options.add_widget(open_panel)
+        select_path_panel=SelectPathPanel()
+        frame.ids.options.add_widget(select_path_panel)
         open_panel.bind(file_path=self.alert)
         open_panel.bind(file_path=self.alert)
         print(open_panel.file_path)
