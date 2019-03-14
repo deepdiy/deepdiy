@@ -45,7 +45,6 @@ class MainWindow(App):
 
         open_panel=OpenPanel()
         frame.ids.options.add_widget(open_panel)
-        # open_panel.a=StringProperty(open_panel.file_path)
         open_panel.bind(file_path=self.alert)
         open_panel.bind(file_path=self.alert)
         print(open_panel.file_path)
