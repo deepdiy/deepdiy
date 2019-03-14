@@ -8,8 +8,8 @@ from kivy.app import App
 from kivy.lang import Builder
 
 from kivy.uix.boxlayout import BoxLayout
-from views.open_panel import OpenPanel
-from views.resource_tree import ResourceTree
+from controllers.open_panel import OpenPanel
+from controllers.resource_tree import ResourceTree
 from kivy.event import EventDispatcher
 
 data={'node_id': '1',
@@ -33,9 +33,9 @@ class Menu(BoxLayout):
 
 
 class MainWindow(App):
-    Builder.load_file('frame.kv')
-    Builder.load_file('menu.kv')
-    Builder.load_file('openpanel.kv')
+    Builder.load_file('../views/frame.kv')
+    Builder.load_file('../views/menu.kv')
+    Builder.load_file('../views/openpanel.kv')
     def alert(self,*args):
         print('hi')
 
@@ -46,6 +46,7 @@ class MainWindow(App):
         open_panel=OpenPanel()
         frame.ids.options.add_widget(open_panel)
         # open_panel.a=StringProperty(open_panel.file_path)
+        open_panel.bind(file_path=self.alert)
         open_panel.bind(file_path=self.alert)
         print(open_panel.file_path)
         return frame
