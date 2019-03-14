@@ -1,0 +1,11 @@
+#:kivy 1.0
+
+<OpenPanel>:
+    BoxLayout:
+        id:open_panel
+        Button:
+            text: 'File'
+            on_press: root.open_file()
+        Button:
+            text: 'Folder'
+            on_press: root.open_folder()
