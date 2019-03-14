@@ -14,8 +14,8 @@ from kivy.properties import StringProperty
 class SelectPathPanel(BoxLayout):
     file_path=StringProperty('')
     folder_path=StringProperty('')
-    def __init__(self):
-        super(SelectPathPanel, self).__init__()
+    # def __init__(self):
+    #     super(SelectPathPanel, self).__init__()
         # self.register_event_type('on_select_file')
         # self.register_event_type('on_select_folder')
 

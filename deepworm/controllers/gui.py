@@ -27,27 +27,33 @@ data={'node_id': '1',
 class Frame(BoxLayout):
     pass
 
-
 class Menu(BoxLayout):
     pass
 
+Builder.load_file('../views/frame.kv')
+Builder.load_file('../views/menu.kv')
+Builder.load_file('../views/select_path_panel.kv')
+
+
 
 class MainWindow(App):
-    Builder.load_file('../views/frame.kv')
-    Builder.load_file('../views/menu.kv')
-    Builder.load_file('../views/openpanel.kv')
+    def __init__(self):
+        super(MainWindow, self).__init__()
+        self.resource_tree=ResourceTree(data)
+
     def alert(self,*args):
-        print('hi')
+        self.resource_tree.data={'node_id': '1',
+        'children': []}
+        self.resource_tree.update_tree_view()
 
     def build(self):
         frame=Frame()
-        frame.ids.source_tree.add_widget(ResourceTree(data))
+        frame.ids.source_tree.add_widget(self.resource_tree)
 
         select_path_panel=SelectPathPanel()
         frame.ids.options.add_widget(select_path_panel)
-        open_panel.bind(file_path=self.alert)
-        open_panel.bind(file_path=self.alert)
-        print(open_panel.file_path)
+        select_path_panel.bind(file_path=self.alert)
+        select_path_panel.bind(file_path=self.alert)
         return frame
 
 
