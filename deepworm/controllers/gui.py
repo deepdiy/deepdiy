@@ -10,19 +10,9 @@ from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 from controllers.select_path_panel import SelectPathPanel
 from controllers.resource_tree import ResourceTree
+from utils.path2tree import *
 from kivy.event import EventDispatcher
 
-data={'node_id': '1',
-'children': [{'node_id': '1.1',
-              'children': [{'node_id': '1.1.1',
-                            'children': [{'node_id': '1.1.1.1',
-                                          'children': []}]},
-                           {'node_id': '1.1.2',
-                            'children': []},
-                           {'node_id': '1.1.3',
-                            'children': []}]},
-              {'node_id': '1.2',
-               'children': []}]}
 
 class Frame(BoxLayout):
     pass
@@ -39,12 +29,10 @@ Builder.load_file('../views/select_path_panel.kv')
 class MainWindow(App):
     def __init__(self):
         super(MainWindow, self).__init__()
-        self.resource_tree=ResourceTree(data)
+        self.resource_tree=ResourceTree({'node_id': 'img','children': []})
 
-    def alert(self,*args):
-        self.resource_tree.data={'node_id': '1',
-        'children': []}
-        self.resource_tree.update_tree_view()
+    def updata_resource_tree(self,state,value):
+        self.resource_tree.data=path2tree(value)
 
     def build(self):
         frame=Frame()
@@ -52,8 +40,8 @@ class MainWindow(App):
 
         select_path_panel=SelectPathPanel()
         frame.ids.options.add_widget(select_path_panel)
-        select_path_panel.bind(file_path=self.alert)
-        select_path_panel.bind(file_path=self.alert)
+        select_path_panel.bind(file_path=self.updata_resource_tree)
+        select_path_panel.bind(folder_path=self.updata_resource_tree)
         return frame
 
 
