@@ -10,6 +10,7 @@ from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 from controllers.select_path_panel import SelectPathPanel
 from controllers.resource_tree import ResourceTree
+from controllers.menu import Menu
 from utils.path2tree import *
 from kivy.event import EventDispatcher
 
@@ -17,12 +18,11 @@ from kivy.event import EventDispatcher
 class Frame(BoxLayout):
     pass
 
-class Menu(BoxLayout):
-    pass
+
 
 Builder.load_file('../views/frame.kv')
 Builder.load_file('../views/menu.kv')
-Builder.load_file('../views/select_path_panel.kv')
+# Builder.load_file('../views/select_path_panel.kv')
 
 
 class MainWindow(App):
@@ -30,12 +30,11 @@ class MainWindow(App):
         super(MainWindow, self).__init__()
         self.resource_tree=ResourceTree({'node_id': 'img','children': []})
 
-    def update_resource_tree(self,state,value):
+    def update_resource_tree(self,instance,value):
         self.resource_tree.data=path2tree(value)
 
-    def update_option_panel(self):
-        pass
-
+    def update_option_panel(self,instance,value):
+        print(value)
 
     def build(self):
         frame=Frame()
@@ -45,6 +44,7 @@ class MainWindow(App):
         frame.ids.options.add_widget(select_path_panel)
         select_path_panel.bind(file_path=self.update_resource_tree)
         select_path_panel.bind(folder_path=self.update_resource_tree)
+        frame.ids.menu.bind(current_state=self.update_option_panel)
         return frame
 
 
