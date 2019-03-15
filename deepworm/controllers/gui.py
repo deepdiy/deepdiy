@@ -25,14 +25,17 @@ Builder.load_file('../views/menu.kv')
 Builder.load_file('../views/select_path_panel.kv')
 
 
-
 class MainWindow(App):
     def __init__(self):
         super(MainWindow, self).__init__()
         self.resource_tree=ResourceTree({'node_id': 'img','children': []})
 
-    def updata_resource_tree(self,state,value):
+    def update_resource_tree(self,state,value):
         self.resource_tree.data=path2tree(value)
+
+    def update_option_panel(self):
+        pass
+
 
     def build(self):
         frame=Frame()
@@ -40,8 +43,8 @@ class MainWindow(App):
 
         select_path_panel=SelectPathPanel()
         frame.ids.options.add_widget(select_path_panel)
-        select_path_panel.bind(file_path=self.updata_resource_tree)
-        select_path_panel.bind(folder_path=self.updata_resource_tree)
+        select_path_panel.bind(file_path=self.update_resource_tree)
+        select_path_panel.bind(folder_path=self.update_resource_tree)
         return frame
 
 
