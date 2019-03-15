@@ -11,6 +11,7 @@ from controllers.frame import Frame
 from controllers.menu import Menu
 from controllers.resource_tree import ResourceTree
 from controllers.config_panel import ConfigPanel
+from controllers.result_panel import ResultPanel
 
 from kivy.properties import NumericProperty
 from kivy.clock import Clock
