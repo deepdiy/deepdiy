@@ -1,19 +1,29 @@
 <Menu>
-    BoxLayout:
-        orientation: 'vertical'
-        ToggleButton:
-            text:"Open"
-            group:'menu'
-            width:'48dp'
-        ToggleButton:
-            text:"Detect"
-            group:'menu'
-        ToggleButton:
-            text:"Segment"
-            group:'menu'
-        ToggleButton:
-            text:"Measure"
-            group:'menu'
-        ToggleButton:
-            text:"Train"
-            group:'menu'
+
+    orientation: 'vertical'
+    ToggleButton:
+        text:"Open"
+        group:'menu'
+        state:'down'
+        allow_no_selection:False
+        on_state: root.on_state(self)
+    ToggleButton:
+        text:"Detect"
+        group:'menu'
+        allow_no_selection:False
+        on_state: root.on_state(self)
+    ToggleButton:
+        text:"Segment"
+        group:'menu'
+        allow_no_selection:False
+        on_state: root.on_state(self)
+    ToggleButton:
+        text:"Measure"
+        group:'menu'
+        allow_no_selection:False
+        on_state: root.on_state(self)
+    ToggleButton:
+        text:"Train"
+        group:'menu'
+        allow_no_selection:False
+        on_state: root.on_state(self)
