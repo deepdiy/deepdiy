@@ -6,29 +6,26 @@ sys.path.append('../')
 import kivy
 from kivy.app import App
 from kivy.lang import Builder
-
+from kivy.event import EventDispatcher
 from kivy.uix.boxlayout import BoxLayout
+
 from controllers.config_panel import ConfigPanel
 from controllers.resource_tree import ResourceTree
 from controllers.menu import Menu
-
-from kivy.event import EventDispatcher
 
 
 class Frame(BoxLayout):
     pass
 
 
-
 Builder.load_file('../views/frame.kv')
 Builder.load_file('../views/menu.kv')
-
 
 
 class MainWindow(App):
     def __init__(self):
         super(MainWindow, self).__init__()
-        self.resource_tree=ResourceTree({'node_id': 'img','children': []})
+        self.resource_tree=ResourceTree()
 
     def build(self):
         frame=Frame()

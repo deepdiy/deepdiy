@@ -15,10 +15,8 @@ class ConfigPanel(BoxLayout):
     def __init__(self,**kwargs):
         super(ConfigPanel, self).__init__(**kwargs)
         self.pages={
-
         'Open':SelectPathPanel(),
         'Detect':DetectPanel()
-
         }
         self.bind(page=self.update_page)
         self.update_page()

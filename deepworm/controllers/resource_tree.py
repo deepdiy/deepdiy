@@ -7,11 +7,8 @@ from kivy.properties import DictProperty
 
 class ResourceTree(TreeView):
     data = DictProperty()
-    def __init__(self, tree_data):
-        super(ResourceTree, self).__init__()
-        self.data = tree_data
-        self.populate_tree_view(None, self.data)
-        data = self.data
+    def __init__(self, **kwargs):
+        super(ResourceTree, self).__init__(**kwargs)
         self.bind(data=self.update_tree_view)
 
     def populate_tree_view(self, parent, node):
@@ -35,7 +32,9 @@ class ResourceTree(TreeView):
 class TestApp(App):
     def __init__(self):
         super(TestApp, self).__init__()
-        self.data={'node_id': '1',
+
+        self.resource_tree=ResourceTree()
+        self.resource_tree.data={'node_id': '1',
         'children': [{'node_id': '1.1',
                       'children': [{'node_id': '1.1.1',
                                     'children': [{'node_id': '1.1.1.1',
@@ -46,7 +45,6 @@ class TestApp(App):
                                     'children': []}]},
                       {'node_id': '1.2',
                        'children': []}]}
-        self.resource_tree=ResourceTree(self.data)
 
     def build(self):
         from kivy.uix.boxlayout import BoxLayout
