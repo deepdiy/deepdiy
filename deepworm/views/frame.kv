@@ -1,12 +1,12 @@
-<Frame>
+<Frame@BoxLayout>
     BoxLayout:
         Menu:
             id:menu
     BoxLayout:
         Splitter:
             sizable_from: 'right'
-            BoxLayout:
-                id:source_tree
+            ResourceTree:
+                id:resource_tree
         BoxLayout:
             orientation: 'vertical'
             # rescale_with_parent: rescale_box.active
