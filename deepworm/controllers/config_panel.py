@@ -4,7 +4,6 @@ os.chdir(scriptPath)
 sys.path.append('../')
 
 from kivy.app import App
-from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import StringProperty
 from controllers.select_path_panel import SelectPathPanel
@@ -15,7 +14,7 @@ from controllers.train_panel import TrainPanel
 
 class ConfigPanel(BoxLayout):
     page=StringProperty('Open')
-    Builder.load_file('../views/select_path_panel.kv')
+
     def __init__(self,**kwargs):
         super(ConfigPanel, self).__init__(**kwargs)
         self.pages={
