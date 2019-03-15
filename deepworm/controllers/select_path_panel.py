@@ -43,9 +43,9 @@ class SelectPathPanel(BoxLayout):
 
 
 class OpenPanelApp(App):
-    Builder.load_file('../views/select_path_panel.kv')
     def build(self):
         return SelectPathPanel()
 
 if __name__ == '__main__':
+    Builder.load_file('../views/select_path_panel.kv')
     OpenPanelApp().run()
