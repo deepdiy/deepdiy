@@ -12,8 +12,9 @@
             # rescale_with_parent: rescale_box.active
             Splitter:
                 sizable_from: 'bottom'
-                BoxLayout
-                    id:options
+                BoxLayout:
+                    ConfigPanel
+                        id:config_panel
                 # rescale_with_parent: rescale_box.active
             BoxLayout:
                 id:results

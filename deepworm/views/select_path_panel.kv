@@ -1,11 +1,11 @@
 #:kivy 1.0
 
 <SelectPathPanel>:
-    BoxLayout:
-        id:open_panel
-        Button:
-            text: 'File'
-            on_press: root.open_file()
-        Button:
-            text: 'Folder'
-            on_press: root.open_folder()
+    id:select_path_panel
+    Button:
+        id:btn
+        text: 'File'
+        on_press: root.open_file()
+    Button:
+        text: 'Folder'
+        on_press: root.open_folder()
