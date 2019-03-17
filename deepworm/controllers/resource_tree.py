@@ -4,7 +4,6 @@ from kivy.app import App
 from kivy.properties import DictProperty
 
 
-
 class ResourceTree(TreeView):
     data = DictProperty()
     def __init__(self, **kwargs):
@@ -12,11 +11,9 @@ class ResourceTree(TreeView):
         self.bind(data=self.update_tree_view)
 
     def populate_tree_view(self, parent, node):
-        if parent is None:
-            tree_node = self.add_node(TreeViewLabel(text=node['node_id'],is_open=True))
-        else:
-            tree_node = self.add_node(TreeViewLabel(text=node['node_id'],is_open=True), parent)
-        for child_node in node['children']:
+        for key in list(node.keys()):
+            tree_node = self.add_node(TreeViewLabel(text=key,is_open=True), parent)
+        for child_node in node[key]:
             self.populate_tree_view(tree_node, child_node)
 
     def depopulate(self,*arg):
@@ -34,17 +31,24 @@ class TestApp(App):
         super(TestApp, self).__init__()
 
         self.resource_tree=ResourceTree()
-        self.resource_tree.data={'node_id': '1',
-        'children': [{'node_id': '1.1',
-                      'children': [{'node_id': '1.1.1',
-                                    'children': [{'node_id': '1.1.1.1',
-                                                  'children': []}]},
-                                   {'node_id': '1.1.2',
-                                    'children': []},
-                                   {'node_id': '1.1.3',
-                                    'children': []}]},
-                      {'node_id': '1.2',
-                       'children': []}]}
+        self.resource_tree.data={'1': [
+                    {'1.1': [
+                        {'1.1.1': [
+                            {'1.1.1.1': []}]},
+                        {'1.1.2': []},
+                        {'1.1.3': []}]},
+                      {'1.2': []}]}
+        # self.resource_tree.data={'node_id': '1',
+        # 'children': [{'node_id': '1.1',
+        #               'children': [{'node_id': '1.1.1',
+        #                             'children': [{'node_id': '1.1.1.1',
+        #                                           'children': []}]},
+        #                            {'node_id': '1.1.2',
+        #                             'children': []},
+        #                            {'node_id': '1.1.3',
+        #                             'children': []}]},
+        #               {'node_id': '1.2',
+        #                'children': []}]}
 
     def build(self):
         from kivy.uix.boxlayout import BoxLayout
