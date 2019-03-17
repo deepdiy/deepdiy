@@ -12,7 +12,7 @@ from controllers.image_viewer import ImageViewer
 
 class ResultPanel(BoxLayout):
     # data=DictProperty({'type':'blank'})
-    data={'type':'blank'}
+    data={'type':'image'}
     page=StringProperty(data['type'])
 
     def __init__(self,**kwargs):
