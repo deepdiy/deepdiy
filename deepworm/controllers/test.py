@@ -41,7 +41,7 @@ class POSFMApp(App):
         #    layout.add_widget(btn)
         tv = TreeView(root_options=dict(text='Tree One'), hide_root=True, indent_level=4)
         tv.size_hint = 1, None
-        # tv.bind(minimum_height = tv.setter('height'))
+        tv.bind(minimum_height = tv.setter('height'))
         populate_tree_view(tv)
         root = ScrollView(pos = (0, 0))
         root.add_widget(tv)

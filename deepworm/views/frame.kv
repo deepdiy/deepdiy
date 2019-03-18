@@ -10,20 +10,22 @@
             width:dp(350)
             sizable_from: 'right'
             ScrollView:
+                scroll_type:["bars"]
+                bar_width:10
+                scroll_distance:1
+                scroll_timeout:0
+
                 ResourceTree:
                     id:resource_tree
         BoxLayout:
             orientation: 'vertical'
-            # rescale_with_parent: rescale_box.active
             Splitter:
                 size_hint_y:None
                 height:dp(250)
                 sizable_from: 'bottom'
                 BoxLayout:
-
                     ConfigPanel
                         id:config_panel
-                # rescale_with_parent: rescale_box.active
             BoxLayout:
                 orientation: 'vertical'
                 ResultPanel:

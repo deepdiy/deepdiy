@@ -22,16 +22,19 @@ class Resources(Widget):
 
     def update_file_list(self,*arg):
         self.file_list=get_file_list(self.file_path)
-        print(self.file_list)
 
     def update_ids(self,*arg):
+        if self.file_list==[]:
+            return
+        resource_ids={}
         for file_path in self.file_list:
-            self.resource_ids.update({file_path.split(os.sep)[-1]:[]})
+            resource_ids.update({file_path.split(os.sep)[-1]:[]})
         for dict in self.resource_data:
             if dict ==None:
                 return
             for key in dict:
-                slef.resource_ids[key].append(dict[key])
+                resource_ids[key].append(dict[key])
+        self.resource_ids={'All data':[resource_ids]}
 
 
 class Test(object):

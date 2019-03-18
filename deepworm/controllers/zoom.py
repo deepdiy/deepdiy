@@ -99,57 +99,57 @@ class Zoom(ScatterLayout):
     #     x, y = touch.x, touch.y
     #     self.prev_x = touch.x
     #     self.prev_y = touch.y
-    #
-    #     if touch.is_mouse_scrolling:
-    #         if touch.button == 'scrolldown':
-    #             print('down')
-    #             ## zoom in
-    #             if self.scale < 10:
-    #                 self.scale = self.scale * 1.1
-    #
-    #         elif touch.button == 'scrollup':
-    #             print('up')## zoom out
-    #             if self.scale > 1:
-    #                 self.scale = self.scale * 0.8
-    #
-    #     # if the touch isnt on the widget we do nothing
-    #     if not self.do_collide_after_children:
-    #         if not self.collide_point(x, y):
-    #             return False
-    #
-    #     # let the child widgets handle the event if they want
-    #     touch.push()
-    #     touch.apply_transform_2d(self.to_local)
-    #     if super(Scatter, self).on_touch_down(touch):
-    #         # ensure children don't have to do it themselves
-    #         if 'multitouch_sim' in touch.profile:
-    #             touch.multitouch_sim = True
-    #         touch.pop()
-    #         self._bring_to_front(touch)
-    #         return True
-    #     touch.pop()
-    #
-    #     # if our child didn't do anything, and if we don't have any active
-    #     # interaction control, then don't accept the touch.
-    #     if not self.do_translation_x and \
-    #             not self.do_translation_y and \
-    #             not self.do_rotation and \
-    #             not self.do_scale:
-    #         return False
-    #
-    #     if self.do_collide_after_children:
-    #         if not self.collide_point(x, y):
-    #             return False
-    #
-    #     if 'multitouch_sim' in touch.profile:
-    #         touch.multitouch_sim = True
-    #     # grab the touch so we get all it later move events for sure
-    #     self._bring_to_front(touch)
-    #     touch.grab(self)
-    #     self._touches.append(touch)
-    #     self._last_touch_pos[touch] = touch.pos
-    #
-    #     return True
+
+        # if touch.is_mouse_scrolling:
+        #     if touch.button == 'scrolldown':
+        #         # print('down')
+        #         ## zoom in
+        #         if self.scale < 10:
+        #             self.scale = self.scale * 1.1
+        #
+        #     elif touch.button == 'scrollup':
+        #         # print('up')## zoom out
+        #         if self.scale > 1:
+        #             self.scale = self.scale * 0.8
+        #
+        # # if the touch isnt on the widget we do nothing
+        # if not self.do_collide_after_children:
+        #     if not self.collide_point(x, y):
+        #         return False
+        #
+        # # let the child widgets handle the event if they want
+        # touch.push()
+        # touch.apply_transform_2d(self.to_local)
+        # if super(Scatter, self).on_touch_down(touch):
+        #     # ensure children don't have to do it themselves
+        #     if 'multitouch_sim' in touch.profile:
+        #         touch.multitouch_sim = True
+        #     touch.pop()
+        #     self._bring_to_front(touch)
+        #     return True
+        # touch.pop()
+        #
+        # # if our child didn't do anything, and if we don't have any active
+        # # interaction control, then don't accept the touch.
+        # if not self.do_translation_x and \
+        #         not self.do_translation_y and \
+        #         not self.do_rotation and \
+        #         not self.do_scale:
+        #     return False
+        #
+        # if self.do_collide_after_children:
+        #     if not self.collide_point(x, y):
+        #         return False
+        #
+        # if 'multitouch_sim' in touch.profile:
+        #     touch.multitouch_sim = True
+        # # grab the touch so we get all it later move events for sure
+        # self._bring_to_front(touch)
+        # touch.grab(self)
+        # self._touches.append(touch)
+        # self._last_touch_pos[touch] = touch.pos
+        #
+        # return True
 
 class Main_app(BoxLayout):
     pass

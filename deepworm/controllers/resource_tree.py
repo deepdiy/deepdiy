@@ -18,12 +18,11 @@ class ResourceTree(TreeView):
     def populate_tree_view(self, parent, node):
         for key in list(node.keys()):
             tree_node = self.add_node(TreeViewLabel(text=key,is_open=True), parent)
-            print(key)
         for child_node in node[key]:
             self.populate_tree_view(tree_node, child_node)
 
     def depopulate(self,*arg):
-        for node in self.root.nodes:
+        for node in self.iterate_all_nodes():
             self.remove_node(node)
 
     def update_tree_view(self,*arg):
@@ -66,7 +65,7 @@ class TestApp(App):
         from kivy.uix.boxlayout import BoxLayout
         from kivy.uix.button import Button
         root=BoxLayout()
-        window=ScrollView()
+        window=ScrollView(scroll_type=["bars"],  bar_width=20)
         root.add_widget(window)
         window.add_widget(self.resource_tree)
         root.add_widget(Button(text='Clear',on_press=self.resource_tree.depopulate))
