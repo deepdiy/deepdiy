@@ -9,8 +9,9 @@
             size_hint_x:None
             width:dp(350)
             sizable_from: 'right'
-            ResourceTree:
-                id:resource_tree
+            ScrollView:
+                ResourceTree:
+                    id:resource_tree
         BoxLayout:
             orientation: 'vertical'
             # rescale_with_parent: rescale_box.active
@@ -32,4 +33,4 @@
                     # size_hint_x:.5
                     size_hint_y:None
                     height:'5dp'
-                    value:(app.time*20)%100
+                    # value:(app.time*20)%100
