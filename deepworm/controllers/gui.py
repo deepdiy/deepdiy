@@ -32,8 +32,8 @@ class MainWindow(App):
         resources=Resources()
         frame=Frame()
         frame.ids.menu.bind(current_state=frame.ids.config_panel.setter('page'))
-        # frame.ids.config_panel.ids.select_path_panel.bind(tree=frame.ids.resource_tree.setter('data'))
         frame.ids.config_panel.ids.select_path_panel.bind(file_path=resources.setter('file_path'))
+        frame.ids.resource_tree.bind(selected_node=resources.setter('selected_node'))
         resources.bind(resource_ids=frame.ids.resource_tree.setter('data'))
         return frame
 

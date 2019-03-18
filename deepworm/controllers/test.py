@@ -1,88 +1,73 @@
-import sqlite3
-
-from kivy.app import App
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.recycleview.views import RecycleDataViewBehavior
+from kivy.uix.behaviors.compoundselection import CompoundSelectionBehavior
 from kivy.uix.button import Button
-from kivy.properties import BooleanProperty, ListProperty, StringProperty, ObjectProperty
-from kivy.uix.recyclegridlayout import RecycleGridLayout
+from kivy.uix.gridlayout import GridLayout
 from kivy.uix.behaviors import FocusBehavior
-from kivy.uix.recycleview.layout import LayoutSelectionBehavior
-from kivy.uix.popup import Popup
+from kivy.core.window import Window
+from kivy.app import App
 
 
-class TextInputPopup(Popup):
-    obj = ObjectProperty(None)
-    obj_text = StringProperty("")
+class SelectableGrid(FocusBehavior, CompoundSelectionBehavior, GridLayout):
 
-    def __init__(self, obj, **kwargs):
-        super(TextInputPopup, self).__init__(**kwargs)
-        self.obj = obj
-        self.obj_text = obj.text
-
-
-class SelectableRecycleGridLayout(FocusBehavior, LayoutSelectionBehavior,
-                                  RecycleGridLayout):
-    ''' Adds selection and focus behaviour to the view. '''
-
-
-class SelectableButton(RecycleDataViewBehavior, Button):
-    ''' Add selection support to the Button '''
-    index = None
-    selected = BooleanProperty(False)
-    selectable = BooleanProperty(True)
-
-    def refresh_view_attrs(self, rv, index, data):
-        ''' Catch and handle the view changes '''
-        self.index = index
-        return super(SelectableButton, self).refresh_view_attrs(rv, index, data)
-
-    def on_touch_down(self, touch):
-        ''' Add selection on touch down '''
-        if super(SelectableButton, self).on_touch_down(touch):
+    def keyboard_on_key_down(self, window, keycode, text, modifiers):
+        """Based on FocusBehavior that provides automatic keyboard
+        access, key presses will be used to select children.
+        """
+        if super(SelectableGrid, self).keyboard_on_key_down(
+            window, keycode, text, modifiers):
             return True
-        if self.collide_point(*touch.pos) and self.selectable:
-            return self.parent.select_with_touch(self.index, touch)
+        if self.select_with_key_down(window, keycode, text, modifiers):
+            return True
+        return False
 
-    def apply_selection(self, rv, index, is_selected):
-        ''' Respond to the selection of items in the view. '''
-        self.selected = is_selected
+    def keyboard_on_key_up(self, window, keycode):
+        """Based on FocusBehavior that provides automatic keyboard
+        access, key release will be used to select children.
+        """
+        if super(SelectableGrid, self).keyboard_on_key_up(window, keycode):
+            return True
+        if self.select_with_key_up(window, keycode):
+            return True
+        return False
 
-    def on_press(self):
-        popup = TextInputPopup(self)
-        popup.open()
+    def add_widget(self, widget):
+        """ Override the adding of widgets so we can bind and catch their
+        *on_touch_down* events. """
+        widget.bind(on_touch_down=self.button_touch_down,
+                    on_touch_up=self.button_touch_up)
+        return super(SelectableGrid, self).add_widget(widget)
 
-    def update_changes(self, txt):
-        self.text = txt
+    def button_touch_down(self, button, touch):
+        """ Use collision detection to select buttons when the touch occurs
+        within their area. """
+        if button.collide_point(*touch.pos):
+            self.select_with_touch(button, touch)
 
+    def button_touch_up(self, button, touch):
+        """ Use collision detection to de-select buttons when the touch
+        occurs outside their area and *touch_multiselect* is not True. """
+        if not (button.collide_point(*touch.pos) or
+                self.touch_multiselect):
+            self.deselect_node(button)
 
-class RV(BoxLayout):
-    data_items = ListProperty([])
+    def select_node(self, node):
+        node.background_color = (1, 0, 0, 1)
+        return super(SelectableGrid, self).select_node(node)
 
-    def __init__(self, **kwargs):
-        super(RV, self).__init__(**kwargs)
-        self.get_users()
+    def deselect_node(self, node):
+        node.background_color = (1, 1, 1, 1)
+        super(SelectableGrid, self).deselect_node(node)
 
-    def get_users(self):
-        # connection = sqlite3.connect("demo.db")
-        # cursor = connection.cursor()
-        #
-        # cursor.execute("SELECT * FROM Users ORDER BY UserID ASC")
-        # rows = cursor.fetchall()
-        #
-        # # create data_items
-        # for row in rows:
-        #     for col in row:
-        #         self.data_items.append(col)
-        self.data_items=[1,2,3,4,5,6]
+    def on_selected_nodes(self, gird, nodes):
+        print("Selected nodes = {0}".format(nodes))
 
 
 class TestApp(App):
-    title = "Kivy RecycleView & SQLite3 Demo"
-
     def build(self):
-        return RV()
+        grid = SelectableGrid(cols=3, rows=2, touch_multiselect=True,
+                              multiselect=True)
+        for i in range(0, 6):
+            grid.add_widget(Button(text="Button {0}".format(i)))
+        return grid
 
 
-if __name__ == "__main__":
-    TestApp().run()
+TestApp().run()

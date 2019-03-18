@@ -25,7 +25,6 @@ class ResourceTree(TreeView):
         self.populate_tree_view(None, self.data)
 
 
-
 class TestApp(App):
     def __init__(self):
         super(TestApp, self).__init__()
@@ -38,17 +37,6 @@ class TestApp(App):
                         {'1.1.2': []},
                         {'1.1.3': []}]},
                       {'1.2': []}]}
-        # self.resource_tree.data={'node_id': '1',
-        # 'children': [{'node_id': '1.1',
-        #               'children': [{'node_id': '1.1.1',
-        #                             'children': [{'node_id': '1.1.1.1',
-        #                                           'children': []}]},
-        #                            {'node_id': '1.1.2',
-        #                             'children': []},
-        #                            {'node_id': '1.1.3',
-        #                             'children': []}]},
-        #               {'node_id': '1.2',
-        #                'children': []}]}
 
     def build(self):
         from kivy.uix.boxlayout import BoxLayout

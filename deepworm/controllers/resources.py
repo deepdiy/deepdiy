@@ -6,13 +6,14 @@ sys.path.append('../')
 
 from kivy.uix.widget import Widget
 from kivy.properties import ObjectProperty,DictProperty,StringProperty,ListProperty
-from utils.path2tree import *
+from utils.get_file_list import get_file_list
 
 class Resources(Widget):
     file_path=StringProperty()
     file_list=ListProperty()
     resource_data=DictProperty()
     resource_ids=DictProperty()
+    selected_node=ObjectProperty()
 
     def __init__(self):
         super(Resources, self).__init__()
