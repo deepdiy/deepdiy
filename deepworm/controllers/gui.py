@@ -17,6 +17,9 @@ from utils.timer import Timer
 class MainWindow(App):
     title='Deep Worm'
 
+    def alert(self):
+        print('hi')
+
     def build(self):
         resources=Resources()
         frame=Frame()
@@ -24,6 +27,8 @@ class MainWindow(App):
         frame.ids.config_panel.ids.select_path_panel.bind(file_path=resources.setter('file_path'))
         frame.ids.resource_tree.bind(selected_node=resources.setter('selected_node'))
         resources.bind(resource_ids=frame.ids.resource_tree.setter('data'))
+        print(frame.ids.config_panel.ids)
+        # frame.ids.config_panel.ids.detect_panel.ids.btn_detect_run.bind(on_press=self.alert)
         return frame
 
 

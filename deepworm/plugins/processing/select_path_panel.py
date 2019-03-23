@@ -16,15 +16,21 @@ class SelectPathPanel(BoxLayout):
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'select_path_panel.kv')
 
 	def open_file(self):
-		self.data['file_path']=select_file()
-		self.data['file_list']=get_file_list(self.data['file_path'])
-		print(self.data['file_path'])
-		
+		path=select_file()
+		self.add_to_tree(path)
 
 	def open_folder(self):
-		self.data['file_path']=select_folder()
-		self.data['file_list']=get_file_list(self.data['file_path'])
-		print(self.data['file_path'])
+		path=select_folder()
+		self.add_to_tree(path)
+
+	def add_to_tree(self,path):
+		self.data['directory']=path
+		self.data['file_list']=get_file_list(path)
+		tree={'node_id':'resources','children':[]}
+		for file_path in self.data['file_list']:
+			tree['children'].append({'node_id':file_path.split(os.sep)[-1],'type':'file_path','content':file_path,'children':[]})
+		self.data['tree']=tree
+		print(path)
 
 
 class Test(App):

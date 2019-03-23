@@ -13,25 +13,30 @@ class ResourceTree(TreeView):
         self.bind(data=self.update_tree_view)
         self.size_hint = 1, None
         self.bind(minimum_height = self.setter('height'))
+        self.bind(selected_node = self.update_selection)
+        self.root.text='root'
+        self.hide_root=True
+        self.ignore_data_change=False
 
-
-    def update_ids(self,*arg):
-        if self.data['file_list']==[]:
+    def update_selection(self,instance,value):
+        if value ==None:
             return
-        resource_ids={}
-        for file_path in self.data['file_list']:
-            resource_ids.update({file_path.split(os.sep)[-1]:[]})
-        # for dict in self.resource_data:
-        #     if dict ==None:
-        #         return
-        #     for key in dict:
-        #         resource_ids[key].append(dict[key])
-        self.resource_ids={'All data':[resource_ids]}
+        selection_idx=[]
+        level=value.text
+        while level!='resources':
+            selection_idx.insert(0,value.text)
+            level=value.parent_node.text
+        self.ignore_data_change=True
+        self.data['selection']=selection_idx
+        print(self.data['selection'])
+
 
     def populate_tree_view(self, parent, node):
-        for key in list(node.keys()):
-            tree_node = self.add_node(TreeViewLabel(text=key,is_open=True), parent)
-        for child_node in node[key]:
+        if parent is None:
+            tree_node = self.add_node(TreeViewLabel(text=node['node_id'],is_open=True))
+        else:
+            tree_node = self.add_node(TreeViewLabel(text=node['node_id'],is_open=True), parent)
+        for child_node in node['children']:
             self.populate_tree_view(tree_node, child_node)
 
     def depopulate(self,*arg):
@@ -39,44 +44,29 @@ class ResourceTree(TreeView):
             self.remove_node(node)
 
     def update_tree_view(self,*arg):
-        if not hasattr(self.data, 'file_list'):
+        if not hasattr(self.data, 'tree') or self.ignore_data_change:
+            self.ignore_data_change=False
             return
-        print(self.data)
-        self.update_ids()
         self.depopulate()
-        self.populate_tree_view(None, self.resource_ids)
+        self.populate_tree_view(None, self.data['tree'])
 
 
 class TestApp(App):
     def __init__(self):
         super(TestApp, self).__init__()
-
         self.resource_tree=ResourceTree()
-        self.resource_tree.resource_ids={'1': [
-                    {'1.1': [
-                        {'1.1.1': [
-                            {'1.1.1.1': []}]},
-                        {'1.1.2': []},
-                        {'1.1.2': []},
-                        {'1.1.2': []},
-                        {'1.1.2': []},
-                        {'1.1.2': []},
-                        {'1.1.2': []},
-                        {'1.1.2': []},
-                        {'1.1.2': []},
-                        {'1.1.2': []},
-                        {'1.1.2': []},
-                        {'1.1.2': []},
-                        {'1.1.2': []},
-                        {'1.1.2': []},
-                        {'1.1.2': []},
-                        {'1.1.2': []},
-                        {'1.1.2': []},
-                        {'1.1.2': []},
-                        {'1.1.2': []},
-                        {'1.1.2': []},
-                        {'1.1.3': []}]},
-                      {'1.2': []}]}
+        self.resource_tree.data={'tree':{'node_id': '1',
+            'children': [{'node_id': '1.1',
+            'children': [{'node_id': '1.1.1',
+            'children': [{'node_id': '1.1.1.1',
+            'children': []}]},
+            {'node_id': '1.1.2',
+            'children': []},
+            {'node_id': '1.1.3',
+            'children': []}]},
+            {'node_id': '1.2',
+            'children': []}]}}
+        self.resource_tree.update_tree_view()
 
     def build(self):
         from kivy.uix.boxlayout import BoxLayout
