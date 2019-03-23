@@ -14,7 +14,6 @@ class ResourceTree(TreeView):
         self.size_hint = 1, None
         self.bind(minimum_height = self.setter('height'))
         self.bind(selected_node = self.update_selection)
-        self.root.text='root'
         self.hide_root=True
         self.ignore_data_change=False
 
@@ -22,14 +21,20 @@ class ResourceTree(TreeView):
         if value ==None:
             return
         selection_idx=[]
-        level=value.text
-        while level!='resources':
-            selection_idx.insert(0,value.text)
-            level=value.parent_node.text
+        current=value
+        for i in range(100):
+            if current.text!='Root':
+                selection_idx.insert(0,current.parent_node.nodes.index(current))
+                current=current.parent_node
+            else:
+                break
+        selection=self.data['tree']
+        for i in selection_idx[1:]:
+            selection=selection['children'][i]
+        if selection_idx==[0]:
+            selection=self.data['tree']
+        self.data['selection']=selection
         self.ignore_data_change=True
-        self.data['selection']=selection_idx
-        print(self.data['selection'])
-
 
     def populate_tree_view(self, parent, node):
         if parent is None:

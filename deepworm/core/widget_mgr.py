@@ -3,8 +3,9 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty,ListProperty,DictProperty,StringProperty
-from kivy.uix.button import Button
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.factory import Factory
+import string
 
 class WidgetManager(BoxLayout):
 	"""docstring for WidgetManager."""
@@ -33,9 +34,17 @@ class WidgetManager(BoxLayout):
 			screen=Screen(name=id)
 			screen.add_widget(ins['obj'])
 			self.ids.processing_screens.add_widget(screen)
-		# pass
+			self.add_munu_button(id)
+		elif type=='display':
+			screen=Screen(name=id)
+			screen.add_widget(ins['obj'])
+			self.ids.display_screens.add_widget(screen)
 
-
+	def add_munu_button(self,id):
+		if id in ['open']:
+			self.ids.action_view.add_widget(Factory.MenuButton(text=string.capwords(id.replace('_',' ')),important=True))
+		elif id in ['detect','segment']:
+			self.ids.menu_btn_group.add_widget(Factory.MenuButton(text=string.capwords(id.replace('_',' '))))
 
 class Test(App):
 	data=DictProperty()

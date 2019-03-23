@@ -1,3 +1,5 @@
+<MenuButton@ActionButton>
+
 <WidgetManager>
     orientation: 'vertical'
     ActionBar:
@@ -5,32 +7,17 @@
         # height:dp(100)
         # pos_hint: {'top':1}
         ActionView:
-            use_separator: True
+            id:action_view
+            use_separator: False
             ActionPrevious:
                 title: 'Deep Worm'
                 with_previous: False
             ActionOverflow:
             # ActionButton:
             #     icon: 'atlas://data/images/defaulttheme/audio-volume-high'
-            ActionButton:
-                important: True
-                text: 'Open'
-            ActionButton:
-                text: 'Detect'
-            ActionButton:
-                text: 'Segment'
-            ActionButton:
-                text: 'Train'
-            ActionButton:
-                text: 'Help'
             ActionGroup:
+                id:menu_btn_group
                 text: 'Plugins'
-                ActionButton:
-                    text: 'Count'
-                ActionButton:
-                    text: 'Measure'
-                ActionButton:
-                    text: 'Btn7'
     BoxLayout:
         Splitter:
             size_hint_x:None
@@ -42,7 +29,6 @@
                 bar_width:10
                 scroll_distance:1
                 scroll_timeout:0
-
         BoxLayout:
             orientation: 'vertical'
             Splitter:
@@ -54,7 +40,7 @@
             BoxLayout:
                 orientation: 'vertical'
                 ScreenManager:
-                    id:viewer_screens
+                    id:display_screens
 
                 ProgressBar:
                     id:progress_bar

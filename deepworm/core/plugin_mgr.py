@@ -57,6 +57,8 @@ class PluginManager(EventDispatcher):
 				obj.bind(data=app.setter('data'))
 			instances.append({'id':plugin['id'],'type':plugin['type'],'obj':obj})
 		self.plugins['instances']=instances
+
+		
 class Test(object):
 	def __init__(self,**kwargs):
 		super(Test, self).__init__(**kwargs)
