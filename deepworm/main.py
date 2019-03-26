@@ -6,7 +6,7 @@ from kivy.app import App
 from kivy.properties import ObjectProperty,ListProperty,DictProperty,StringProperty
 
 class MainWindow(App):
-    title='Deep Worm'
+    title='Deep Lab'
     data=DictProperty()
     plugins=DictProperty()
 
@@ -19,7 +19,6 @@ class MainWindow(App):
     def build(self):
         self.plugin_manager.load()
         return self.widget_manager
-
 
 if __name__ == '__main__':
     MainWindow().run()

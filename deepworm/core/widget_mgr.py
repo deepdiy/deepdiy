@@ -41,10 +41,14 @@ class WidgetManager(BoxLayout):
 			self.ids.display_screens.add_widget(screen)
 
 	def add_munu_button(self,id):
-		if id in ['open']:
-			self.ids.action_view.add_widget(Factory.MenuButton(text=string.capwords(id.replace('_',' ')),important=True))
+		if id in ['open','run','train']:
+			self.ids.action_view.add_widget(Factory.MenuButton(
+				text=string.capwords(id.replace('_',' ')),
+				on_release=lambda x:setattr(self.ids.processing_screens, 'current', id),
+				important=True))
 		elif id in ['detect','segment']:
 			self.ids.menu_btn_group.add_widget(Factory.MenuButton(text=string.capwords(id.replace('_',' '))))
+
 
 class Test(App):
 	data=DictProperty()
