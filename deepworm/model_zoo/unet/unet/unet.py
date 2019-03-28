@@ -1,7 +1,7 @@
 #-*- coding:utf-8 -*-
-from keras.models import *
-from keras.layers import *
-from keras.optimizers import *
+from keras.models import Input,Model
+from keras.layers import Conv2D,MaxPooling2D,Dropout,Concatenate,UpSampling2D
+from keras.optimizers import Adam
 from keras.callbacks import ModelCheckpoint
 import cv2,os
 
@@ -10,7 +10,7 @@ class UNet(object):
     def __init__(self, img_h=512, img_w=512,weight_path='../model/unet.hdf5'):
         self.img_h = img_h
         self.img_w = img_w
-        self.model = self.unet_net()
+        # self.model = self.unet_net()
         # bundle_dir = os.path.dirname(os.path.abspath(__file__))
         # self.model.load_weights(bundle_dir+'/unet.hdf5')
         print('Unet load weight finished')
