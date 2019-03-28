@@ -30,8 +30,8 @@ class PluginManager(EventDispatcher):
 		self.load_plugins()
 
 	def find_plugin_packages(self):
-
 		self.plugin_package_names=[]
+		print(plugins)
 		for importer, modname, ispkg in pkgutil.walk_packages(path=plugins.__path__,prefix=plugins.__name__+'.',onerror=lambda x: None):
 			if len(modname.split('.'))>2:
 				self.plugin_package_names.append(modname)
@@ -58,11 +58,12 @@ class PluginManager(EventDispatcher):
 			instances.append({'id':plugin['id'],'type':plugin['type'],'obj':obj})
 		self.plugins['instances']=instances
 
-		
+
 class Test(object):
 	def __init__(self,**kwargs):
 		super(Test, self).__init__(**kwargs)
 		class_manager=PluginManager()
+		class_manager.load()
 		print(class_manager.plugins.classes)
 		print(class_manager.plugins.instances)
 
