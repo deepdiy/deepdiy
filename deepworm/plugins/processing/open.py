@@ -1,18 +1,18 @@
 import sys,os
 sys.path.append(os.path.dirname(os.path.dirname(sys.path[0])))
-from kivy.lang import Builder
-
-from kivy.uix.boxlayout import BoxLayout
 from kivy.app import App
+from kivy.lang import Builder
+from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import StringProperty
 from kivy.properties import DictProperty
 from utils.select_path_dialog import select_file,select_folder
 from utils.get_file_list import get_file_list
+from utils.get_parent_path import get_parent_path
 
 class Open(BoxLayout):
 	data=DictProperty()
 	id='select_path_panel'
-	bundle_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+	bundle_dir = get_parent_path(3)
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'open.kv')
 
 	def open_file(self):
