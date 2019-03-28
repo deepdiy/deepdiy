@@ -2,7 +2,7 @@ import glob,os
 
 def get_file_list(path):
 	file_list=[]
-	for fn in glob.glob( path + os.sep + '*.jpg' )+glob.glob( path + os.sep + '*.png' )+glob.glob( path + os.sep + '*.tif' ):
+	for fn in glob.glob( path + os.sep + '*'):
 		if os.path.isdir(fn):
 			pass
 		else:
@@ -11,7 +11,7 @@ def get_file_list(path):
 	return file_list
 
 if __name__ == '__main__':
-	path1='D:\onedrive\program\worm_analyst/training\mask_rcnn\Mask_RCNN\dataset/train\img'
-	path2='D:\onedrive\program\worm_analyst/training\mask_rcnn\Mask_RCNN\dataset/train\img/training (1).tif'
+	path1='../img/'
+	path2='../img/face.jpg'
 	file_list=get_file_list(path1)
 	print(file_list)
