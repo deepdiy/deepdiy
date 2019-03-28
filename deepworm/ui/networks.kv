@@ -1,0 +1,45 @@
+<Networks>:
+	BoxLayout:
+		id:model_col
+		Spinner:
+			id:model_spinner
+			text:'Select Model'
+			size_hint_y:None
+			height:'48dp'
+	BoxLayout:
+		id:weight_col
+		Spinner:
+			id:weight_spinner
+			text:'Select Weight'
+			size_hint_y:None
+			height:'48dp'
+			disabled:True
+	BoxLayout:
+		id:run_col
+		orientation: 'vertical'
+		Button:
+			id:btn_test_load_model
+			text:'Test Load Model'
+			size_hint_y:None
+			height:dp(50)
+			disabled:True
+			on_release:root.test_load_model()
+		Button:
+			id:btn_test_pre_processing
+			text:'Test Pre-processing'
+			size_hint_y:None
+			height:dp(50)
+			disabled:True
+		Button:
+			id:btn_test_post_processing
+			text:'Test post_process'
+			size_hint_y:None
+			height:dp(50)
+			disabled:True
+		Button:
+			id:btn_run
+			text:'Run'
+			size_hint_y:None
+			height:dp(50)
+			disabled:True
+			on_release:root.run()
