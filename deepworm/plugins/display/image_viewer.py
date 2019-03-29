@@ -36,14 +36,14 @@ class ImageViewer(BoxLayout):
 	def update(self, *args):
 		if not hasattr(self.data, 'selection'):
 			return
-		if not 'display' in self.data['selection']:
+		if not 'display' in self.data['selection']['data']:
 			return
-		if self.data['selection']['display']!='image_viewer':
+		if self.data['selection']['data']['display']!='image_viewer':
 			return
-		if self.data['selection']['type']=='file_path':
-			self.img=read_img(self.data['selection']['content'])
+		if self.data['selection']['data']['type']=='file_path':
+			self.img=read_img(self.data['selection']['data']['content'])
 		else:
-			self.img=self.data['selection']['content']
+			self.img=self.data['selection']['data']['content']
 		self.img2texture()
 		self.canvas.clear()
 		with self.canvas:

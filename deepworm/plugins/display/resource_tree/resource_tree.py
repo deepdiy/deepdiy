@@ -20,20 +20,20 @@ class ResourceTree(TreeView):
     def update_selection(self,instance,value):
         if value ==None:
             return
-        selection_idx=[]
+        index_chain=[]
         current=value
         for i in range(100):
             if current.text!='Root':
-                selection_idx.insert(0,current.parent_node.nodes.index(current))
+                index_chain.insert(0,current.parent_node.nodes.index(current))
                 current=current.parent_node
             else:
                 break
         selection=self.data['tree']
-        for i in selection_idx[1:]:
+        for i in index_chain[1:]:
             selection=selection['children'][i]
-        if selection_idx==[0]:
+        if index_chain==[0]:
             selection=self.data['tree']
-        self.data['selection']=selection
+        self.data['selection']={'index_chain':index_chain[1:],'data':selection}
         self.ignore_data_change=True
 
     def populate_tree_view(self, parent, node):
@@ -54,6 +54,7 @@ class ResourceTree(TreeView):
             return
         self.depopulate()
         self.populate_tree_view(None, self.data['tree'])
+        print('hi')
 
 
 class TestApp(App):

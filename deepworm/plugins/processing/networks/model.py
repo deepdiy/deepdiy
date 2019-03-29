@@ -7,9 +7,7 @@ import threading
 from utils.thread_handler import ThreadHandler
 from utils.read_img import read_img
 from kivy.clock import Clock
-import tensorflow as tf
 import cv2
-from keras import backend as K
 
 class Model(EventDispatcher):
 	input=ObjectProperty()
@@ -18,34 +16,24 @@ class Model(EventDispatcher):
 
 	def __init__(self,**kwargs):
 		super(Model, self).__init__(**kwargs)
-		self.curent_threads_cbs = {}
+		self.model=None
+		self.weight_idx=None
 
-	def load_nn(self):
+	def run(self,path,weight_idx):
+		import tensorflow as tf
 		self.graph = tf.get_default_graph()
-		self.model=self.get_network()
-
-
-	def load_model(self):
-		self.t=ThreadHandler(func=lambda:self.load_nn(),on_finished=self.on_load_model)
-
-	def on_load_model(self):
-		# self.model=self.t.result
-		print('model loaded')
-
-	def run(self,path):
 		with self.graph.as_default():
-			self.model.load_weights(self.weight_list[0])
-
-			data=self.pre_process(path)
-			img=self.model.predict(data, batch_size=1, verbose=0)
-			img=self.post_process(img)
-			cv2.imshow('img',img)
+			if self.model is None:
+				self.model=self.get_network()
+			if self.weight_idx!=weight_idx:
+				self.weight_idx=weight_idx
+				self.model.load_weights(self.weight_list[weight_idx])
+			input=self.pre_process(path)
+			result=self.model.predict(input, batch_size=1, verbose=0)
+			output=self.post_process(result)
+			cv2.imshow('img',output)
 			cv2.waitKey(0)
-		#
-		# data=self.
-
-
-
+			return output
 
 
 if __name__ == '__main__':
