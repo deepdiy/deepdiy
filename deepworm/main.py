@@ -20,7 +20,7 @@ class MainWindow(App):
 
     def build(self):
         self.plugin_manager.load()
-        load_demo()
+        auto_run()
         return self.widget_manager
 
 if __name__ == '__main__':

@@ -7,7 +7,6 @@ from kivy.properties import DictProperty
 from plugins.processing.networks.model_collector import ModelCollector
 from utils.get_parent_path import get_parent_path
 from core.sandbox import Sandbox
-import threading
 
 
 class Networks(BoxLayout):
@@ -21,10 +20,6 @@ class Networks(BoxLayout):
 		self.models=ModelCollector().models
 		self.ids.model_spinner.values=self.models
 		self.ids.model_spinner.bind(text=self.update_weight_list)
-		threading.Thread(target=self.import_tf).start()
-
-	def import_tf(self):
-		import tensorflow as tf
 
 	def update_weight_list(self,instance,text):
 		values=[item.split(os.sep)[-1] for item in self.models[text].weight_list]
