@@ -19,7 +19,8 @@ class Model(EventDispatcher):
 		self.model=None
 		self.weight_idx=None
 
-	def run(self,path,weight_idx):
+	def run(self,path,weight):
+		weight_idx=[item.split(os.sep)[-1] for item in self.weight_list].index(weight)
 		import tensorflow as tf
 		self.graph = tf.get_default_graph()
 		with self.graph.as_default():
@@ -31,8 +32,14 @@ class Model(EventDispatcher):
 			input=self.pre_process(path)
 			result=self.model.predict(input, batch_size=1, verbose=0)
 			output=self.post_process(result)
-			cv2.imshow('img',output)
-			cv2.waitKey(0)
+			# cv2.imshow('img',output)
+			# cv2.waitKey(0)
+			# output={
+			# 	'node_id':'mask',
+			# 	'type':'img',
+			# 	'content':output,
+			# 	'display':'image_viewer',
+			# 	'children':[]}
 			return output
 
 

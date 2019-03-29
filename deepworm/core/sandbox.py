@@ -1,46 +1,69 @@
+import sys,os
+sys.path.append('../')
 import threading
 from kivy.event import EventDispatcher
 from kivy.properties import DictProperty
+from pebble import concurrent
+from utils.add_data_to_tree import add_data_to_tree
+from time import time
 
 class Sandbox(EventDispatcher):
-    """docstring for ."""
-    data=DictProperty()
+	"""docstring for ."""
 
-    def __init__(self, func):
-        super(Sandbox, self).__init__()
-        self.input=ListProperty([])
-        self.output=ListProperty([])
-        self.log=ListProperty([])
-        self.func = func
+	def __init__(self, data, func, kwargs,result_meta=None,call_back=None):
+		super(Sandbox, self).__init__()
 
-	def wrap_function(self,name,function):
-		self.__setattr__(name,function)
-		def run_in_thread(self,func):
-			@functools.wraps(func)
-			def wrapper(*args, **kw):
-				print('i am running')
-				sf.__setattr__(func.__name__,ThreadHandler(func=lambda))
-				# threading.Thread(target=func).start()
-			return wrapper
+		self.data = data
+		self.kwargs = kwargs
+		self.result_meta=result_meta
 
-    def action(self):
-        try:
-            self.output=self.func(self.input[0])
-        except Exception as e:
-            self.log.append(e)
+		if func is not None:
+			self.func = func
+		else:
+			self.func = lambda: None
 
-    def run(self):
-        threading.Thread(target=self.action).start()
+		if call_back is not None:
+			self.call_back = call_back
+		else:
+			self.call_back = lambda: None
 
+	@concurrent.thread
+	def run(self):
+		input=self.data['selection']['data']['content']
+		result=self.func(input,**self.kwargs)
+		return result
 
-def worker(input):
-    return input+1
+	def on_finished(self,job):
+		result=job.result()
+		output=self.result_meta
+		output['children']=[]
+		output['content']=result
+		add_data_to_tree(self.data['tree'],output,self.data['selection']['index_chain'])
+		self.data['selection']={'data':output,'index_chain':self.data['selection']['index_chain'].append(0)}
+		self.data['last_job_time']={'time':time()}
+		self.call_back()
+
+	def start(self):
+		result=self.run()
+		result.add_done_callback(self.on_finished)
+
 
 def test():
-    sandbox=Sandbox(worker)
-    sandbox.input=[1]
-    sandbox.run()
-    print(sandbox.output)
+	def plus(data,kw1,kw2):
+		return data+kw1+kw2
+	def call_back():
+		print('I am call_back')
+	sandbox=Sandbox(
+		data={'tree':{'children':[]},'selection':{'data':{'content':4},'index_chain':[]}},
+		kwargs={'kw1':1,'kw2':2},
+		func=plus,
+		result_meta={
+			'node_id':'mask',
+			'type':'img',
+			'display':'image_viewer'},
+		call_back=call_back)
+	sandbox.start()
+	print(sandbox.data)
 
 if __name__ == '__main__':
-    test()
+	test()

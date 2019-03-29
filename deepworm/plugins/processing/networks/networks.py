@@ -6,9 +6,9 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import DictProperty
 from plugins.processing.networks.model_collector import ModelCollector
 from utils.get_parent_path import get_parent_path
-from utils.add_data_to_tree import add_data_to_tree
+from core.sandbox import Sandbox
 import threading
-from pebble import concurrent
+
 
 class Networks(BoxLayout):
 	"""docstring for Run."""
@@ -36,32 +36,28 @@ class Networks(BoxLayout):
 			self.ids.weight_spinner.values=[]
 		self.model=self.models[self.ids.model_spinner.text]
 
-	@concurrent.thread
-	def predict(self):
-		path=self.data['selection']['data']['content']
-		weight_index=self.ids.weight_spinner.values.index(self.ids.weight_spinner.text)
-		result=self.model.run(path,weight_index)
-		output={
-			'node_id':'mask',
-			'type':'img',
-			'content':result,
-			'display':'image_viewer',
-			'children':[]}
-		return output
-
-	def on_finished(self,args):
-		result=args.result()
-		data=self.data
-		add_data_to_tree(data['tree'],result,data['selection']['index_chain'])
-		self.data={}
-		self.data=data
-		self.ids.btn_run.text='Run'
-
 	def run(self):
 		self.ids.btn_run.text='Running'
-		result=self.predict()
-		result.add_done_callback(self.on_finished)
+		self.sandbox=Sandbox(
+			self.data,
+			func=self.model.run,
+			kwargs={'weight':self.ids.weight_spinner.text},
+			call_back=self.on_finished,
+			result_meta={
+				'node_id':'mask',
+				'type':'img',
+				'display':'image_viewer'
+				}
+			)
+		self.sandbox.start()
+		# result=self.model.run(self.data['selection']['data']['content'],self.ids.weight_spinner.text)
+		# result.add_done_callback(self.on_finished)
 
+	def on_finished(self):
+		# result=args.result()
+		# add_data_to_tree(data['tree'],result,data['selection']['index_chain'])
+		# self.data=self.sandbox.data
+		self.ids.btn_run.text='Run'
 
 class Test(App):
 	def __init__(self,**kwargs):

@@ -17,7 +17,6 @@ class DisplayManager(BoxLayout):
 	def display(self,*args):
 		if not hasattr(self.data,'selection'):
 			return
-		print(self.data['selection'])
 
 
 class Test(object):
