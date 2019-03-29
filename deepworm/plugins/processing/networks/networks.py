@@ -49,8 +49,8 @@ class Networks(BoxLayout):
 			self.ids.btn_run.disabled=True
 
 	def run(self):
-		print(self.weight_spinner.text)
-		# model=self.models['unet'].model()
+		
+		self.model.network=self.model.run('../../../img/face.jpg')
 
 class Test(App):
 	def __init__(self,**kwargs):
