@@ -54,7 +54,6 @@ class ResourceTree(TreeView):
             return
         self.depopulate()
         self.populate_tree_view(None, self.data['tree'])
-        print('hi')
 
 
 class TestApp(App):

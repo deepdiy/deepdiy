@@ -4,11 +4,9 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import DictProperty
-from kivy.factory import Factory
 from plugins.processing.networks.model_collector import ModelCollector
 from utils.get_parent_path import get_parent_path
 from utils.add_data_to_tree import add_data_to_tree
-import string
 import threading
 from pebble import concurrent
 
@@ -24,7 +22,6 @@ class Networks(BoxLayout):
 		self.ids.model_spinner.values=self.models
 		self.ids.model_spinner.bind(text=self.update_weight_list)
 		threading.Thread(target=self.import_tf).start()
-		# self.bind(data=self.update)
 
 	def import_tf(self):
 		import tensorflow as tf
@@ -39,25 +36,32 @@ class Networks(BoxLayout):
 			self.ids.weight_spinner.values=[]
 		self.model=self.models[self.ids.model_spinner.text]
 
-	def run(self,path):
-		weight_index=self.ids.weight_spinner.values.index(self.ids.weight_spinner.text)
-		output=self.model.run(path,weight_index)
-		return output
-
 	@concurrent.thread
-	def update(self):
+	def predict(self):
 		path=self.data['selection']['data']['content']
-		result=self.run(path)
-		result={
+		weight_index=self.ids.weight_spinner.values.index(self.ids.weight_spinner.text)
+		result=self.model.run(path,weight_index)
+		output={
 			'node_id':'mask',
 			'type':'img',
 			'content':result,
 			'display':'image_viewer',
 			'children':[]}
+		return output
+
+	def on_finished(self,args):
+		result=args.result()
 		data=self.data
 		add_data_to_tree(data['tree'],result,data['selection']['index_chain'])
 		self.data={}
 		self.data=data
+		self.ids.btn_run.text='Run'
+
+	def run(self):
+		self.ids.btn_run.text='Running'
+		result=self.predict()
+		result.add_done_callback(self.on_finished)
+
 
 class Test(App):
 	def __init__(self,**kwargs):
