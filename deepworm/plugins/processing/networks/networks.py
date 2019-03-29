@@ -9,7 +9,6 @@ from plugins.processing.networks.model_collector import ModelCollector
 from utils.get_parent_path import get_parent_path
 from utils.add_data_to_tree import add_data_to_tree
 import string
-from kivy.uix.spinner import Spinner
 import threading
 from pebble import concurrent
 
@@ -33,7 +32,6 @@ class Networks(BoxLayout):
 	def update_weight_list(self,instance,text):
 		values=[item.split(os.sep)[-1] for item in self.models[text].weight_list]
 		if len(values)>0:
-			self.ids.weight_spinner.disabled=False
 			self.ids.weight_spinner.text='Select Weight'
 			self.ids.weight_spinner.values=values
 		else:

@@ -13,7 +13,7 @@
 			text:'Select Weight'
 			size_hint_y:None
 			height:'48dp'
-			disabled:True
+			disabled:not (model_spinner.text in model_spinner.values)
 	BoxLayout:
 		id:run_col
 		orientation: 'vertical'
