@@ -18,7 +18,7 @@ def test():
 	mask = np.array(mask)
 	mask = mask.astype('float32')
 	mask=mask/255
-	result=run([mask])
+	result=post_process([mask])
 	cv2.imshow('img',result)
 	cv2.waitKey(0)
 	print(result.shape)

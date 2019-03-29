@@ -6,7 +6,7 @@ from utils import get_parent_path,read_img
 
 def pre_process(path):
 	img=read_img.read_img(path)
-	img=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+	# img=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 	imgdatas = []
 	img = cv2.resize(img, (512, 512), interpolation=cv2.INTER_CUBIC)
 	imgdatas.append(img)
