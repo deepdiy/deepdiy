@@ -10,11 +10,13 @@ from utils.get_parent_path import get_parent_path
 import string
 from kivy.uix.spinner import Spinner
 
+
 class Networks(BoxLayout):
 	"""docstring for Run."""
 	data=DictProperty()
 	bundle_dir = get_parent_path(3)
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'networks.kv')
+
 
 	def __init__(self):
 		super(Networks, self).__init__()
@@ -39,7 +41,6 @@ class Networks(BoxLayout):
 	def test_load_model(self):
 		self.model=self.models[self.ids.model_spinner.text]
 		self.model.network=self.model.load_model()
-
 
 	def active_run(self,*args):
 		if self.ids.weight_spinner.disabled==False and self.ids.weight_spinner.text not in ['Select Weight','No weight available']:
