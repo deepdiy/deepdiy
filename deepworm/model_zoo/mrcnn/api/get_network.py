@@ -5,7 +5,7 @@ from utils.get_parent_path import get_parent_path
 bundle_dir=get_parent_path(3)+os.sep+'model_zoo'+os.sep+'mrcnn'
 sys.path.append(bundle_dir)
 from mrcnn.config import Config
-from mrcnn import model as modellib
+
 
 
 class ElegansConfig(Config):
@@ -37,6 +37,8 @@ class InferenceConfig(config.__class__):
 config = InferenceConfig()
 
 def get_network():
+    print('hi')
+    from mrcnn import model as modellib
     model = modellib.MaskRCNN(mode="inference", model_dir='./',config=config)
     # model.load_weights(bundle_dir+os.sep+'assets'+os.sep+'elegans.h5', by_name=True)
     return model
