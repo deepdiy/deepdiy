@@ -1,4 +1,16 @@
 <Train>
   Button:
     text:'Label'
+    size_hint_y:None
+    height:'50dp'
     on_release:root.label()
+  Spinner:
+    id:model_spinner
+    text:'Select Model'
+    size_hint_y:None
+    height:'48dp'
+  Button:
+    text:'Train'
+    size_hint_y:None
+    height:'50dp'
+    on_release:root.train()
