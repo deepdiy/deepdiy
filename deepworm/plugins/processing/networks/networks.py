@@ -45,13 +45,8 @@ class Networks(BoxLayout):
 				}
 			)
 		self.sandbox.start()
-		# result=self.model.run(self.data['selection']['data']['content'],self.ids.weight_spinner.text)
-		# result.add_done_callback(self.on_finished)
 
 	def on_finished(self):
-		# result=args.result()
-		# add_data_to_tree(data['tree'],result,data['selection']['index_chain'])
-		# self.data=self.sandbox.data
 		self.ids.btn_run.text='Run'
 
 class Test(App):
