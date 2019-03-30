@@ -28,10 +28,11 @@ class ModelCollector(object):
 			try:
 				func_name='.'.join(['model_zoo',name,'api',func])
 				module=importlib.import_module(func_name)
+				if module !=None:
+					self.models[name].__setattr__(func, getattr(module,func))
 			except Exception as e:
+				raise e
 				print('[Warning]',func,'not found. ',e)
-			if module !=None:
-				self.models[name].__setattr__(func, getattr(module,func))
 
 	def collect_weight_file(self,name):
 		weight_list=get_file_list(self.bundle_dir+os.sep+'model_zoo'+os.sep+name+os.sep+'assets')
