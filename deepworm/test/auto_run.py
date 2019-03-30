@@ -19,7 +19,7 @@ def load_network():
 	networks.ids.weight_spinner.text='unet.hdf5'
 	print(networks.ids)
 
-	threading.Thread(target=import_tf).start()
+	# threading.Thread(target=import_tf).start()
 
 def auto_run():
 	global app
