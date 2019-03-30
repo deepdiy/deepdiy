@@ -27,14 +27,15 @@ class Model(EventDispatcher):
 		weight_idx=[item.split(os.sep)[-1] for item in self.weight_list].index(weight)
 		if self.weight_idx!=weight_idx:
 			self.weight_idx=weight_idx
-			self.model.load_weights(self.weight_list[weight_idx])
+			self.model.load_weights(self.weight_list[weight_idx], by_name=True)
 
 	def run(self,path,weight):
 		self.load_model()
 		self.load_weight(weight)
 		input=self.pre_process(path)
-		result=self.model.predict(input, batch_size=1, verbose=0)
-		output=self.post_process(result)
+		# result=self.model.predict(input, batch_size=1, verbose=0)
+		result=self.model.detect(input, verbose=1)
+		output=self.post_process(input,result)
 		return output
 
 
