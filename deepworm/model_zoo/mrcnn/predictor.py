@@ -36,6 +36,7 @@ class Predictor(FormParser):
 	def predict(self):
 		result=self.model.detect(self.input, verbose=1)
 		self.result=result[0]
+		return self.result
 
 
 class Test(object):
