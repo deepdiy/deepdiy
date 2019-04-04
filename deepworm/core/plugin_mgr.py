@@ -7,14 +7,14 @@ import pkgutil,importlib
 
 from kivy.app import App
 from kivy.event import EventDispatcher
-from kivy.properties import ObjectProperty,ListProperty,DictProperty,StringProperty
+from kivy.properties import DictProperty
 import threading
 
 
 class PluginManager(EventDispatcher):
 	"""docstring for PluginManager."""
 	plugins=DictProperty({})
-	data=ObjectProperty()
+	data=DictProperty()
 	def __init__(self,**kwargs):
 		super(PluginManager, self).__init__(**kwargs)
 		app=App.get_running_app()

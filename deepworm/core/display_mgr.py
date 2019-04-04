@@ -1,6 +1,6 @@
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import ObjectProperty,ListProperty,DictProperty,StringProperty
+from kivy.properties import DictProperty
 
 class DisplayManager(BoxLayout):
 	"""docstring for DisplayManager."""

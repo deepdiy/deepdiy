@@ -2,7 +2,7 @@ import sys,os
 sys.path.append(os.path.dirname(os.path.dirname(sys.path[0])))
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import ObjectProperty,ListProperty,DictProperty,StringProperty
+from kivy.properties import DictProperty
 from kivy.graphics.texture import Texture
 from kivy.graphics import Rectangle
 from utils.read_img import read_img

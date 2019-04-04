@@ -5,7 +5,7 @@ from core.display_mgr import DisplayManager
 from test.auto_run import *
 
 from kivy.app import App
-from kivy.properties import ObjectProperty,ListProperty,DictProperty,StringProperty
+from kivy.properties import DictProperty
 
 class MainWindow(App):
     title='Deep Lab'

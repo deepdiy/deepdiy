@@ -1,5 +1,5 @@
 from kivy.app import App
-from kivy.properties import ObjectProperty,ListProperty,DictProperty,StringProperty,NumericProperty
+from kivy.properties import DictProperty,NumericProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 import multiprocessing

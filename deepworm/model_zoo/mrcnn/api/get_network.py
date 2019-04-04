@@ -29,6 +29,7 @@ class ElegansConfig(Config):
     DETECTION_MIN_CONFIDENCE = 0.9
 
 config = ElegansConfig()
+
 class InferenceConfig(config.__class__):
     # Run detection on one image at a time
     GPU_COUNT = 1

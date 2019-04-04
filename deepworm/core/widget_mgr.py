@@ -2,7 +2,7 @@ import os
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import ObjectProperty,ListProperty,DictProperty,StringProperty
+from kivy.properties import DictProperty
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.factory import Factory
 import string
