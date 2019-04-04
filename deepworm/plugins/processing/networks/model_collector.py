@@ -19,24 +19,9 @@ class ModelCollector(object):
 		self.model_names=os.listdir(self.bundle_dir+os.sep+'model_zoo')
 		self.model_names=[name for name in self.model_names if name[:2]!='__']
 		for name in self.model_names:
-			self.models[name]=Model()
-			self.collect_model_apis(name)
-			self.collect_weight_file(name)
-
-	def collect_model_apis(self,name):
-		for func in ['get_network','pre_process','post_process']:
-			try:
-				func_name='.'.join(['model_zoo',name,'api',func])
-				module=importlib.import_module(func_name)
-				if module !=None:
-					self.models[name].__setattr__(func, getattr(module,func))
-			except Exception as e:
-				raise e
-				print('[Warning]',func,'not found. ',e)
-
-	def collect_weight_file(self,name):
-		weight_list=get_file_list(self.bundle_dir+os.sep+'model_zoo'+os.sep+name+os.sep+'assets')
-		self.models[name].__setattr__('weight_list',weight_list)
+			module_name='.'.join(['model_zoo',name,'predictor'])
+			module=importlib.import_module(module_name)
+			self.models[name]=getattr(module,'Predictor')()
 
 class Test(object):
 	def __init__(self,**kwargs):
