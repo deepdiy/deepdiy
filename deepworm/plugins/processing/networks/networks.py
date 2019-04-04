@@ -3,7 +3,7 @@ sys.path.append('../../../')
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import DictProperty
+from kivy.properties import DictProperty,BooleanProperty
 from plugins.processing.networks.model_collector import ModelCollector
 from utils.get_parent_path import get_parent_path
 from core.sandbox import Sandbox
@@ -12,8 +12,10 @@ from core.sandbox import Sandbox
 class Networks(BoxLayout):
 	"""docstring for Run."""
 	data=DictProperty()
+	is_weight_loaded=BooleanProperty(False)
 	bundle_dir = get_parent_path(3)
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'networks.kv')
+
 
 	def __init__(self):
 		super(Networks, self).__init__()
@@ -30,13 +32,27 @@ class Networks(BoxLayout):
 			self.ids.weight_spinner.text='No weight available'
 			self.ids.weight_spinner.values=[]
 		self.model=self.models[self.ids.model_spinner.text]
+		self.is_weight_loaded=False
+
+	def load_weight(self):
+		import tensorflow as tf
+		self.graph=tf.get_default_graph()
+		self.model.weight_path=self.bundle_dir+os.sep+'model_zoo'+os.sep+self.ids.model_spinner.text+os.sep+'assets'+os.sep+self.ids.weight_spinner.text
+		with self.graph.as_default():
+			self.model.load_network()
+			self.model.load_weight()
+		self.is_weight_loaded=True
 
 	def run(self):
 		self.ids.btn_run.text='Running'
+		self.model.set_input(self.data['selection']['data']['content'])
+
 		self.sandbox=Sandbox(
 			self.data,
-			func=self.model.run,
-			kwargs={'weight':self.ids.weight_spinner.text},
+			use_selected_data=False,
+			graph=self.graph,
+			func=self.model.predict,
+			kwargs={},
 			call_back=self.on_finished,
 			result_meta={
 				'node_id':'mask',
@@ -44,7 +60,8 @@ class Networks(BoxLayout):
 				'display':'image_viewer'
 				}
 			)
-		self.sandbox.start()
+		with self.graph.as_default():
+			self.sandbox.start()
 
 	def on_finished(self):
 		self.ids.btn_run.text='Run'
