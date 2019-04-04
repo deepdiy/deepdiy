@@ -10,12 +10,14 @@ from time import time
 class Sandbox(EventDispatcher):
 	"""docstring for ."""
 
-	def __init__(self, data, func, kwargs,result_meta=None,call_back=None):
+	def __init__(self, data, func, kwargs,result_meta=None,call_back=None,use_selected_data=True,graph=None):
 		super(Sandbox, self).__init__()
 
 		self.data = data
 		self.kwargs = kwargs
 		self.result_meta=result_meta
+		self.use_selected_data=use_selected_data
+		self.graph=graph
 
 		if func is not None:
 			self.func = func
@@ -29,8 +31,19 @@ class Sandbox(EventDispatcher):
 
 	@concurrent.thread
 	def run(self):
-		input=self.data['selection']['data']['content']
-		result=self.func(input,**self.kwargs)
+		if not self.graph is None:
+			with self.graph.as_default():
+				if self.use_selected_data:
+					input=self.data['selection']['data']['content']
+					result=self.func(input,**self.kwargs)
+				else:
+					result=self.func(**self.kwargs)
+		else:
+			if self.use_selected_data:
+				input=self.data['selection']['data']['content']
+				result=self.func(input,**self.kwargs)
+			else:
+				result=self.func(**self.kwargs)
 		return result
 
 	def on_finished(self,job):
