@@ -18,9 +18,16 @@
 		id:run_col
 		orientation: 'vertical'
 		Button:
+			id:btn_load_weight
+			text:'Load model'
+			size_hint_y:None
+			height:dp(50)
+			on_release:root.load_weight()
+			disabled: not (weight_spinner.text in weight_spinner.values)
+		Button:
 			id:btn_run
 			text:'Run'
 			size_hint_y:None
 			height:dp(50)
-			disabled: not (weight_spinner.text in weight_spinner.values)
+			disabled: not root.is_weight_loaded
 			on_release:root.run()
