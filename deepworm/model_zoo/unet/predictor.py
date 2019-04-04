@@ -22,7 +22,7 @@ class Predictor(FormParser):
 		imgdatas=np.array([img])
 		imgdatas = imgdatas.astype('float32')
 		self.input = imgdatas / 255.0
-		return imgdatas
+		print(self.input.shape)
 
 	def load_network(self):
 		from model_zoo.unet.unet.unet import UNet
@@ -33,7 +33,12 @@ class Predictor(FormParser):
 
 	def predict(self):
 		result=self.model.predict(self.input, batch_size=1, verbose=0)
-		self.result=result[0]
+		mask = result[0]
+		mask[mask>0.5] = 1
+		mask[mask<=0.5] = 0
+		mask = mask * 255
+		self.result = mask.astype('uint8')
+		return self.result
 
 
 class Test(object):
