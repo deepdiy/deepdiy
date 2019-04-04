@@ -37,7 +37,8 @@ class Predictor(FormParser):
 		mask[mask>0.5] = 1
 		mask[mask<=0.5] = 0
 		mask = mask * 255
-		self.result = mask.astype('uint8')
+		self.result = {'image':mask.astype('uint8')}
+
 		return self.result
 
 

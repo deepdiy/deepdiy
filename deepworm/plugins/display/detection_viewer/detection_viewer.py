@@ -19,15 +19,16 @@ class DetectionViewer(BoxLayout):
 		self.bind(data=self.update)
 
 	def update(self, *args):
+		self.clear_widgets()
 		plt.close('all')
 		fig = plt.figure(frameon=False)
 		ax = fig.add_axes([0, 0, 1, 1])
 		ax.axis('off')
 		display_instances(self.data['image'],
-							self.data['boxes'],
+							self.data['rois'],
 							self.data['masks'],
 							self.data['class_ids'],
-							self.data['class_names'],
+							['background','elegans'],
 							scores=None, title="",
 							ax=ax,
 							show_mask=True, show_bbox=True,

@@ -57,7 +57,7 @@ class Networks(BoxLayout):
 			result_meta={
 				'node_id':'mask',
 				'type':'img',
-				'display':'image_viewer'
+				'display':'detection_viewer'
 				}
 			)
 		with self.graph.as_default():
