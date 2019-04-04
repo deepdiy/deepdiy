@@ -28,7 +28,6 @@ class WidgetManager(BoxLayout):
 			self.add_widget_to_window(ins,ins['type'],ins['id'])
 
 	def add_widget_to_window(self,ins,type,id):
-		print(id)
 		if id=='resource_tree':
 			self.ids.resource_tree.add_widget(ins['obj'])
 		elif type=='processing':

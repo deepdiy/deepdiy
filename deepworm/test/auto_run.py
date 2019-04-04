@@ -17,7 +17,7 @@ def load_network():
 	networks=app.widget_manager.ids.processing_screens.children[0].children[0]
 	networks.ids.model_spinner.text='mrcnn'
 	networks.ids.weight_spinner.text='elegans.h5'
-	print(networks.ids)
+	# print(networks.ids)
 
 	# threading.Thread(target=import_tf).start()
 
