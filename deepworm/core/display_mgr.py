@@ -13,8 +13,8 @@ class DisplayManager(BoxLayout):
 		if app!=None:
 			app.bind(data=self.setter('data'))
 			self.bind(data=self.display)
-			self.bind(data=app.widget_manager.ids.resource_tree.children[0].setter('data'))
-			app.widget_manager.ids.resource_tree.children[0].bind(data=self.setter('data'))
+			# self.bind(data=app.widget_manager.ids.resource_tree.children[0].setter('data'))
+			# app.widget_manager.ids.resource_tree.children[0].bind(data=self.setter('data'))
 
 	def display(self,*args):
 		app=App.get_running_app()

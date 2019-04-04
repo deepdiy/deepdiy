@@ -51,7 +51,7 @@ class PluginManager(EventDispatcher):
 		app=App.get_running_app()
 		for plugin in self.plugins['classes']:
 			obj=plugin['class']()
-			if app!=None and plugin['type']=='processing':
+			if app!=None and (plugin['type']=='processing' or plugin['id']=='resource_tree'):
 				app.bind(data=obj.setter('data'))
 				obj.bind(data=app.setter('data'))
 			instances.append({'id':plugin['id'],'type':plugin['type'],'obj':obj})
