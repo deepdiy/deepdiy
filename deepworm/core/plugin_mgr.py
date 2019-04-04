@@ -31,7 +31,6 @@ class PluginManager(EventDispatcher):
 
 	def find_plugin_packages(self):
 		self.plugin_package_names=[]
-		print(plugins)
 		for importer, modname, ispkg in pkgutil.walk_packages(path=plugins.__path__,prefix=plugins.__name__+'.',onerror=lambda x: None):
 			if len(modname.split('.'))>2:
 				self.plugin_package_names.append(modname)
@@ -52,7 +51,7 @@ class PluginManager(EventDispatcher):
 		app=App.get_running_app()
 		for plugin in self.plugins['classes']:
 			obj=plugin['class']()
-			if app!=None:
+			if app!=None and plugin['type']=='processing':
 				app.bind(data=obj.setter('data'))
 				obj.bind(data=app.setter('data'))
 			instances.append({'id':plugin['id'],'type':plugin['type'],'obj':obj})
