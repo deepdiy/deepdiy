@@ -21,7 +21,7 @@ def load_network():
 
 	# threading.Thread(target=import_tf).start()
 
-def auto_run():
+def debug():
 	global app
 	app=App.get_running_app()
 	load_demo()

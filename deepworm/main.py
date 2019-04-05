@@ -2,7 +2,7 @@ from core.plugin_mgr import PluginManager
 from core.widget_mgr import WidgetManager
 from core.display_mgr import DisplayManager
 
-from test.auto_run import *
+from test.debug import *
 
 from kivy.app import App
 from kivy.properties import DictProperty
@@ -20,7 +20,7 @@ class MainWindow(App):
         self.plugin_manager=PluginManager()
         self.plugin_manager.load()
         self.display_manager=DisplayManager()
-        auto_run()
+        debug()
 
     def build(self):
         self.widget_manager=WidgetManager()
