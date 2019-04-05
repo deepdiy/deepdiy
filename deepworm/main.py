@@ -16,10 +16,10 @@ class MainWindow(App):
         super(MainWindow, self).__init__(**kwargs)
         self.plugin_manager=PluginManager()
         self.widget_manager=WidgetManager()
-        self.display_manager=DisplayManager()
 
     def build(self):
         self.plugin_manager.load()
+        self.display_manager=DisplayManager()
         auto_run()
         return self.widget_manager
 
