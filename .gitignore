@@ -1,4 +1,7 @@
 *.spec
 *.pyc
+*.pyd
+*.pyx
 *.h5
 *.hdf5
+*.pb
