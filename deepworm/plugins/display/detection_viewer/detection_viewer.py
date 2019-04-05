@@ -24,15 +24,11 @@ class DetectionViewer(BoxLayout):
 		fig = plt.figure(frameon=False)
 		ax = fig.add_axes([0, 0, 1, 1])
 		ax.axis('off')
-		display_instances(self.data['image'],
-							self.data['rois'],
-							self.data['masks'],
-							self.data['class_ids'],
-							['background','elegans'],
-							scores=None, title="",
-							ax=ax,
-							show_mask=True, show_bbox=True,
-							colors=None, captions=None)
+		kwargs={'ax':ax,'title':'','show_mask':True,'show_bbox':True,'captions':None,'class_names':['background','target'],'boxes':np.array([]),'masks':None,'class_ids':None}
+		for i in ['image','boxes','masks','class_ids','class_names','scores','colors']:
+			if i in self.data:
+				kwargs[i]=self.data[i]
+		display_instances(**kwargs)
 		self.add_widget(FigureCanvasKivyAgg(plt.gcf()))
 
 
