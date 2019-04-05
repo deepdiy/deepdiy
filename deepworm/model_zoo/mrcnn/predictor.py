@@ -37,6 +37,7 @@ class Predictor(FormParser):
 		result=self.model.detect(self.input, verbose=1)
 		self.result=result[0]
 		self.result['image']=self.input[0]
+		self.result['boxes']=self.result['rois']
 		return self.result
 
 
