@@ -52,7 +52,7 @@ class Sandbox(EventDispatcher):
 		output['children']=[]
 		output['content']=result
 		add_data_to_tree(self.data['tree'],output,self.data['selection']['index_chain'])
-		self.data['selection']={'data':output,'index_chain':self.data['selection']['index_chain'].append(0)}
+		self.data['selection']={'data':output,'index_chain':self.data['selection']['index_chain'].append(-1)}
 		self.data['last_job_time']={'time':time()}
 		self.call_back()
 
