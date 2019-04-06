@@ -30,7 +30,7 @@ class FormParser(BoxLayout):
             text=config['text'],
             values=config['values'],
             size_hint_y=None,
-            height='50dp')
+            height='48dp')
         self.add_widget(spinner)
         self.add_binding(config['id'],config['target'])
 
@@ -41,7 +41,7 @@ class FormParser(BoxLayout):
             max=config['max'],
             value=config['value'],
             size_hint_y=None,
-            height='50dp')
+            height='48dp')
         self.add_widget(slider)
 
     def add_binding(self,id,target):
