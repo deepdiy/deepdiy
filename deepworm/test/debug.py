@@ -21,8 +21,12 @@ def load_network():
 
 	# threading.Thread(target=import_tf).start()
 
+def load_train():
+	app.widget_manager.ids.processing_screens.current='train'
+
 def debug():
 	global app
 	app=App.get_running_app()
 	load_demo()
-	load_network()
+	# load_network()
+	load_train()
