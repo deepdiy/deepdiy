@@ -1,16 +1,42 @@
 <Train>
-  Button:
-    text:'Label'
-    size_hint_y:None
-    height:'50dp'
-    on_release:root.label()
-  Spinner:
-    id:model_spinner
-    text:'Select Model'
-    size_hint_y:None
-    height:'48dp'
-  Button:
-    text:'Train'
-    size_hint_y:None
-    height:'50dp'
-    on_release:root.train()
+  TabbedPanel:
+    do_default_tab:False
+    TabbedPanelItem:
+      text:'Training'
+      BoxLayout:
+        Spinner:
+          id:model_spinner
+          text:'Select Model'
+          size_hint_y:None
+          height:'48dp'
+        Button:
+          text:'Train'
+          size_hint_y:None
+          height:'48dp'
+          on_release:root.train()
+    TabbedPanelItem:
+      text:'Labelling'
+      BoxLayout:
+        BoxLayout:
+          Button:
+            text:'VIA label tool'
+            size_hint_y:None
+            height:'48dp'
+            on_release:root.label()
+        BoxLayout:
+          orientation: 'vertical'
+          Button:
+            text:'Select image directory'
+            size_hint_y:None
+            height:'48dp'
+            on_release:root.select_img_dir()
+          Button:
+            text:'Select annoation file'
+            size_hint_y:None
+            height:'48dp'
+            on_release:root.select_annotation_path()
+          Button:
+            text:'Run (select save directory)'
+            size_hint_y:None
+            height:'48dp'
+            on_release:root.save_zip()
