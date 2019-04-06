@@ -7,6 +7,8 @@ from kivy.properties import DictProperty
 from utils.get_parent_path import get_parent_path
 from plugins.processing.networks.model_collector import ModelCollector
 import webbrowser
+from utils.select_path_dialog import select_file,select_folder
+from plugins.processing.train.dataset import Dataset
 
 
 class Train(BoxLayout):
@@ -26,6 +28,19 @@ class Train(BoxLayout):
 
 	def train(self):
 		print('train')
+
+	def select_annotation_path(self):
+		self.annoation_path=select_file()
+
+	def select_img_dir(self):
+		self.img_dir=select_folder()
+
+	def save_zip(self):
+		dataset=Dataset()
+		dataset.destination_dir=select_folder()
+		dataset.annotation_path=self.annoation_path
+		dataset.img_dir=self.img_dir
+		dataset.run()
 
 
 class Test(App):
