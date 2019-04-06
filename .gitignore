@@ -5,3 +5,5 @@
 *.h5
 *.hdf5
 *.pb
+datasets/*
+temp/*
