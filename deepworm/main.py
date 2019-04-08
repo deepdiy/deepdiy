@@ -9,7 +9,7 @@ from kivy.properties import DictProperty
 from threading import Thread
 
 class MainWindow(App):
-    title='Deep Lab'
+    title='DeepDIY'
     data=DictProperty()
     plugins=DictProperty()
 
