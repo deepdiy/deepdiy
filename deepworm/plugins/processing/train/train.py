@@ -27,7 +27,7 @@ class Train(BoxLayout):
 		webbrowser.open(self.bundle_dir+os.sep+'via'+os.sep+'via.html')
 
 	def train(self):
-		print('train')
+		webbrowser.open('https://colab.research.google.com/github/deepdiy/deepdiy/blob/master/mrcnn.ipynb')
 
 	def select_annotation_path(self):
 		self.annoation_path=select_file()
