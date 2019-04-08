@@ -23,6 +23,7 @@ class Dataset(object):
         date_time = now.strftime("%Y%m%d%H%M%S")
         self.temp_dir=self.bundle_dir+os.sep+'temp'+os.sep+date_time
         os.mkdir(self.temp_dir)
+        os.mkdir(self.temp_dir+os.sep+'dataset')
 
     def load_annotation(self):
         with open(self.annotation_path) as f:
@@ -35,18 +36,18 @@ class Dataset(object):
         self.dataset['val']=keys[:val_num]
         self.dataset['train']=keys[val_num:]
         for subset in ['train','val']:
-            os.mkdir(self.temp_dir+os.sep+subset)
+            os.mkdir(self.temp_dir+os.sep+'dataset'+os.sep+subset)
             self.prepare_data(subset)
             self.prepare_annotation(subset)
 
     def prepare_data(self,subset):
         for key in self.dataset[subset]:
             file_name=self.annoation[key]['filename']
-            shutil.copyfile(self.img_dir+os.sep+file_name,self.temp_dir+os.sep+subset+os.sep+file_name)
+            shutil.copyfile(self.img_dir+os.sep+file_name,self.temp_dir+os.sep+'dataset'+os.sep+subset+os.sep+file_name)
 
     def prepare_annotation(self,subset):
         annotation={i:self.annoation[i] for i in self.dataset[subset]}
-        with open(self.temp_dir+os.sep+subset+os.sep+'via_region_data.json', 'w') as outfile:
+        with open(self.temp_dir+os.sep+'dataset'+os.sep+subset+os.sep+'via_region_data.json', 'w') as outfile:
             json.dump(annotation, outfile)
 
     def make_zip_file(self):
