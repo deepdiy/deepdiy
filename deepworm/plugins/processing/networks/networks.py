@@ -37,7 +37,7 @@ class Networks(BoxLayout):
 	def load_weight(self):
 		import tensorflow as tf
 		self.graph=tf.get_default_graph()
-		self.model.weight_path=self.bundle_dir+os.sep+'model_zoo'+os.sep+self.ids.model_spinner.text+os.sep+'assets'+os.sep+self.ids.weight_spinner.text
+		self.model.weight_path=get_parent_path(4)+os.sep+'model_zoo'+os.sep+self.ids.model_spinner.text+os.sep+'assets'+os.sep+self.ids.weight_spinner.text
 		with self.graph.as_default():
 			self.model.load_network()
 			self.model.load_weight()
