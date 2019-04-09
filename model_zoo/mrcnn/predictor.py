@@ -1,14 +1,11 @@
 import sys,os
-sys.path.append('../../')
-from utils.get_parent_path import get_parent_path
-from utils.read_img import read_img
-bundle_dir=get_parent_path(3)+os.sep+'model_zoo'+os.sep+'mrcnn'
+bundle_dir=os.path.dirname(os.path.abspath(__file__))
 sys.path.append(bundle_dir)
 from mrcnn.config import Config
 import numpy as np
-from core.form_parser import FormParser
+import cv2
 
-class Predictor(FormParser):
+class Predictor(object):
 	"""docstring for Predictor."""
 
 	def __init__(self):
@@ -17,7 +14,8 @@ class Predictor(FormParser):
 		self.weight_path=''
 
 	def set_input(self,input_img_path):
-		img=read_img(input_img_path)
+		array=np.fromfile(input_img_path,dtype=np.uint8)
+		img=cv2.imdecode(array,cv2.IMREAD_COLOR)
 		self.input=np.array([img])
 
 	def load_network(self):
