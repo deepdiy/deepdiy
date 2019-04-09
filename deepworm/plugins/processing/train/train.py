@@ -24,7 +24,7 @@ class Train(BoxLayout):
 
 	def label(self):
 		print('hi')
-		webbrowser.open(self.bundle_dir+os.sep+'via'+os.sep+'via.html')
+		webbrowser.open(get_parent_path(4)+os.sep+'via'+os.sep+'via.html')
 
 	def train(self):
 		webbrowser.open('https://colab.research.google.com/github/deepdiy/deepdiy/blob/master/mrcnn.ipynb')
