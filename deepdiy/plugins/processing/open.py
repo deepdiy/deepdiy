@@ -17,15 +17,16 @@ class Open(BoxLayout):
 
 	def open_file(self):
 		path=select_file()
-		self.add_to_tree(path)
+		self.data['file_list']=[path]
+		self.add_to_tree()
 
 	def open_folder(self):
 		path=select_folder()
-		self.add_to_tree(path)
+		self.add_to_tree(path=path)
 
-	def add_to_tree(self,path):
-		self.data['directory']=path
-		self.data['file_list']=get_file_list(path)
+	def add_to_tree(self,path=''):
+		if path!='':
+			self.data['file_list']=get_file_list(path)
 		tree={'node_id':'resources','children':[]}
 		for file_path in self.data['file_list']:
 			tree['children'].append({

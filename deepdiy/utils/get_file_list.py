@@ -2,7 +2,7 @@ import glob,os
 
 def get_file_list(path):
 	file_list=[]
-	for fn in glob.glob( path + os.sep + '*'):
+	for fn in glob.glob( path + os.sep + '*.*'):
 		if os.path.isdir(fn):
 			pass
 		else:
