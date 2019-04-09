@@ -8,7 +8,7 @@ from plugins.processing.networks.model import Model
 
 class ModelCollector(object):
 	"""docstring for Run."""
-	bundle_dir = get_parent_path(3)
+	bundle_dir = get_parent_path(4)
 
 	def __init__(self):
 		super(ModelCollector, self).__init__()
