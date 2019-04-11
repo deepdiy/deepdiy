@@ -1,21 +1,9 @@
 <Train>
   TabbedPanel:
     do_default_tab:False
+
     TabbedPanelItem:
-      text:'Training'
-      BoxLayout:
-        Spinner:
-          id:model_spinner
-          text:'Select Model'
-          size_hint_y:None
-          height:'48dp'
-        Button:
-          text:'Train'
-          size_hint_y:None
-          height:'48dp'
-          on_release:root.train()
-    TabbedPanelItem:
-      text:'Labelling'
+      text:'1.Labelling'
       BoxLayout:
         BoxLayout:
           Button:
@@ -23,6 +11,26 @@
             size_hint_y:None
             height:'48dp'
             on_release:root.label()
+
+    TabbedPanelItem:
+      text:'2.Cofig'
+      BoxLayout:
+        BoxLayout:
+          Button:
+            text:'Download config file'
+            size_hint_y:None
+            height:'48dp'
+            on_release:root.label()
+    TabbedPanelItem:
+      text:'3.Pack Data'
+      BoxLayout:
+        BoxLayout:
+          Button:
+            text:'VIA label tool'
+            size_hint_y:None
+            height:'48dp'
+            on_release:root.label()
+      BoxLayout:
         BoxLayout:
           orientation: 'vertical'
           Button:
@@ -31,12 +39,30 @@
             height:'48dp'
             on_release:root.select_img_dir()
           Button:
+            text:'Select config file'
+            size_hint_y:None
+            height:'48dp'
+            on_release:root.select_img_dir()
+          Button:
             text:'Select annoation file'
             size_hint_y:None
             height:'48dp'
             on_release:root.select_annotation_path()
-          Button:
-            text:'Run (select save directory)'
-            size_hint_y:None
-            height:'48dp'
-            on_release:root.save_zip()
+        Button:
+          text:'Run (select save directory)'
+          size_hint_y:None
+          height:'48dp'
+          on_release:root.save_zip()
+    TabbedPanelItem:
+      text:'4.Run'
+      BoxLayout:
+        Spinner:
+          id:model_spinner
+          text:'Select Program'
+          size_hint_y:None
+          height:'48dp'
+        Button:
+          text:'Start Colab'
+          size_hint_y:None
+          height:'48dp'
+          on_release:root.train()
