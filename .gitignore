@@ -7,3 +7,4 @@
 *.pb
 datasets/*
 temp/*
+tf_cpu/*
