@@ -7,6 +7,8 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import DictProperty
 from utils.read_img import read_img
 from plugins.display.detection_viewer.visualize import random_colors,apply_mask,display_instances
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import cv2
 import numpy as np
