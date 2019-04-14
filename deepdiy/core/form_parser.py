@@ -4,6 +4,7 @@ from kivy.properties import ListProperty
 from kivy.uix.spinner import Spinner
 from kivy.uix.slider import Slider
 from kivy.uix.label import Label
+from kivy.uix.textinput import TextInput
 
 class FormParser(BoxLayout):
     """docstring for FormParser."""
@@ -13,6 +14,7 @@ class FormParser(BoxLayout):
         self.parse_tools={
             'spinner':self.add_spinner,
             'slider':self.add_slider,
+            'text_input':self.add_text_input,
             'path':self.add_path_selector}
         self.bind(form=self.parse)
         self.spin='a'
@@ -32,7 +34,7 @@ class FormParser(BoxLayout):
             size_hint_y=None,
             height='48dp')
         self.add_widget(spinner)
-        self.add_binding(config['id'],config['target'])
+        self.add_binding(config['id'])
 
     def add_slider(self,config):
         slider=Slider(
@@ -44,11 +46,20 @@ class FormParser(BoxLayout):
             height='48dp')
         self.add_widget(slider)
 
-    def add_binding(self,id,target):
+    def add_text_input(self,config):
+        text_input=TextInput(
+            id=config['id'],
+            text=config['text'],
+            size_hint_y=None,
+            height='48dp'
+        )
+        self.add_widget(text_input)
+
+    def add_binding(self,id):
         self.ids = {child.id:child for child in self.children}
-        if not hasattr(self,target):
-            self.__setattr__(target,None)
-        self.ids[id].bind(text=lambda instance,value:self.__setattr__(target,value))
+        if not hasattr(self,id):
+            self.__setattr__(id,None)
+        self.ids[id].bind(text=lambda instance,value:self.__setattr__(id,value))
 
     def add_path_selector(self):
         pass
@@ -62,20 +73,23 @@ class Test(App):
 
     def build(self):
         form_parser=FormParser()
+        form_parser.orientation='vertical'
         form_parser.form=[
             {
-                'type':'spinner',
                 'id':'spin1',
-                'target':'spin',
+                'type':'spinner',
                 'text':'foo',
                 'values':['a','b','c']
             },{
-                'type':'slider',
                 'id':'slider1',
-                'target':'slid',
+                'type':'slider',
                 'min':1,
                 'max':100,
                 'value':20
+            },{
+                'id':'text1',
+                'type':'text_input',
+                'text':'Please input a text'
             }
         ]
         return form_parser
