@@ -20,6 +20,10 @@ def load_network():
 	# print(networks.ids)
 
 	# threading.Thread(target=import_tf).start()
+def load_ecoli():
+	app.widget_manager.ids.processing_screens.current='open'
+	app.widget_manager.ids.processing_screens.children[0].children[0].add_to_tree('D:\onedrive\program\deepdiy\datasets\ecoli')
+	app.widget_manager.ids.processing_screens.current='networks'
 
 def load_train():
 	app.widget_manager.ids.processing_screens.current='train'
@@ -27,6 +31,6 @@ def load_train():
 def debug():
 	global app
 	app=App.get_running_app()
-	load_demo()
-	# load_network()
-	load_train()
+	load_ecoli()
+	load_network()
+	# load_train()
