@@ -24,6 +24,13 @@ class Predictor(object):
 		config.NUM_CLASSES = 1 + 1  # Background + elegans
 		config.IMAGES_PER_GPU = 1
 		config.GPU_COUNT = 1
+		config.BACKBONE = "resnet50"
+		config.DETECTION_MIN_CONFIDENCE = 0.9
+		config.RPN_ANCHOR_SCALES = (32,32,64,64,128)
+		config.MINI_MASK_SHAPE = (32, 32)
+		config.IMAGE_MIN_DIM = 448
+		config.IMAGE_MAX_DIM = 512
+		config.DETECTION_MAX_INSTANCES = 1000
 		config.__init__()
 		from mrcnn import model as modellib
 		self.model = modellib.MaskRCNN(mode="inference", model_dir='./',config=config)
@@ -51,7 +58,6 @@ class Test(object):
 		predictor.load_network()
 		predictor.load_weight()
 		predictor.predict()
-		print(predictor.result)
 
 if __name__ == '__main__':
 	test=Test()
