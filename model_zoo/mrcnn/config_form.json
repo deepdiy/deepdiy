@@ -1,0 +1,53 @@
+[
+  {
+    "id": "BACKBONE",
+    "type": "spinner",
+    "text": "resnet50",
+    "values": [
+      "resnet50",
+      "resnet101"
+    ]
+  },
+  {
+    "id": "DETECTION_MIN_CONFIDENCE",
+    "type": "slider",
+    "min": 0.01,
+    "max": 1,
+    "value": 0.9
+  },
+  {
+    "id": "MAX_GT_INSTANCES",
+    "type": "text_input",
+    "text": "100"
+  },
+  {
+    "id": "DETECTION_MAX_INSTANCES",
+    "type": "text_input",
+    "text": "Please input a text"
+  },
+  {
+    "id": "TRAIN_ROIS_PER_IMAGE",
+    "type": "text_input",
+    "text": "Please input a text"
+  },
+  {
+    "id": "IMAGE_MIN_DIM",
+    "type": "text_input",
+    "text": "Please input a text"
+  },
+  {
+    "id": "IMAGE_MAX_DIM",
+    "type": "text_input",
+    "text": "Please input a text"
+  },
+  {
+    "id": "MINI_MASK_SHAPE",
+    "type": "text_input",
+    "text": "(56,56)"
+  },
+  {
+    "id": "RPN_ANCHOR_SCALES",
+    "type": "text_input",
+    "text": "(32, 64, 128, 256, 512)"
+  }
+]
