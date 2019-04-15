@@ -1,5 +1,6 @@
 import sys,os
 sys.path.append('../../../')
+sys.path.append('../../../../')
 import importlib
 from utils.get_parent_path import get_parent_path
 from utils.get_file_list import get_file_list
@@ -19,6 +20,7 @@ class ModelCollector(object):
 		self.model_names=os.listdir(self.bundle_dir+os.sep+'model_zoo')
 		self.model_names=[name for name in self.model_names if name[:2]!='__']
 		for name in self.model_names:
+			print(name)
 			module_name='.'.join(['model_zoo',name,'predictor'])
 			module=importlib.import_module(module_name)
 			self.models[name]=getattr(module,'Predictor')()
