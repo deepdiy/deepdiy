@@ -51,7 +51,8 @@ class FormParser(BoxLayout):
             id=config['id'],
             text=config['text'],
             size_hint_y=None,
-            height='48dp'
+            height='48dp',
+            multiline=False,
         )
         self.add_widget(text_input)
 
