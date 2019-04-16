@@ -9,21 +9,29 @@ from plugins.processing.networks.model_collector import ModelCollector
 import webbrowser
 from utils.select_path_dialog import select_file,select_folder
 from plugins.processing.train.dataset import Dataset
-
+from core.form_parser import FormParser
+import json
 
 class Train(BoxLayout):
 	"""docstring for Train."""
 	data=DictProperty()
 	bundle_dir = get_parent_path(3)
+	models=ModelCollector().models
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'train.kv')
 
 	def __init__(self):
 		super(Train, self).__init__()
-		self.models=ModelCollector().models
-		self.ids.model_spinner.values=self.models
+		self.ids.config_spinner.bind(text=self.load_config)
 
-	def label(self):
-		print('hi')
+	def load_config(self,instance,text):
+		path=os.sep.join([get_parent_path(4),'model_zoo',text,'config_form.json'])
+		with open(path) as f:
+			form_parser=FormParser()
+			form_parser.form=json.load(f)
+			self.ids.config_panel.add_widget(form_parser)
+			form_parser.bind(minimum_height = form_parser.setter('height'))
+
+	def open_via(self):
 		webbrowser.open(get_parent_path(4)+os.sep+'via'+os.sep+'via.html')
 
 	def train(self):
