@@ -23,22 +23,22 @@
   {
     "id": "DETECTION_MAX_INSTANCES",
     "type": "text_input",
-    "text": "Please input a text"
+    "text": "100"
   },
   {
     "id": "TRAIN_ROIS_PER_IMAGE",
     "type": "text_input",
-    "text": "Please input a text"
+    "text": "200"
   },
   {
     "id": "IMAGE_MIN_DIM",
     "type": "text_input",
-    "text": "Please input a text"
+    "text": "800"
   },
   {
     "id": "IMAGE_MAX_DIM",
     "type": "text_input",
-    "text": "Please input a text"
+    "text": "1024"
   },
   {
     "id": "MINI_MASK_SHAPE",
