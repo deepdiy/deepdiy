@@ -1,26 +1,48 @@
 <Train>
   TabbedPanel:
     do_default_tab:False
+    TabbedPanelItem:
+      text:'1.Cofig'
+      BoxLayout:
+        orientation: 'vertical'
+        ScrollView:
+          id:config_panel
+          scroll_type:["bars"]
+          bar_width:10
+          scroll_distance:1
+          scroll_timeout:0
+        BoxLayout:
+          size_hint_y:None
+          height:'40dp'
+          Spinner:
+            id:config_spinner
+            text:'Select Network'
+            size_hint_y:None
+            height:'40dp'
+            values:root.models
+          Button:
+            text:'Reset'
+            size_hint_y:None
+            height:'40dp'
+            disabled:not (config_spinner.text in config_spinner.values)
+            on_release:root.label()
+          Button:
+            text:'Download config file'
+            size_hint_y:None
+            height:'40dp'
+            disabled:not (config_spinner.text in config_spinner.values)
+            on_release:root.label()
+
 
     TabbedPanelItem:
-      text:'1.Labelling'
+      text:'2.Labelling'
       BoxLayout:
         BoxLayout:
           Button:
             text:'VIA label tool'
             size_hint_y:None
             height:'48dp'
-            on_release:root.label()
-
-    TabbedPanelItem:
-      text:'2.Cofig'
-      BoxLayout:
-        BoxLayout:
-          Button:
-            text:'Download config file'
-            size_hint_y:None
-            height:'48dp'
-            on_release:root.label()
+            on_release:root.open_via()
     TabbedPanelItem:
       text:'3.Pack Data'
       BoxLayout:
@@ -50,10 +72,10 @@
       text:'4.Run'
       BoxLayout:
         Spinner:
-          id:model_spinner
-          text:'Select Program'
+          text:'Select Network'
           size_hint_y:None
           height:'48dp'
+          values:root.models
         Button:
           text:'Start Colab'
           size_hint_y:None
