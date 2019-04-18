@@ -25,11 +25,9 @@ class Train(BoxLayout):
 
 	def load_config(self,instance,text):
 		path=os.sep.join([get_parent_path(4),'model_zoo',text,'config_form.json'])
-		with open(path) as f:
-			form_parser=FormParser()
-			form_parser.form=json.load(f)
-			self.ids.config_panel.add_widget(form_parser)
-			form_parser.bind(minimum_height = form_parser.setter('height'))
+		self.form_parser=FormParser()
+		self.form_parser.load_json(path)
+		self.ids.config_panel.add_widget(self.form_parser)
 
 	def open_via(self):
 		webbrowser.open(get_parent_path(4)+os.sep+'via'+os.sep+'via.html')
