@@ -1,98 +1,98 @@
 import sys,os
 sys.path.append('../')
 from utils.get_parent_path import get_parent_path
+import json
 from kivy.app import App
+from kivy.lang import Builder
+from kivy.factory import Factory
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import ListProperty
 from kivy.uix.spinner import Spinner
 from kivy.uix.slider import Slider
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
-from kivy.lang import Builder
-from kivy.factory import Factory
-from kivy.properties import ObjectProperty
+from kivy.uix.button import Button
+from kivy.properties import ObjectProperty,ListProperty,DictProperty,StringProperty
+
+# class Item(BoxLayout):
+# 	title=StringProperty()
+# 	value=ObjectProperty()
+#
+# 	def __init__(self,config):
+# 		super(Item, self).__init__()
+# 		self.config=config
+# 		self.title=self.config['id']
+# 		self.insert_widget()
+# 		self.sync_value()
+#
+# 	def insert_widget(self):
+# 		widget_type=self.config['type'].replace('_',' ').title().replace(' ','')
+# 		self.widget=getattr(Factory,widget_type)()
+# 		self.ids.widget.add_widget(self.widget)
+# 		for i in self.config:
+# 			setattr(self.widget,i,self.config[i])
+#
+# 	def sync_value(self):
+# 		if hasattr(self.widget,'value'):
+# 			self.value=self.widget.value
+# 			self.widget.bind(value=self.setter('value'))
+# 		elif hasattr(self.widget,'text'):
+# 			self.value=self.widget.text
+# 			self.widget.bind(text=self.setter('value'))
 
 
 class FormParser(BoxLayout):
 	"""docstring for FormParser."""
-	bundle_dir = get_parent_path(3)
-	# Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'form.kv')
 	form=ListProperty()
+	bundle_dir = get_parent_path(3)
+	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'form_parser.kv')
 
 	def __init__(self,**kw):
 		super(FormParser, self).__init__(**kw)
-		self.parse_tools={
-			'spinner':self.add_spinner,
-			'slider':self.add_slider,
-			'text_input':self.add_text_input,
-			'path':self.add_path_selector}
 		self.bind(form=self.parse)
-		self.bind(on_resize = self.alert)
-		self.spin='a'
-		self.orientation='vertical'
-		self.size_hint_y=None
-		self.padding=[20,20,20,20]
 
-	def alert(self,*args):
-		print(args)
+	def load_json(self,json_path):
+		with open(json_path) as f:
+			self.form=json.load(f)
 
 	def parse(self,*args):
-		for i in self.form:
-			self.parse_tools[i['type']](i)
+		mapping={'spinner':Spinner,
+		'slider':Slider,
+		'text_input':TextInput}
+		for item in self.form:
+			self.add_widget(Label(text=item['id'],size_hint_y=None,height='30dp'))
+			wid=mapping[item['type']]()
+			for i in item:
+				if i!='type':
+					wid.setter(str(i))('',item[i])
+				wid.size_hint_y=None
+				wid.height='40dp'
+			self.add_widget(wid)
+			self.add_widget(BoxLayout(size_hint_y=None,height='15dp'))
+			self.ids = {child.id:child for child in self.children}
+			self.add_binding(item['id'])
 
-	def alert(self,*arg):
-		print(self.height)
+	# def parse(self,*args):
+	# 	for i in self.form:
+	# 		self.add_widget(Item(i))
 
-	def add_spinner(self,config):
-		# widget=BoxLayout(size_hint_y=None,height='48dp',orientation='vertical')
-		self.add_widget(Label(text=config['id'],size_hint_y=None,height='30dp'))
-		self.add_widget(Spinner(
-			id=config['id'],
-			text=config['text'],
-			size_hint_y=None,
-			height='40dp',
-			values=config['values']))
-		self.add_widget(BoxLayout(size_hint_y=None,height='15dp'))
-		# self.add_widget(widget)
-		self.add_binding(config['id'])
+	def reset(self,*ars):
+		self.clear_widgets()
+		self.parse()
 
-	def add_slider(self,config):
-		# widget=BoxLayout(size_hint_y=None,height='48dp',orientation='vertical')
-		self.add_widget(Label(text=config['id'],size_hint_y=None,height='30dp'))
-		self.add_widget(Slider(
-			id=config['id'],
-			min=config['min'],
-			max=config['max'],
-			value=config['value'],
-			size_hint_y=None,
-			height='30dp'))
-		self.add_widget(BoxLayout(size_hint_y=None,height='15dp'))
-		# self.add_widget(widget)
-		# self.add_binding(config['id'])
+	def export(self,*args):
+		data={item['id']:getattr(self,item['id']) for item in self.form}
 
-	def add_text_input(self,config):
-		# widget=BoxLayout(size_hint_y=None,height='96dp',orientation='vertical')
-		self.add_widget(Label(text=config['id'],size_hint_y=None,height='30dp'))
-		self.add_widget(TextInput(
-			id=config['id'],
-			text=config['text'],
-			size_hint_y=None,
-			height='30dp',
-			multiline=False,
-		))
-		self.add_widget(BoxLayout(size_hint_y=None,height='15dp'))
-		# self.add_widget(widget)
-		self.add_binding(config['id'])
+		print(data)
 
 	def add_binding(self,id):
-
-		if not hasattr(self,id):
-			self.__setattr__(id,None)
-		# self.ids[id].bind(text=lambda instance,value:self.__setattr__(id,value))
-
-	def add_path_selector(self):
-		pass
+		self.__setattr__(id,None)
+		if hasattr(self.ids[id],'value'):
+			self.__setattr__(id,self.ids[id].value)
+			self.ids[id].bind(value=lambda instance,value:self.__setattr__(id,value))
+		elif hasattr(self.ids[id],'text'):
+			self.__setattr__(id,self.ids[id].text)
+			self.ids[id].bind(text=lambda instance,value:self.__setattr__(id,value))
 
 
 class Test(App):
@@ -105,26 +105,19 @@ class Test(App):
 		root=BoxLayout()
 		window=ScrollView(scroll_type=["bars"],  bar_width=20)
 		root.add_widget(window)
+
 		form_parser=FormParser()
 		window.add_widget(form_parser)
-		form_parser.form=[
-			{
-				'id':'spin1',
-				'type':'spinner',
-				'text':'foo',
-				'values':['a','b','c']
-			},{
-				'id':'slider1',
-				'type':'slider',
-				'min':1,
-				'max':100,
-				'value':20
-			},{
-				'id':'text1',
-				'type':'text_input',
-				'text':'Please input a text'
-			}
-		]
+		form_parser.load_json('../../model_zoo/mrcnn/config_form.json')
+
+		root.add_widget(Button(text='reset',size_hint_x=None,width='100dp',on_release=form_parser.reset))
+		root.add_widget(Button(text='export',size_hint_x=None,width='100dp',on_release=form_parser.export))
+		# wid=BoxLayout(orientation='vertical')
+		# wid.add_widget(Item('hi'))
+		# wid.add_widget(Item('hi'))
+		# wid.add_widget(Item('hi'))
+		# wid.add_widget(Item('hi'))
+		# return wid
 		return root
 
 
