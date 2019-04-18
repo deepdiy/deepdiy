@@ -25,6 +25,7 @@ class ModelCollector(object):
 			self.models[name]=getattr(module,'Predictor')()
 			self.models[name].config_list=get_file_list(self.bundle_dir+os.sep+'model_zoo'+os.sep+name+os.sep+'configs')
 			self.models[name].weight_list=get_file_list(self.bundle_dir+os.sep+'model_zoo'+os.sep+name+os.sep+'weights')
+			self.models[name].train_notebooks=get_file_list(self.bundle_dir+os.sep+'model_zoo'+os.sep+name+os.sep+'training',formats=['ipynb'])
 
 class Test(object):
 	def __init__(self,**kwargs):
