@@ -4,7 +4,6 @@ sys.path.append('../../../../')
 import importlib
 from utils.get_parent_path import get_parent_path
 from utils.get_file_list import get_file_list
-from plugins.processing.networks.model import Model
 
 
 class ModelCollector(object):
