@@ -38,6 +38,9 @@ class Train(BoxLayout):
 	def select_annotation_path(self):
 		self.annoation_path=select_file()
 
+	def select_config_path(self):
+		self.config_path=select_file()
+
 	def select_img_dir(self):
 		self.img_dir=select_folder()
 
@@ -46,6 +49,7 @@ class Train(BoxLayout):
 		dataset.destination_dir=select_folder()
 		dataset.annotation_path=self.annoation_path
 		dataset.img_dir=self.img_dir
+		dataset.config_path=self.config_path
 		dataset.run()
 
 
