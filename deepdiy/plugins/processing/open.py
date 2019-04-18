@@ -26,7 +26,7 @@ class Open(BoxLayout):
 
 	def add_to_tree(self,path=''):
 		if path!='':
-			self.data['file_list']=get_file_list(path)
+			self.data['file_list']=get_file_list(path,formats=['jpg','jpeg','bmp','png','tiff','tif'])
 		tree={'node_id':'resources','children':[]}
 		for file_path in self.data['file_list']:
 			tree['children'].append({
