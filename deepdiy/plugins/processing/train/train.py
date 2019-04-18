@@ -24,7 +24,7 @@ class Train(BoxLayout):
 		self.ids.config_spinner.bind(text=self.load_config)
 
 	def load_config(self,instance,text):
-		path=os.sep.join([get_parent_path(4),'model_zoo',text,'config_form.json'])
+		path=os.sep.join([get_parent_path(4),'model_zoo',text,'training','config_form.json'])
 		self.form_parser=FormParser()
 		self.form_parser.load_json(path)
 		self.ids.config_panel.add_widget(self.form_parser)
