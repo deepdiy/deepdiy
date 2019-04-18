@@ -39,6 +39,7 @@ ROOT_DIR = os.path.abspath("./")
 
 # Import Mask RCNN
 sys.path.append(ROOT_DIR+'Mask_RCNN')  # To find local version of the library
+sys.path.append('../')  # To find local version of the library
 from mrcnn.config import Config
 from mrcnn import model as modellib, utils
 
@@ -54,12 +55,14 @@ DEFAULT_LOGS_DIR = os.path.join(ROOT_DIR, "logs")
 ############################################################
 
 
-class BalloonConfig(Config):
+
+class MyConfig(Config):
     """Configuration for training on the toy  dataset.
     Derives from the base Config class and overrides some values.
     """
+
     # Give the configuration a recognizable name
-    NAME = "balloon"
+    NAME = "single class"
 
     # We use a GPU with 12GB memory, which can fit two images.
     # Adjust down if you use a smaller GPU.
@@ -73,6 +76,19 @@ class BalloonConfig(Config):
 
     # Skip detections with < 90% confidence
     DETECTION_MIN_CONFIDENCE = 0.9
+
+    def __init__(self, json_path):
+        super(MyConfig, self).__init__()
+        self.additional_info = json.load(open(json_path))
+        self.add_additional_info()
+
+    def add_additional_info(self):
+        for i,j in self.additional_info.items():
+            try:
+                setattr(self,i,eval(j))
+            except:
+                setattr(self,i,j)
+
 
 
 ############################################################
@@ -174,7 +190,6 @@ class BalloonDataset(utils.Dataset):
             return info["path"]
         else:
             super(self.__class__, self).image_reference(image_id)
-
 
 def train(model):
     """Train the model."""
@@ -290,6 +305,9 @@ if __name__ == '__main__':
     parser.add_argument('--weights', required=True,
                         metavar="/path/to/weights.h5",
                         help="Path to weights .h5 file or 'coco'")
+    parser.add_argument('--config', required=True,
+                        metavar="/path/to/weights.h5",
+                        help="Path to config.json file")
     parser.add_argument('--logs', required=False,
                         default=DEFAULT_LOGS_DIR,
                         metavar="/path/to/logs/",
@@ -315,9 +333,9 @@ if __name__ == '__main__':
 
     # Configurations
     if args.command == "train":
-        config = BalloonConfig()
+        config = MyConfig(args.config)
     else:
-        class InferenceConfig(BalloonConfig):
+        class InferenceConfig(MyConfig):
             # Set batch size to 1 since we'll be running inference on
             # one image at a time. Batch size = GPU_COUNT * IMAGES_PER_GPU
             GPU_COUNT = 1
@@ -358,6 +376,7 @@ if __name__ == '__main__':
             "mrcnn_bbox", "mrcnn_mask"])
     else:
         model.load_weights(weights_path, by_name=True)
+
 
     # Train or evaluate
     if args.command == "train":
