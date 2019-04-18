@@ -23,7 +23,8 @@ class ModelCollector(object):
 			module_name='.'.join(['model_zoo',name,'predictor'])
 			module=importlib.import_module(module_name)
 			self.models[name]=getattr(module,'Predictor')()
-			self.models[name].weight_list=get_file_list(self.bundle_dir+os.sep+'model_zoo'+os.sep+name+os.sep+'assets')
+			self.models[name].config_list=get_file_list(self.bundle_dir+os.sep+'model_zoo'+os.sep+name+os.sep+'configs')
+			self.models[name].weight_list=get_file_list(self.bundle_dir+os.sep+'model_zoo'+os.sep+name+os.sep+'weights')
 
 class Test(object):
 	def __init__(self,**kwargs):

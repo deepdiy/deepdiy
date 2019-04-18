@@ -22,6 +22,21 @@ class Networks(BoxLayout):
 		self.models=ModelCollector().models
 		self.ids.model_spinner.values=self.models
 		self.ids.model_spinner.bind(text=self.update_weight_list)
+		self.ids.model_spinner.bind(text=self.update_config_list)
+
+	def update_config_list(self,instance,text):
+		if not hasattr(self.models[text],'config_list'):
+			self.ids.config_spinner.text='Default config'
+			return
+		values=[item.split(os.sep)[-1] for item in self.models[text].config_list]
+		if len(values)>0:
+			self.ids.config_spinner.text='Select Config'
+			self.ids.config_spinner.values=values
+		else:
+			self.ids.config_spinner.text='No config available'
+			self.ids.config_spinner.values=[]
+		self.model=self.models[self.ids.model_spinner.text]
+		self.is_weight_loaded=False
 
 	def update_weight_list(self,instance,text):
 		values=[item.split(os.sep)[-1] for item in self.models[text].weight_list]
@@ -37,7 +52,8 @@ class Networks(BoxLayout):
 	def load_weight(self):
 		import tensorflow as tf
 		self.graph=tf.get_default_graph()
-		self.model.weight_path=get_parent_path(4)+os.sep+'model_zoo'+os.sep+self.ids.model_spinner.text+os.sep+'assets'+os.sep+self.ids.weight_spinner.text
+		self.model.weight_path=get_parent_path(4)+os.sep+'model_zoo'+os.sep+self.ids.model_spinner.text+os.sep+'weights'+os.sep+self.ids.weight_spinner.text
+		self.model.config_path=get_parent_path(4)+os.sep+'model_zoo'+os.sep+self.ids.model_spinner.text+os.sep+'configs'+os.sep+self.ids.config_spinner.text
 		with self.graph.as_default():
 			self.model.load_network()
 			self.model.load_weight()

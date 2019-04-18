@@ -5,14 +5,21 @@
 			id:model_spinner
 			text:'Select Model'
 			size_hint_y:None
-			height:'48dp'
+			height:'40dp'
 	BoxLayout:
 		id:weight_col
+		orientation: 'vertical'
+		Spinner:
+			id:config_spinner
+			text:'Select Config'
+			size_hint_y:None
+			height:'40dp'
+			disabled:not (model_spinner.text in model_spinner.values)
 		Spinner:
 			id:weight_spinner
 			text:'Select Weight'
 			size_hint_y:None
-			height:'48dp'
+			height:'40dp'
 			disabled:not (model_spinner.text in model_spinner.values)
 	BoxLayout:
 		id:run_col
@@ -21,13 +28,13 @@
 			id:btn_load_weight
 			text:'Load model'
 			size_hint_y:None
-			height:dp(50)
+			height:'40dp'
 			on_release:root.load_weight()
 			disabled: not (weight_spinner.text in weight_spinner.values)
 		Button:
 			id:btn_run
 			text:'Run'
 			size_hint_y:None
-			height:dp(50)
+			height:'40dp'
 			disabled: not root.is_weight_loaded
 			on_release:root.run()

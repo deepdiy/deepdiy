@@ -3,7 +3,7 @@ bundle_dir=os.path.dirname(os.path.abspath(__file__))
 sys.path.append(bundle_dir)
 from mrcnn.config import Config
 import numpy as np
-import cv2
+import cv2,json
 
 class Predictor(object):
 	"""docstring for Predictor."""
@@ -12,6 +12,7 @@ class Predictor(object):
 		super(Predictor, self).__init__()
 		self.input_img_path=''
 		self.weight_path=''
+		self.config_path=''
 
 	def set_input(self,input_img_path):
 		array=np.fromfile(input_img_path,dtype=np.uint8)
@@ -20,17 +21,17 @@ class Predictor(object):
 
 	def load_network(self):
 		config = Config()
-		config.NAME = 'predict'  # Background + elegans
-		config.NUM_CLASSES = 1 + 1  # Background + elegans
+		config.NAME = 'predict'
+		config.NUM_CLASSES = 1 + 1  
 		config.IMAGES_PER_GPU = 1
 		config.GPU_COUNT = 1
-		config.BACKBONE = "resnet50"
-		config.DETECTION_MIN_CONFIDENCE = 0.9
-		config.RPN_ANCHOR_SCALES = (32,32,64,64,128)
-		config.MINI_MASK_SHAPE = (32, 32)
-		config.IMAGE_MIN_DIM = 448
-		config.IMAGE_MAX_DIM = 512
-		config.DETECTION_MAX_INSTANCES = 1000
+
+		additional_info = json.load(open(self.config_path))
+		for i,j in additional_info.items():
+			try:
+				setattr(config,i,eval(j))
+			except:
+				setattr(config,i,j)
 		config.__init__()
 		from mrcnn import model as modellib
 		self.model = modellib.MaskRCNN(mode="inference", model_dir='./',config=config)
@@ -53,8 +54,8 @@ class Test(object):
 		super(Test, self).__init__()
 
 		predictor=Predictor()
-		predictor.set_input('../../img/face.jpg')
-		predictor.weight_path='assets/mask_rcnn_elegans_0021.h5'
+		predictor.set_input('../../deepdiy/img/face.jpg')
+		predictor.weight_path='assets/mask_rcnn_balloon_0300.h5'
 		predictor.load_network()
 		predictor.load_weight()
 		predictor.predict()
