@@ -60,6 +60,8 @@ class Networks(BoxLayout):
 		self.is_weight_loaded=True
 
 	def run(self):
+		if self.data['selection']['data']['type']!='file_path':
+			return
 		self.ids.btn_run.text='Running'
 		self.model.set_input(self.data['selection']['data']['content'])
 
