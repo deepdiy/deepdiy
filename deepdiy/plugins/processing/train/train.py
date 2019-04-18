@@ -3,6 +3,7 @@ sys.path.append('../../../')
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
 from kivy.properties import DictProperty
 from utils.get_parent_path import get_parent_path
 from plugins.processing.networks.model_collector import ModelCollector
@@ -24,7 +25,11 @@ class Train(BoxLayout):
 		self.ids.config_spinner.bind(text=self.load_config)
 
 	def load_config(self,instance,text):
+		self.ids.config_panel.clear_widgets()
 		path=os.sep.join([get_parent_path(4),'model_zoo',text,'training','config_form.json'])
+		if not os.path.exists(path):
+			self.ids.config_panel.add_widget(Label(text='This network do not need configuration'))
+			return
 		self.form_parser=FormParser()
 		self.form_parser.load_json(path)
 		self.ids.config_panel.add_widget(self.form_parser)
