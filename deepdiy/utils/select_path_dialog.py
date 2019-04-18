@@ -2,6 +2,7 @@ from tkinter import filedialog
 from tkinter import *
 
 
+
 def select_folder():
     root = Tk()
     root.withdraw()
@@ -19,9 +20,9 @@ def select_file():
 def select_save_path():
     root = Tk()
     root.withdraw()
-    save_path =  filedialog.asksaveasfilepath(initialdir = "/",title = "Select file")
+    save_path =  filedialog.asksaveasfile(mode='a')
     root.destroy()
     return (save_path)
 
 if __name__ == '__main__':
-    print(select_folder())
+    print(select_save_path())
