@@ -25,13 +25,13 @@
             size_hint_y:None
             height:'40dp'
             disabled:not (config_spinner.text in config_spinner.values)
-            on_release:root.label()
+            on_release:root.form_parser.reset()
           Button:
-            text:'Download config file'
+            text:'Export config file'
             size_hint_y:None
             height:'40dp'
             disabled:not (config_spinner.text in config_spinner.values)
-            on_release:root.label()
+            on_release:root.form_parser.export()
 
 
     TabbedPanelItem:
