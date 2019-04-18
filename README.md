@@ -62,6 +62,6 @@ When user click a node in resouce tree, certain display plugin will be activated
 
 Python 3.7.1, Kivy 1.10.1, TensorFlow 1.13, Keras 2.2.4, OpenCV 4.0.0.21, Numpy 1.15.4, Scipy 1.1.0, Matplotlib 3.0.2
 
-Licence
+### Licence
 
-MIT licence
+MIT is licensed under MIT license.
