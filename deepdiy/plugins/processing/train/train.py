@@ -33,7 +33,7 @@ class Train(BoxLayout):
 		webbrowser.open(get_parent_path(4)+os.sep+'via'+os.sep+'via.html')
 
 	def train(self):
-		webbrowser.open('https://colab.research.google.com/github/deepdiy/deepdiy/blob/master/mrcnn.ipynb')
+		webbrowser.open('https://colab.research.google.com/github/deepdiy/deepdiy/blob/master/model_zoo/'+self.ids.run_net_spinner.text+'/training/'+self.ids.run_notebook_spinner.text)
 
 	def select_annotation_path(self):
 		self.annoation_path=select_file()

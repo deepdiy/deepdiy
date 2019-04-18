@@ -1,3 +1,4 @@
+#:import os os
 <Train>
   TabbedPanel:
     do_default_tab:False
@@ -41,7 +42,7 @@
           Button:
             text:'VIA label tool'
             size_hint_y:None
-            height:'48dp'
+            height:'40dp'
             on_release:root.open_via()
     TabbedPanelItem:
       text:'3.Pack Data'
@@ -51,33 +52,43 @@
           Button:
             text:'Select image directory'
             size_hint_y:None
-            height:'48dp'
+            height:'40dp'
             on_release:root.select_img_dir()
           Button:
             text:'Select config file'
             size_hint_y:None
-            height:'48dp'
+            height:'40dp'
             on_release:root.select_config_path()
           Button:
             text:'Select annoation file'
             size_hint_y:None
-            height:'48dp'
+            height:'40dp'
             on_release:root.select_annotation_path()
         Button:
           text:'Run (select save directory)'
           size_hint_y:None
-          height:'48dp'
+          height:'40dp'
           on_release:root.save_zip()
     TabbedPanelItem:
       text:'4.Run'
       BoxLayout:
         Spinner:
+          id:run_net_spinner
           text:'Select Network'
           size_hint_y:None
-          height:'48dp'
+          height:'40dp'
           values:root.models
-        Button:
-          text:'Start Colab'
+        Spinner:
+          id:run_notebook_spinner
+          text:'Select Notebook'
           size_hint_y:None
-          height:'48dp'
+          height:'40dp'
+          disabled:not (run_net_spinner.text in root.models) 
+          train_notebooks:root.models[run_net_spinner.text].train_notebooks if not self.disabled else []
+          values:[value.split(os.sep)[-1] for value in self.train_notebooks]
+        Button:
+          text:'Open Colab'
+          size_hint_y:None
+          height:'40dp'
           on_release:root.train()
+          disabled:not (run_notebook_spinner.text in run_notebook_spinner.values)
