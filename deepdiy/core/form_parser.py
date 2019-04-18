@@ -1,6 +1,7 @@
 import sys,os
 sys.path.append('../')
 from utils.get_parent_path import get_parent_path
+from utils.select_path_dialog import select_folder
 import json
 from kivy.app import App
 from kivy.lang import Builder
@@ -59,7 +60,9 @@ class FormParser(BoxLayout):
 
 	def export(self,*args):
 		data={item.title:item.value for item in reversed(self.children)}
-		print(data)
+		path=select_folder()
+		with open(os.sep.join([path,'config.json']),'w') as outfile:
+			json.dump(data,outfile)
 
 
 class Test(App):
@@ -80,7 +83,7 @@ class Test(App):
 		from kivy.uix.button import Button
 		root.add_widget(Button(text='reset',size_hint_x=None,width='100dp',on_release=form_parser.reset))
 		root.add_widget(Button(text='export',size_hint_x=None,width='100dp',on_release=form_parser.export))
-		
+
 		return root
 
 
