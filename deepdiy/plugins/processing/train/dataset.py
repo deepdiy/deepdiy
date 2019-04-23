@@ -36,6 +36,8 @@ class Dataset(object):
 		random.shuffle(keys)
 		self.dataset['val']=keys[:val_num]
 		self.dataset['train']=keys[val_num:]
+		if len(keys)==1:
+			self.dataset['train']=keys
 		for subset in ['train','val']:
 			os.mkdir(self.temp_dir+os.sep+'dataset'+os.sep+subset)
 			self.prepare_data(subset)
