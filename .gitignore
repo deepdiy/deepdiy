@@ -8,3 +8,4 @@
 datasets/*
 temp/*
 tf_cpu/*
+releases/*
