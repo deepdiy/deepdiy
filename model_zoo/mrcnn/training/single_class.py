@@ -66,21 +66,19 @@ class MyConfig(Config):
 
     # We use a GPU with 12GB memory, which can fit two images.
     # Adjust down if you use a smaller GPU.
-    IMAGES_PER_GPU = 2
+    IMAGES_PER_GPU = 1
 
     # Number of classes (including background)
     NUM_CLASSES = 1 + 1  # Background + balloon
 
     # Number of training steps per epoch
-    STEPS_PER_EPOCH = 100
-
-    # Skip detections with < 90% confidence
-    DETECTION_MIN_CONFIDENCE = 0.9
+    STEPS_PER_EPOCH = 32
+    VALIDATION_STEPS = 1
 
     def __init__(self, json_path):
-        super(MyConfig, self).__init__()
         self.additional_info = json.load(open(json_path))
         self.add_additional_info()
+        super(MyConfig, self).__init__()
 
     def add_additional_info(self):
         for i,j in self.additional_info.items():
