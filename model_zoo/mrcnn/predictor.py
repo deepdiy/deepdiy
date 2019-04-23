@@ -22,7 +22,7 @@ class Predictor(object):
 	def load_network(self):
 		config = Config()
 		config.NAME = 'predict'
-		config.NUM_CLASSES = 1 + 1  
+		config.NUM_CLASSES = 1 + 1
 		config.IMAGES_PER_GPU = 1
 		config.GPU_COUNT = 1
 
@@ -55,7 +55,8 @@ class Test(object):
 
 		predictor=Predictor()
 		predictor.set_input('../../deepdiy/img/face.jpg')
-		predictor.weight_path='assets/mask_rcnn_balloon_0300.h5'
+		predictor.weight_path='weights/mask_rcnn_balloon_0300.h5'
+		predictor.config_path='configs/ecoli.json'
 		predictor.load_network()
 		predictor.load_weight()
 		predictor.predict()
