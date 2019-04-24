@@ -14,11 +14,11 @@ import itertools
 import colorsys
 
 import numpy as np
-from skimage.measure import find_contours
+# from skimage.measure import find_contours
 import matplotlib.pyplot as plt
 from matplotlib import patches,  lines
 from matplotlib.patches import Polygon
-import IPython.display
+# import IPython.display
 
 # Root directory of the project
 ROOT_DIR = os.path.abspath("../")
@@ -156,12 +156,12 @@ def display_instances(image, boxes, masks, class_ids, class_names,
         padded_mask = np.zeros(
             (mask.shape[0] + 2, mask.shape[1] + 2), dtype=np.uint8)
         padded_mask[1:-1, 1:-1] = mask
-        contours = find_contours(padded_mask, 0.5)
-        for verts in contours:
-            # Subtract the padding and flip (y, x) to (x, y)
-            verts = np.fliplr(verts) - 1
-            p = Polygon(verts, facecolor="none", edgecolor=color)
-            ax.add_patch(p)
+        # contours = find_contours(padded_mask, 0.5)
+        # for verts in contours:
+        #     # Subtract the padding and flip (y, x) to (x, y)
+        #     verts = np.fliplr(verts) - 1
+        #     p = Polygon(verts, facecolor="none", edgecolor=color)
+        #     ax.add_patch(p)
     ax.imshow(masked_image.astype(np.uint8))
     if auto_show:
         plt.show()
@@ -449,12 +449,12 @@ def draw_boxes(image, boxes=None, refined_boxes=None,
             padded_mask = np.zeros(
                 (mask.shape[0] + 2, mask.shape[1] + 2), dtype=np.uint8)
             padded_mask[1:-1, 1:-1] = mask
-            contours = find_contours(padded_mask, 0.5)
-            for verts in contours:
-                # Subtract the padding and flip (y, x) to (x, y)
-                verts = np.fliplr(verts) - 1
-                p = Polygon(verts, facecolor="none", edgecolor=color)
-                ax.add_patch(p)
+            # contours = find_contours(padded_mask, 0.5)
+            # for verts in contours:
+            #     # Subtract the padding and flip (y, x) to (x, y)
+            #     verts = np.fliplr(verts) - 1
+            #     p = Polygon(verts, facecolor="none", edgecolor=color)
+            #     ax.add_patch(p)
     ax.imshow(masked_image.astype(np.uint8))
 
 
@@ -469,7 +469,7 @@ def display_table(table):
             row_html += "<td>{:40}</td>".format(str(col))
         html += "<tr>" + row_html + "</tr>"
     html = "<table>" + html + "</table>"
-    IPython.display.display(IPython.display.HTML(html))
+    # IPython.display.display(IPython.display.HTML(html))
 
 
 def display_weight_stats(model):
