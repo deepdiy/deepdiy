@@ -7,20 +7,40 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import DictProperty
 from utils.read_img import read_img
 from plugins.display.detection_viewer.visualize import random_colors,apply_mask,display_instances
+from kivy.graphics.texture import Texture
 import matplotlib
 matplotlib.use('Agg')
-import matplotlib.pyplot as plt
+from kivy.graphics import Rectangle
+from matplotlib import pyplot as plt
 import cv2
 import numpy as np
-from kivy.garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
+# from kivy.garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 
 class DetectionViewer(BoxLayout):
 	data=DictProperty()
 	def __init__(self,**kwargs):
 		super(DetectionViewer, self).__init__(**kwargs)
 		self.bind(data=self.update)
+		self.bind(size=self.update)
+
+	def img2texture(self):
+		self.h,self.w=self.img.shape[:2]
+		self.texture = Texture.create(size=(self.w, self.h), colorfmt='rgb')
+		self.texture.blit_buffer(self.img.tostring(), colorfmt='bgr', bufferfmt='ubyte')
+		self.texture.flip_vertical()
+		w,h=self.size
+		if w*h==0:
+			self.w_out,self.h_out=self.size
+		elif w/h>self.w/self.h:
+			self.h_out=h
+			self.w_out=h*(self.w/self.h)
+		else:
+			self.h_out=w*(self.h/self.w)
+			self.w_out=w
 
 	def update(self, *args):
+		if self.data=={}:
+			return
 		self.clear_widgets()
 		plt.close('all')
 		fig = plt.figure(frameon=False)
@@ -31,7 +51,17 @@ class DetectionViewer(BoxLayout):
 			if i in self.data:
 				kwargs[i]=self.data[i]
 		display_instances(**kwargs)
-		self.add_widget(FigureCanvasKivyAgg(plt.gcf()))
+		fig.canvas.draw()
+		img = np.fromstring(fig.canvas.tostring_rgb(), dtype=np.uint8, sep='')
+		img  = img.reshape(fig.canvas.get_width_height()[::-1] + (3,))
+
+		self.img = cv2.cvtColor(img,cv2.COLOR_RGB2BGR)
+		self.img2texture()
+		self.canvas.clear()
+		with self.canvas:
+			Rectangle(texture=self.texture, pos=(0, 0), size=(self.w_out,self.h_out))
+
+		# self.add_widget(FigureCanvasKivyAgg(plt.gcf()))
 
 
 class Test(App):
@@ -44,9 +74,9 @@ class Test(App):
 		iv.data={
 			'image':image,
 			'boxes':np.array([[ 51,  80, 679, 852],
-		       [351, 156, 768, 601],
-		       [413,   7, 761, 197],
-		       [442, 189, 768, 305]]),
+			   [351, 156, 768, 601],
+			   [413,   7, 761, 197],
+			   [442, 189, 768, 305]]),
 			'masks':np.zeros((768,1024,4)),
 			'class_ids':np.array([1, 1, 1, 1]),
 			'class_names':['background','elegans']
