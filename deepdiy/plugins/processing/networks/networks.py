@@ -33,7 +33,7 @@ class Networks(BoxLayout):
 			self.ids.config_spinner.text='Select Config'
 			self.ids.config_spinner.values=values
 		else:
-			self.ids.config_spinner.text='No config available'
+			self.ids.config_spinner.text='No config needed'
 			self.ids.config_spinner.values=[]
 		self.model=self.models[self.ids.model_spinner.text]
 		self.is_weight_loaded=False

@@ -30,7 +30,7 @@
 			size_hint_y:None
 			height:'40dp'
 			on_release:root.load_weight()
-			disabled: not (weight_spinner.text in weight_spinner.values)
+			disabled: not (weight_spinner.text in weight_spinner.values and config_spinner.text in config_spinner.values+['No config needed'])
 		Button:
 			id:btn_run
 			text:'Run'
