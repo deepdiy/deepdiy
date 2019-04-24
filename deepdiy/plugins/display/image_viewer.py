@@ -48,9 +48,7 @@ class Test(App):
 
 	def build(self):
 		iv=ImageViewer()
-		iv.data={'selection':{'data':{'type':'file_path',
-					'content':'../../img/face.jpg',
-					'display':'image_viewer'}}}
+		iv.data='../../img/face.jpg'
 		return iv
 
 
