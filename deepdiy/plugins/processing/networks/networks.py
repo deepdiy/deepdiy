@@ -7,6 +7,7 @@ from kivy.properties import DictProperty,BooleanProperty
 from plugins.processing.networks.model_collector import ModelCollector
 from utils.get_parent_path import get_parent_path
 from core.sandbox import Sandbox
+from pebble import concurrent
 
 
 class Networks(BoxLayout):
@@ -52,12 +53,19 @@ class Networks(BoxLayout):
 	def load_weight(self):
 		import tensorflow as tf
 		self.graph=tf.get_default_graph()
+		self.ids.btn_load_weight.text='Loading'
 		self.model.weight_path=get_parent_path(4)+os.sep+'model_zoo'+os.sep+self.ids.model_spinner.text+os.sep+'weights'+os.sep+self.ids.weight_spinner.text
 		self.model.config_path=get_parent_path(4)+os.sep+'model_zoo'+os.sep+self.ids.model_spinner.text+os.sep+'configs'+os.sep+self.ids.config_spinner.text
+		test=self.load()
+
+	@concurrent.thread
+	def load(self):
 		with self.graph.as_default():
 			self.model.load_network()
 			self.model.load_weight()
-		self.is_weight_loaded=True
+			self.is_weight_loaded=True
+			self.ids.btn_load_weight.text='Load Model'
+
 
 	def run(self):
 		if self.data['selection']['data']['type']!='file_path':
