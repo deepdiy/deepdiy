@@ -4,7 +4,8 @@ from utils.get_parent_path import get_parent_path
 bundle_dir=get_parent_path(3)+os.sep+'model_zoo'+os.sep+'mrcnn'
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import DictProperty
+from kivy.uix.label import Label
+from kivy.properties import DictProperty,ObjectProperty
 from utils.read_img import read_img
 from plugins.display.detection_viewer.visualize import random_colors,apply_mask,display_instances
 from kivy.graphics.texture import Texture
@@ -14,20 +15,23 @@ from kivy.graphics import Rectangle
 from matplotlib import pyplot as plt
 import cv2
 import numpy as np
-# from kivy.garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
+# import pysnooper
+from pebble import concurrent
+
+from kivy.garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 
 class DetectionViewer(BoxLayout):
 	data=DictProperty()
+	img=ObjectProperty()
+	w_out,h_out=[640,480]
 	def __init__(self,**kwargs):
 		super(DetectionViewer, self).__init__(**kwargs)
 		self.bind(data=self.update)
 		self.bind(size=self.update)
+		self.bind(img=self.draw)
 
 	def img2texture(self):
 		self.h,self.w=self.img.shape[:2]
-		self.texture = Texture.create(size=(self.w, self.h), colorfmt='rgb')
-		self.texture.blit_buffer(self.img.tostring(), colorfmt='bgr', bufferfmt='ubyte')
-		self.texture.flip_vertical()
 		w,h=self.size
 		if w*h==0:
 			self.w_out,self.h_out=self.size
@@ -38,10 +42,14 @@ class DetectionViewer(BoxLayout):
 			self.h_out=w*(self.h/self.w)
 			self.w_out=w
 
+		self.texture = Texture.create(size=(self.w, self.h), colorfmt='rgb')
+		self.texture.blit_buffer(self.img.tostring(), colorfmt='bgr', bufferfmt='ubyte')
+		self.texture.flip_vertical()
+
 	def update(self, *args):
 		if self.data=={}:
 			return
-		self.clear_widgets()
+		# self.clear_widgets()
 		plt.close('all')
 		fig = plt.figure(frameon=False)
 		ax = fig.add_axes([0, 0, 1, 1])
@@ -56,12 +64,21 @@ class DetectionViewer(BoxLayout):
 		img  = img.reshape(fig.canvas.get_width_height()[::-1] + (3,))
 
 		self.img = cv2.cvtColor(img,cv2.COLOR_RGB2BGR)
-		self.img2texture()
-		self.canvas.clear()
-		with self.canvas:
-			Rectangle(texture=self.texture, pos=(0, 0), size=(self.w_out,self.h_out))
+		print(self.img.shape)
 
-		# self.add_widget(FigureCanvasKivyAgg(plt.gcf()))
+	def draw(self,*args):
+		print('rendering')
+		self.img2texture()
+		# can=BoxLayout()
+		# self.canvas.clear()
+		print(self.w_out,self.h_out)
+		# self.canvas.add(Rectangle(texture=self.texture, pos=(0, 0), size=(self.w_out,self.h_out)))
+		# with self.canvas:
+		# 	Rectangle(texture=self.texture, pos=(0, 0), size=(self.w_out,self.h_out))
+		# self.add_widget(can)
+		self.clear_widgets()
+
+		self.add_widget(FigureCanvasKivyAgg(plt.gcf()))
 
 
 class Test(App):
