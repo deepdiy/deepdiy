@@ -7,6 +7,8 @@ def import_tf():
 	graph = tf.get_default_graph()
 	print('333333333333333333333')
 
+def open():
+	app.widget_manager.ids.processing_screens.current='open'
 
 def load_demo():
 	app.widget_manager.ids.processing_screens.current='open'
@@ -16,7 +18,8 @@ def load_demo():
 def load_network():
 	networks=app.widget_manager.ids.processing_screens.children[0].children[0]
 	networks.ids.model_spinner.text='mrcnn'
-	networks.ids.weight_spinner.text='elegans.h5'
+	networks.ids.weight_spinner.text='mask_rcnn_balloon_0300.h5'
+	networks.ids.config_spinner.text='ecoli.json'
 	# print(networks.ids)
 
 	# threading.Thread(target=import_tf).start()
@@ -31,6 +34,7 @@ def load_train():
 def debug():
 	global app
 	app=App.get_running_app()
-	load_ecoli()
-	load_network()
+	open()
+	# load_ecoli()
+	# load_network()
 	# load_train()
