@@ -22,6 +22,8 @@ class Dataset(object):
 	def make_temp_dir(self):
 		now = datetime.now()
 		date_time = now.strftime("%Y%m%d%H%M%S")
+		if not os.path.exists(self.bundle_dir+os.sep+'temp'):
+			os.mkdir(self.bundle_dir+os.sep+'temp')
 		self.temp_dir=self.bundle_dir+os.sep+'temp'+os.sep+date_time
 		os.mkdir(self.temp_dir)
 		os.mkdir(self.temp_dir+os.sep+'dataset')
