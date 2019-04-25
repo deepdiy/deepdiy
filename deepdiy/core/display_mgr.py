@@ -23,7 +23,6 @@ class DisplayManager(BoxLayout):
 			return
 		if not 'display' in self.data['selection']['data']:
 			return
-		print(self.data['selection']['data']['content'])
 		app.widget_manager.ids.display_screens.current=self.data['selection']['data']['display']
 		app.widget_manager.ids.display_screens.children[0].children[0].data=self.data['selection']['data']['content']
 
