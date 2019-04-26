@@ -8,6 +8,7 @@ from plugins.processing.networks.model_collector import ModelCollector
 from utils.get_parent_path import get_parent_path
 from core.sandbox import Sandbox
 from pebble import concurrent
+import json
 
 
 class Networks(BoxLayout):
@@ -72,7 +73,7 @@ class Networks(BoxLayout):
 			return
 		self.ids.btn_run.text='Running'
 		self.model.set_input(self.data['selection']['data']['content'])
-
+		self.config=json.load(open(self.model.config_path))
 		self.sandbox=Sandbox(
 			self.data,
 			use_selected_data=False,
@@ -83,7 +84,8 @@ class Networks(BoxLayout):
 			result_meta={
 				'node_id':'mask',
 				'type':'img',
-				'display':'detection_viewer'
+				'display':'detection_viewer',
+				'class_names':self.config['CLASS_NAMES']
 				}
 			)
 		with self.graph.as_default():
