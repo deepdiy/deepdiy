@@ -24,7 +24,7 @@ class DisplayManager(BoxLayout):
 		if not 'display' in self.data['selection']['data']:
 			return
 		app.widget_manager.ids.display_screens.current=self.data['selection']['data']['display']
-		app.widget_manager.ids.display_screens.children[0].children[0].data=self.data['selection']['data']['content']
+		app.widget_manager.ids.display_screens.children[0].children[0].data=self.data['selection']['data']
 
 			# app.widget_manager.ids.display_screens.ids.image_viewer.data=self.data
 		# if self.data['selection']['data']['type']=='file_path':
