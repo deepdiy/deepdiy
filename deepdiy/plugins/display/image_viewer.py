@@ -2,14 +2,14 @@ import sys,os
 sys.path.append(os.path.dirname(os.path.dirname(sys.path[0])))
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import StringProperty
+from kivy.properties import DictProperty
 from kivy.graphics.texture import Texture
 from kivy.graphics import Rectangle
 from utils.read_img import read_img
 
 
 class ImageViewer(BoxLayout):
-	data=StringProperty('')
+	data=DictProperty()
 	def __init__(self,**kwargs):
 		super(ImageViewer, self).__init__(**kwargs)
 		# self.add_widget(FigureCanvasKivyAgg(plt.gcf()))
@@ -34,9 +34,9 @@ class ImageViewer(BoxLayout):
 			self.w_out=w
 
 	def update(self, *args):
-		if self.data=='':
+		if self.data=={}:
 			return
-		self.img=read_img(self.data)
+		self.img=read_img(self.data['content'])
 		self.img2texture()
 		self.canvas.clear()
 		with self.canvas:
@@ -48,7 +48,7 @@ class Test(App):
 
 	def build(self):
 		iv=ImageViewer()
-		iv.data='../../img/face.jpg'
+		iv.data={'content':'../../img/face.jpg'}
 		return iv
 
 
