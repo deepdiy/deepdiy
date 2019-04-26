@@ -56,8 +56,9 @@ class DetectionViewer(BoxLayout):
 		ax.axis('off')
 		kwargs={'ax':ax,'title':'','show_mask':True,'show_bbox':True,'captions':None,'class_names':['background','target'],'boxes':np.array([]),'masks':None,'class_ids':None}
 		for i in ['image','boxes','masks','class_ids','class_names','scores','colors']:
-			if i in self.data:
-				kwargs[i]=self.data[i]
+			if i in self.data['content']:
+				kwargs[i]=self.data['content'][i]
+		kwargs['class_names']=self.data['class_names']
 		display_instances(**kwargs)
 		fig.canvas.draw()
 		img = np.fromstring(fig.canvas.tostring_rgb(), dtype=np.uint8, sep='')
@@ -89,14 +90,17 @@ class Test(App):
 		image=cv2.imread('../../../img/face.jpg')
 		iv=DetectionViewer()
 		iv.data={
-			'image':image,
-			'boxes':np.array([[ 51,  80, 679, 852],
-			   [351, 156, 768, 601],
-			   [413,   7, 761, 197],
-			   [442, 189, 768, 305]]),
-			'masks':np.zeros((768,1024,4)),
-			'class_ids':np.array([1, 1, 1, 1]),
-			'class_names':['background','elegans']
+			'content':{
+				'image':image,
+				'boxes':np.array([[ 51,  80, 679, 852],
+				[351, 156, 768, 601],
+				[413,   7, 761, 197],
+				[442, 189, 768, 305]]),
+				'masks':np.zeros((768,1024,4)),
+				'class_ids':np.array([1, 1, 1, 1]),
+				'class_names':['background','elegans']
+			},
+			'class_names':['background','target']
 		}
 		return iv
 
