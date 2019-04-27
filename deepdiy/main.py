@@ -16,7 +16,7 @@ class MainWindow(App):
 
     def load_plugins(self):
         self.plugin_manager=PluginManager()
-        self.plugin_manager.load()
+        self.plugin_manager.load_plugins()
         self.display_manager=DisplayManager()
         debug()
 
