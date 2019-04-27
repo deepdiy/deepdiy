@@ -1,0 +1,40 @@
+
+<Card>:
+	size_hint:(None,None)
+	width:'250dp'
+	height:'100'
+	orientation:'vertical'
+	padding:'5dp'
+	Label:
+		text:root.title
+	Label:
+		text:root.type
+	BoxLayout:
+		size_hint_y:None
+		height:'40dp'
+		Button:
+			text:'Disable'
+			on_release:root.operations[self.text](root.title)
+		Button:
+			text:'Remove'
+			on_release:root.operations[self.text](root.title)
+		Button:
+			text:'Reload'
+			on_release:root.operations[self.text](root.title)
+
+<PluginManager>:
+	title:'Manage Plugins'
+	auto_dismiss:False
+	BoxLayout:
+		orientation:'vertical'
+		ScrollView:
+			StackLayout:
+				id:plugin_album
+		BoxLayout:
+			size_hint_y:None
+			height:'40dp'
+			Button:
+				text:'Reload All Plugins'
+			Button:
+				text:'Close'
+				on_release:root.dismiss()
