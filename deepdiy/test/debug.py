@@ -8,10 +8,10 @@ def import_tf():
 	print('333333333333333333333')
 
 def open():
-	app.widget_manager.ids.processing_screens.current='open'
+	app.widget_manager.ids.processing_screens.current='files'
 
 def load_demo():
-	app.widget_manager.ids.processing_screens.current='open'
+	app.widget_manager.ids.processing_screens.current='files'
 	app.widget_manager.ids.processing_screens.children[0].children[0].add_to_tree('D:\onedrive\program\worm_analyst\demo_img\elegans')
 	app.widget_manager.ids.processing_screens.current='networks'
 
@@ -24,7 +24,7 @@ def load_network():
 
 	# threading.Thread(target=import_tf).start()
 def load_ecoli():
-	app.widget_manager.ids.processing_screens.current='open'
+	app.widget_manager.ids.processing_screens.current='files'
 	app.widget_manager.ids.processing_screens.children[0].children[0].add_to_tree('D:\onedrive\program\deepdiy\datasets\ecoli')
 	app.widget_manager.ids.processing_screens.current='networks'
 
@@ -35,6 +35,6 @@ def debug():
 	global app
 	app=App.get_running_app()
 	open()
-	# load_ecoli()
+	load_ecoli()
 	# load_network()
 	# load_train()
