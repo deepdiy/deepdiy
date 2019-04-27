@@ -1,6 +1,12 @@
 <Networks>:
 	BoxLayout:
 		id:model_col
+		orientation: 'vertical'
+		Button:
+			text:'Refresh'
+			on_release:root.rescan_model_zoo()
+			size_hint_y:None
+			height:'40dp'
 		Spinner:
 			id:model_spinner
 			text:'Select Model'

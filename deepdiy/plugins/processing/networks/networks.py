@@ -18,7 +18,6 @@ class Networks(BoxLayout):
 	bundle_dir = get_parent_path(3)
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'networks.kv')
 
-
 	def __init__(self):
 		super(Networks, self).__init__()
 		self.models=ModelCollector().models
@@ -27,6 +26,8 @@ class Networks(BoxLayout):
 		self.ids.model_spinner.bind(text=self.update_config_list)
 
 	def update_config_list(self,instance,text):
+		if text=='Select Model':
+			return
 		if not hasattr(self.models[text],'config_list'):
 			self.ids.config_spinner.text='Default config'
 			return
@@ -41,6 +42,8 @@ class Networks(BoxLayout):
 		self.is_weight_loaded=False
 
 	def update_weight_list(self,instance,text):
+		if text=='Select Model':
+			return
 		values=[item.split(os.sep)[-1] for item in self.models[text].weight_list]
 		if len(values)>0:
 			self.ids.weight_spinner.text='Select Weight'
@@ -59,6 +62,11 @@ class Networks(BoxLayout):
 		self.model.config_path=get_parent_path(4)+os.sep+'model_zoo'+os.sep+self.ids.model_spinner.text+os.sep+'configs'+os.sep+self.ids.config_spinner.text
 		test=self.load()
 
+	def rescan_model_zoo(self):
+		self.models=ModelCollector().models
+		self.ids.model_spinner.text='Select Model'
+		self.ids.model_spinner.values=self.models
+
 	@concurrent.thread
 	def load(self):
 		with self.graph.as_default():
@@ -66,7 +74,6 @@ class Networks(BoxLayout):
 			self.model.load_weight()
 			self.is_weight_loaded=True
 			self.ids.btn_load_weight.text='Load Model'
-
 
 	def run(self):
 		if self.data['selection']['data']['type']!='file_path':
