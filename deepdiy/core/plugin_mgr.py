@@ -1,20 +1,39 @@
 import sys,os
-sys.path.append(os.path.dirname(sys.path[0]))
+sys.path.append('../')
+from utils.get_parent_path import get_parent_path
 
 import inspect
 import plugins as plugins
 import pkgutil,importlib
 
 from kivy.app import App
-from kivy.event import EventDispatcher
-from kivy.properties import DictProperty
+from kivy.lang import Builder
+from kivy.factory import Factory
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.popup import Popup
+from kivy.uix.button import Button
+from kivy.properties import DictProperty,StringProperty,ObjectProperty
+
 import threading
+import time
+
+class Card(BoxLayout):
+	title=StringProperty()
+	type=StringProperty()
+	operations=ObjectProperty()
+	def __init__(self, **kwargs):
+		super(Card, self).__init__()
+		self.title=kwargs['title']
+		self.type=kwargs['type']
+		self.operations=kwargs['operations']
 
 
-class PluginManager(EventDispatcher):
+class PluginManager(Popup):
 	"""docstring for PluginManager."""
-	plugins=DictProperty({})
+	plugins=DictProperty()
 	data=DictProperty()
+	bundle_dir = get_parent_path(3)
+	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'plugin_mgr.kv')
 	def __init__(self,**kwargs):
 		super(PluginManager, self).__init__(**kwargs)
 		app=App.get_running_app()
@@ -23,11 +42,11 @@ class PluginManager(EventDispatcher):
 			self.bind(data=app.setter('data'))
 			app.bind(plugins=self.setter('plugins'))
 			self.bind(plugins=app.setter('plugins'))
+		self.bind(plugins=self.update_form)
 
-	def load(self):
-		self.find_plugin_packages()
-		self.collect_plugins()
-		self.load_plugins()
+	def load_plugins(self):
+			self.find_plugin_packages()
+			self.collect_plugins()
 
 	def find_plugin_packages(self):
 		self.plugin_package_names=[]
@@ -36,35 +55,75 @@ class PluginManager(EventDispatcher):
 				self.plugin_package_names.append(modname)
 
 	def collect_plugins(self):
-		classes=[]
+		plugins={}
 		for name in self.plugin_package_names:
 			type,id=name.split('.')[1:3]
 			package=importlib.import_module(name)
-			for atrribute in dir(package):
-				obj = getattr(package, atrribute)
-				if inspect.isclass(obj) and atrribute.lower()==id.replace('_',''):
-					classes.append({'id':id,'type':type,'class':obj})
-		self.plugins['classes']=classes
+			plugin_class=self.import_plugin(id,name)
+			if not plugin_class is None:
+				plugin_instance=self.instantiate_plugin(id,type,plugin_class)
+				plugins[id]={'type':type,'disabled':False,'class':plugin_class,'instance':plugin_instance}
+		self.plugins=plugins
 
-	def load_plugins(self):
-		instances=[]
+	def import_plugin(self,id,package_name):
+		plugin_class=None
+		package=importlib.import_module(package_name)
+		for atrribute in dir(package):
+			plugin_class = getattr(package, atrribute)
+			if inspect.isclass(plugin_class) and atrribute.lower()==id.replace('_',''):
+				return plugin_class
+
+	def instantiate_plugin(self,id,type,plugin_class):
 		app=App.get_running_app()
-		for plugin in self.plugins['classes']:
-			obj=plugin['class']()
-			if app!=None and (plugin['type']=='processing' or plugin['id']=='resource_tree'):
-				app.bind(data=obj.setter('data'))
-				obj.bind(data=app.setter('data'))
-			instances.append({'id':plugin['id'],'type':plugin['type'],'obj':obj})
-		self.plugins['instances']=instances
+		plugin_obj=None
+		if app!=None and (type=='processing' or id=='resource_tree'):
+			try:
+				plugin_obj=plugin_class()
+				app.bind(data=plugin_obj.setter('data'))
+				plugin_obj.bind(data=app.setter('data'))
+			except Exception as e:
+				print('Loading '+id+' failed: ',e)
+		return plugin_obj
 
+	def update_form(self,*ars):
+		self.ids.plugin_album.clear_widgets()
+		operations={'Disable':self.disable_plugin,'Remove':self.remove_plugin,'Reload':self.reload_plugin}
+		for id in self.plugins:
+			if id=='time':
+				continue
+			self.ids.plugin_album.add_widget(Factory.Card(
+				title=id,type=self.plugins[id]['type'],operations=operations))
 
-class Test(object):
+	def reload_plugin(self,id):
+		self.remove_plugin(id)
+		package_names=[name for name in self.plugin_package_names if name.split('.')[-1]==id]
+		for name in package_names:
+			type=name.split('.')[1]
+			package=importlib.import_module(name)
+			plugin_class=self.import_plugin(id,name)
+			if not plugin_class is None:
+				plugin_instance=self.instantiate_plugin(id,type,plugin_class)
+				self.plugins[id]={'type':type,'class':plugin_class,'instance':plugin_instance,'disabled':False}
+
+	def disable_plugin(self,id):
+		self.plugins[id]['disabled']=True
+		self.plugins['time']=time.time()
+
+	def remove_plugin(self,id):
+		self.disable_plugin(id)
+		del self.plugins[id]
+
+class Test(App):
+	data=DictProperty()
+	plugins=DictProperty()
 	def __init__(self,**kwargs):
 		super(Test, self).__init__(**kwargs)
-		class_manager=PluginManager()
-		class_manager.load()
-		print(class_manager.plugins.classes)
-		print(class_manager.plugins.instances)
+
+	def build(self):
+		plugin_manager=PluginManager()
+		plugin_manager.load_plugins()
+		print(plugin_manager.plugins)
+		return plugin_manager
 
 if __name__ == '__main__':
-	test=Test()
+	test=Test().run()
