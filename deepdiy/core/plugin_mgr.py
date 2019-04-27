@@ -16,14 +16,17 @@ from kivy.properties import DictProperty,StringProperty,ObjectProperty
 
 import threading
 import time
+import string
 
 class Card(BoxLayout):
 	title=StringProperty()
+	id=StringProperty()
 	type=StringProperty()
 	operations=ObjectProperty()
 	def __init__(self, **kwargs):
 		super(Card, self).__init__()
 		self.title=kwargs['title']
+		self.id=kwargs['id']
 		self.type=kwargs['type']
 		self.operations=kwargs['operations']
 
@@ -92,7 +95,12 @@ class PluginManager(Popup):
 			if id=='time':
 				continue
 			self.ids.plugin_album.add_widget(Factory.Card(
-				title=id,type=self.plugins[id]['type'],operations=operations))
+				title=string.capwords(id.replace('_',' ')),id=id,type=string.capwords(self.plugins[id]['type']),operations=operations))
+
+	def reload_all_plugins(self):
+		plugins=[str(id) for id in self.plugins]
+		for id in plugins:
+			self.reload_plugin(id)
 
 	def reload_plugin(self,id):
 		self.remove_plugin(id)
