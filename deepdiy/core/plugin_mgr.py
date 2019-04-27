@@ -79,13 +79,11 @@ class PluginManager(Popup):
 	def instantiate_plugin(self,id,type,plugin_class):
 		app=App.get_running_app()
 		plugin_obj=None
+		plugin_obj=plugin_class()
 		if app!=None and (type=='processing' or id=='resource_tree'):
-			try:
-				plugin_obj=plugin_class()
-				app.bind(data=plugin_obj.setter('data'))
-				plugin_obj.bind(data=app.setter('data'))
-			except Exception as e:
-				print('Loading '+id+' failed: ',e)
+			app.bind(data=plugin_obj.setter('data'))
+			plugin_obj.bind(data=app.setter('data'))
+
 		return plugin_obj
 
 	def update_form(self,*ars):

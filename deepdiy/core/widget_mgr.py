@@ -36,7 +36,6 @@ class WidgetManager(BoxLayout):
 				self.remove_widget_from_window(self.plugins[id]['instance'],self.plugins[id]['type'],id)
 				self.widget_list.remove(id)
 
-
 	def add_widget_to_window(self,ins,type,id):
 		if id=='resource_tree':
 			self.ids.resource_tree.add_widget(ins)
