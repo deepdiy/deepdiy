@@ -19,7 +19,6 @@ class ModelCollector(object):
 		self.model_names=os.listdir(self.bundle_dir+os.sep+'model_zoo')
 		self.model_names=[name for name in self.model_names if name[:2]!='__']
 		for name in self.model_names:
-			print(name)
 			module_name='.'.join(['model_zoo',name,'predictor'])
 			module=importlib.import_module(module_name)
 			self.models[name]=getattr(module,'Predictor')()
