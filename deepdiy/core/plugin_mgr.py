@@ -10,7 +10,7 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.factory import Factory
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.popup import Popup
+from kivy.uix.modalview import ModalView
 from kivy.uix.button import Button
 from kivy.properties import DictProperty,StringProperty,ObjectProperty
 
@@ -18,20 +18,20 @@ import threading
 import time
 import string,shutil
 
-class Card(BoxLayout):
+class PluginCard(BoxLayout):
 	title=StringProperty()
 	id=StringProperty()
 	type=StringProperty()
 	operations=ObjectProperty()
 	def __init__(self, **kwargs):
-		super(Card, self).__init__()
+		super(PluginCard, self).__init__()
 		self.title=kwargs['title']
 		self.id=kwargs['id']
 		self.type=kwargs['type']
 		self.operations=kwargs['operations']
 
 
-class PluginManager(Popup):
+class PluginManager(ModalView):
 	"""docstring for PluginManager."""
 	plugins=DictProperty()
 	data=DictProperty()
@@ -92,7 +92,7 @@ class PluginManager(Popup):
 		for id in self.plugins:
 			if id=='time':
 				continue
-			self.ids.plugin_album.add_widget(Factory.Card(
+			self.ids.plugin_album.add_widget(Factory.PluginCard(
 				title=string.capwords(id.replace('_',' ')),id=id,type=string.capwords(self.plugins[id]['type']),operations=operations))
 
 	def reload_all_plugins(self):
