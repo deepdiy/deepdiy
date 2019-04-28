@@ -16,7 +16,7 @@ from kivy.properties import DictProperty,StringProperty,ObjectProperty
 
 import threading
 import time
-import string
+import string,shutil
 
 class Card(BoxLayout):
 	title=StringProperty()
@@ -102,10 +102,13 @@ class PluginManager(Popup):
 
 	def reload_plugin(self,id):
 		self.remove_plugin(id)
+		self.remove_pycache(id)
+		self.unload_kv_file(id)
 		package_names=[name for name in self.plugin_package_names if name.split('.')[-1]==id]
 		for name in package_names:
 			type=name.split('.')[1]
 			package=importlib.import_module(name)
+			importlib.reload(package)
 			plugin_class=self.import_plugin(id,name)
 			if not plugin_class is None:
 				plugin_instance=self.instantiate_plugin(id,type,plugin_class)
@@ -118,6 +121,19 @@ class PluginManager(Popup):
 	def remove_plugin(self,id):
 		self.disable_plugin(id)
 		del self.plugins[id]
+
+	def remove_pycache(self,id):
+		package_names=[name for name in self.plugin_package_names if name.split('.')[-1]==id]
+		for i in package_names:
+			pycache_dir=os.sep.join([self.bundle_dir]+i.split('.')+['__pycache__'])
+			if os.path.exists(pycache_dir):
+				shutil.rmtree(pycache_dir)
+
+	def unload_kv_file(self,id):
+		try:
+			Builder.unload_file(os.sep.join([self.bundle_dir,'ui',id+'.kv']))
+		except:
+			pass
 
 class Test(App):
 	data=DictProperty()
