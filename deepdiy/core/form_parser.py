@@ -78,7 +78,7 @@ class Test(App):
 
 		form_parser=FormParser()
 		window.add_widget(form_parser)
-		form_parser.load_json('../../model_zoo/mrcnn/config_form.json')
+		form_parser.load_json('../../model_zoo/mrcnn/training/config_form.json')
 
 		from kivy.uix.button import Button
 		root.add_widget(Button(text='reset',size_hint_x=None,width='100dp',on_release=form_parser.reset))
