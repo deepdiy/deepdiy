@@ -9,3 +9,4 @@ datasets/*
 temp/*
 tf_cpu/*
 releases/*
+deepdiy/plugins/processing/gallery/demos/*/images/*
