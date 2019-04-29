@@ -32,8 +32,7 @@ class Files(BoxLayout):
 		tree={'node_id':'resources','children':[]}
 		for file_path in self.data['file_list']:
 			tree['children'].append({
-				'node_id':file_path.split(os.sep)[-1],
-				'type':'file_path',
+				'node_id':'<Path>'+file_path.split(os.sep)[-1],
 				'content':file_path,
 				'display':'image_viewer',
 				'children':[]})
