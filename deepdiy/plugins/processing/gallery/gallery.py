@@ -29,7 +29,7 @@ class DemoCard(BoxLayout):
 
 	def load_description(self):
 		f=open(os.sep.join([self.demo_path,'readme.md'])).read()
-		description=Popup(title=self.title,size_hint=(None,None),height=600,width=600)
+		description=Popup(title=self.title,size_hint=(None,None),height=500,width=700)
 		description.add_widget(RstDocument(text=f))
 		description.open()
 
