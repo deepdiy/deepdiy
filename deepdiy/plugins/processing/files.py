@@ -17,11 +17,13 @@ class Files(BoxLayout):
 
 	def open_file(self):
 		path=select_file()
-		self.data['file_list']=[path]
+		self.data['file_list']=[path.replace('/',os.sep)]
 		self.add_to_tree()
 
 	def open_folder(self):
 		path=select_folder()
+		if path=='':
+			return
 		self.add_to_tree(path=path)
 
 	def add_to_tree(self,path=''):
