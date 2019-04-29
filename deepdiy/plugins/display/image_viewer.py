@@ -40,7 +40,9 @@ class ImageViewer(BoxLayout):
 		self.img2texture()
 		self.canvas.clear()
 		with self.canvas:
-			Rectangle(texture=self.texture, pos=(0, 0), size=(self.w_out,self.h_out))
+			Rectangle(texture=self.texture,
+			pos=(int(self.center_x-self.w_out/2),int(self.center_y-self.h_out/2)),
+			size=(self.w_out,self.h_out))
 
 class Test(App):
 	def __init__(self,**kwargs):
