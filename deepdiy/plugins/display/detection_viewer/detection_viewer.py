@@ -27,7 +27,7 @@ class DetectionViewer(BoxLayout):
 	def __init__(self,**kwargs):
 		super(DetectionViewer, self).__init__(**kwargs)
 		self.bind(data=self.update)
-		self.bind(size=self.update)
+		self.bind(size=self.draw)
 		self.bind(img=self.draw)
 
 	def img2texture(self):
@@ -49,7 +49,7 @@ class DetectionViewer(BoxLayout):
 	def update(self, *args):
 		if self.data=={}:
 			return
-		# self.clear_widgets()
+		self.data['content']['image']=cv2.cvtColor(self.data['content']['image'],cv2.COLOR_BGR2RGB)
 		plt.close('all')
 		fig = plt.figure(frameon=False)
 		ax = fig.add_axes([0, 0, 1, 1])
@@ -64,21 +64,15 @@ class DetectionViewer(BoxLayout):
 		img = np.fromstring(fig.canvas.tostring_rgb(), dtype=np.uint8, sep='')
 		img  = img.reshape(fig.canvas.get_width_height()[::-1] + (3,))
 
-		self.img = cv2.cvtColor(img,cv2.COLOR_RGB2BGR)
+		self.img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
 		print(self.img.shape)
 
 	def draw(self,*args):
-		print('rendering')
+		if self.img is None:
+			return
 		self.img2texture()
-		# can=BoxLayout()
-		# self.canvas.clear()
 		print(self.w_out,self.h_out)
-		# self.canvas.add(Rectangle(texture=self.texture, pos=(0, 0), size=(self.w_out,self.h_out)))
-		# with self.canvas:
-		# 	Rectangle(texture=self.texture, pos=(0, 0), size=(self.w_out,self.h_out))
-		# self.add_widget(can)
 		self.clear_widgets()
-
 		self.add_widget(FigureCanvasKivyAgg(plt.gcf()))
 
 
