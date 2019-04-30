@@ -77,15 +77,12 @@ class DetectionViewer(BoxLayout):
 
 	def on_render_finished(self,job,*ars):
 		img=job.result()
-		print(job.result())
 		self.img={'img':img}
 
 	def draw(self,*args):
 		if len(self.img) ==0:
 			return
-		print(self.img)
 		self.img2texture()
-		print(self.w_out,self.h_out)
 		self.clear_widgets()
 		self.add_widget(FigureCanvasKivyAgg(plt.gcf()))
 
