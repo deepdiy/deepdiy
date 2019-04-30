@@ -4,12 +4,10 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 from utils.get_parent_path import get_parent_path
-from kivy.properties import DictProperty
 
 class Setting(BoxLayout):
 	"""docstring for Setting."""
 
-	data=DictProperty()
 	bundle_dir = get_parent_path(3)
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'setting.kv')
 	def __init__(self):
