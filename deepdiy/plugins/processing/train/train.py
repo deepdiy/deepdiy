@@ -15,7 +15,6 @@ import json
 
 class Train(BoxLayout):
 	"""docstring for Train."""
-	data=DictProperty()
 	bundle_dir = get_parent_path(3)
 	models=ModelCollector().models
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'train.kv')
