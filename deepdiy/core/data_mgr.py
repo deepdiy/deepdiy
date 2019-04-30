@@ -10,7 +10,6 @@ class Data(BoxLayout):
 	selected_data=DictProperty()
 	def __init__(self):
 		super(Data, self).__init__()
-		self.tree={'node_id': 'resources', 'children': [{'node_id': '<Path>logo.png', 'content': 'D:/onedrive/program/deepdiy/deepdiy/plugins/processing/gallery/demos/Mask-RCNN+COCO_instance_segmentation\\logo.png', 'display': 'image_viewer', 'children': []}]}
 
 	# @snoop()
 	def get_selected_data(self):
