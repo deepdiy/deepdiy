@@ -5,7 +5,6 @@ from kivy.event import EventDispatcher
 from kivy.properties import DictProperty
 from pebble import concurrent
 from utils.add_data_to_tree import add_data_to_tree
-from time import time
 
 class Sandbox(EventDispatcher):
 	"""docstring for ."""
@@ -51,9 +50,7 @@ class Sandbox(EventDispatcher):
 		output=self.result_meta
 		output['children']=[]
 		output['content']=result
-		add_data_to_tree(self.data['tree'],output,self.data['selection']['index_chain'])
-		self.data['selection']={'data':output,'index_chain':self.data['selection']['index_chain'].append(-1)}
-		self.data['last_job_time']={'time':time()}
+		self.data['children'].append(output)
 		self.call_back()
 
 	def start(self):
