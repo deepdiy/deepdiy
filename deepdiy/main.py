@@ -2,6 +2,7 @@ from core.plugin_mgr import PluginManager
 from core.widget_mgr import WidgetManager
 from core.display_mgr import DisplayManager
 from core.data_mgr import Data
+from core.hotkey import Hotkey
 from kivy.app import App
 from kivy.properties import ObjectProperty,DictProperty
 from threading import Thread
@@ -23,6 +24,7 @@ class MainWindow(App):
         debug()
 
     def build(self):
+        self.hotkey=Hotkey()
         self.widget_manager=WidgetManager()
         Thread(target=self.load_plugins).start()
         return self.widget_manager
