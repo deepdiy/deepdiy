@@ -3,7 +3,7 @@ sys.path.append('../../../')
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import DictProperty,BooleanProperty
+from kivy.properties import ObjectProperty,BooleanProperty
 from plugins.processing.networks.model_collector import ModelCollector
 from utils.get_parent_path import get_parent_path
 from core.sandbox import Sandbox
@@ -13,7 +13,7 @@ import json
 
 class Networks(BoxLayout):
 	"""docstring for Run."""
-	data=DictProperty()
+	data=ObjectProperty(lambda: None)
 	is_weight_loaded=BooleanProperty(False)
 	bundle_dir = get_parent_path(3)
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'networks.kv')
@@ -76,13 +76,14 @@ class Networks(BoxLayout):
 			self.ids.btn_load_weight.text='Load Model'
 
 	def run(self):
-		if self.data['selection']['data']['type']!='file_path':
+		selected_data=self.data.get_selected_data()
+		if selected_data['type']!='file_path':
 			return
 		self.ids.btn_run.text='Running'
-		self.model.set_input(self.data['selection']['data']['content'])
+		self.model.set_input(selected_data['content'])
 		self.config=json.load(open(self.model.config_path))
 		self.sandbox=Sandbox(
-			self.data,
+			selected_data,
 			use_selected_data=False,
 			graph=self.graph,
 			func=self.model.predict,
@@ -99,18 +100,19 @@ class Networks(BoxLayout):
 			self.sandbox.start()
 
 	def on_finished(self):
+		print(self.data.get_selected_data())
+		self.property('data').dispatch(self)
 		self.ids.btn_run.text='Run'
 
 class Test(App):
 	def __init__(self,**kwargs):
 		super(Test, self).__init__(**kwargs)
 		self.networks=Networks()
-		self.networks.data={
-			'tree':{'children':[]},
-			'selection':{'index_chain':[],'data':{'type':'file_path',
+		self.networks.data.get_selected_data=lambda:{
+			'type':'file_path',
 			'content':'../../../img/face.jpg',
 			'display':'image_viewer',
-			'children':[]}}}
+			'children':[]}
 
 	def build(self):
 		return self.networks
