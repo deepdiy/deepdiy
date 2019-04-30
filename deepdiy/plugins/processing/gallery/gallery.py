@@ -54,7 +54,6 @@ class Gallery(BoxLayout):
 
 	bundle_dir = get_parent_path(3)
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'gallery.kv')
-	data=DictProperty()
 
 	def __init__(self):
 		super(Gallery, self).__init__()
