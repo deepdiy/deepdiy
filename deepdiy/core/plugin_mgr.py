@@ -34,7 +34,7 @@ class PluginCard(BoxLayout):
 class PluginManager(ModalView):
 	"""docstring for PluginManager."""
 	plugins=DictProperty()
-	data=DictProperty()
+	data=ObjectProperty(lambda: None)
 	bundle_dir = get_parent_path(3)
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'plugin_mgr.kv')
 	def __init__(self,**kwargs):
@@ -80,7 +80,7 @@ class PluginManager(ModalView):
 		app=App.get_running_app()
 		plugin_obj=None
 		plugin_obj=plugin_class()
-		if app!=None and (type=='processing' or id=='resource_tree'):
+		if app!=None and hasattr(plugin_obj,'data') and type=='processing':
 			app.bind(data=plugin_obj.setter('data'))
 			plugin_obj.bind(data=app.setter('data'))
 
