@@ -1,42 +1,42 @@
+import sys,os
+sys.path.append('../')
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import DictProperty
+from kivy.properties import ObjectProperty
+
 
 class DisplayManager(BoxLayout):
 	"""docstring for DisplayManager."""
 
-	data=DictProperty()
+	data=ObjectProperty(lambda: None,force_dispatch=True)
 
 	def __init__(self,**kwargs):
 		super(DisplayManager, self).__init__(**kwargs)
-		app=App.get_running_app()
-		if app!=None:
-			app.bind(data=self.setter('data'))
-			self.bind(data=self.display)
-			# self.bind(data=app.widget_manager.ids.resource_tree.children[0].setter('data'))
-			# app.widget_manager.ids.resource_tree.children[0].bind(data=self.setter('data'))
+		self.app=App.get_running_app()
+		self.app.bind(data=self.setter('data'))
+		self.bind(data=self.update_resource_tree)
 
-	def display(self,*args):
-		app=App.get_running_app()
+	def update_resource_tree(self,*args):
+		self.data.bind(select_idx=self.update_display_panel)
+		resource_tree=self.app.plugins['resource_tree']['instance']
+		resource_tree.data=self.data
+		resource_tree.property('data').dispatch(resource_tree)
 
-		if not hasattr(self.data, 'selection'):
-			return
-		if not 'display' in self.data['selection']['data']:
-			return
-		app.widget_manager.ids.display_screens.current=self.data['selection']['data']['display']
-		app.widget_manager.ids.display_screens.children[0].children[0].data=self.data['selection']['data']
-
-			# app.widget_manager.ids.display_screens.ids.image_viewer.data=self.data
-		# if self.data['selection']['data']['type']=='file_path':
-		# 	self.img=read_img(self.data['selection']['data']['content'])
-		# else:
-		# 	self.img=self.data['selection']['data']['content']
+	def update_display_panel(self,*args):
+		selected_data=self.data.get_selected_data()
+		if 'display' in selected_data:
+			display_panel=self.app.widget_manager.ids.display_screens
+			display_panel.current=selected_data['display']
+			display_panel.children[0].children[0].data=selected_data
 
 
-class Test(object):
+class Test(App):
+	data=ObjectProperty()
 	def __init__(self,**kwargs):
 		super(Test, self).__init__(**kwargs)
-		class_manager=DisplayManager()
+
+	def build(self):
+		return DisplayManager()
 
 if __name__ == '__main__':
-	test=Test()
+	Test().run()
