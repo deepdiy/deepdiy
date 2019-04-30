@@ -61,6 +61,7 @@ class DetectionViewer(BoxLayout):
 	def render(self):
 		plt.close('all')
 		fig = plt.figure(frameon=False)
+		fig.patch.set_facecolor('black')
 		ax = fig.add_axes([0, 0, 1, 1])
 		ax.axis('off')
 		kwargs={'ax':ax,'title':'','show_mask':True,'show_bbox':True,'captions':None,'class_names':['background','target'],'boxes':np.array([]),'masks':None,'class_ids':None}
