@@ -1,5 +1,7 @@
 # DeepDIY: Deep Learning, Do It Yourself
 
+### Welcome to contact me: pubrcv@163.com
+
 ### Introduction
 
 This is an open source project to help people who are trying to use Deep Neural Network model for image processing but  troubled by programming or computation resources. With DeepDIY, you can:
