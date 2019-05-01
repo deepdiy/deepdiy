@@ -34,7 +34,7 @@ class Train(BoxLayout):
 		self.ids.config_panel.add_widget(self.form_parser)
 
 	def open_via(self):
-		webbrowser.open(get_parent_path(4)+os.sep+'via'+os.sep+'via.html')
+		webbrowser.open('http://www.robots.ox.ac.uk/~vgg/software/via/via-2.0.4.html')
 
 	def train(self):
 		webbrowser.open('https://colab.research.google.com/github/deepdiy/deepdiy/blob/master/model_zoo/'+self.ids.run_net_spinner.text+'/training/'+self.ids.run_notebook_spinner.text)
