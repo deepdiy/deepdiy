@@ -1,12 +1,10 @@
-Kivy>=1.10.1
+Kivy>=1.10
 TensorFlow>=1.13
-Keras>=2.2.4
-opencv-python>=4.0.0.21
+Keras>=2.1
+opencv-python>=4.0
 Numpy>=1.15.4
 Scipy>=1.1.0
 Matplotlib>=3.0.2
-scikit-image
-IPython
 kivy-garden
 docutils
 pygments
@@ -14,3 +12,4 @@ pypiwin32
 kivy.deps.sdl2
 kivy.deps.glew
 pebble
+pysnooper
