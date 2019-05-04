@@ -10,3 +10,8 @@ temp/*
 tf_cpu/*
 releases/*
 deepdiy/plugins/processing/gallery/demos/*/images/*
+test_setup/*
+.eggs
+deepdiy.egg-info/*
+test_requirements
+dist
