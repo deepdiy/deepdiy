@@ -59,7 +59,10 @@ class Networks(BoxLayout):
 		self.graph=tf.get_default_graph()
 		self.ids.btn_load_weight.text='Loading'
 		self.model.weight_path=get_parent_path(3)+os.sep+'model_zoo'+os.sep+self.ids.model_spinner.text+os.sep+'weights'+os.sep+self.ids.weight_spinner.text
-		self.model.config_path=get_parent_path(3)+os.sep+'model_zoo'+os.sep+self.ids.model_spinner.text+os.sep+'configs'+os.sep+self.ids.config_spinner.text
+		if self.ids.config_spinner.text!='No config needed':
+			self.model.config_path=get_parent_path(3)+os.sep+'model_zoo'+os.sep+self.ids.model_spinner.text+os.sep+'configs'+os.sep+self.ids.config_spinner.text
+		else:
+			self.model.config_path=''
 		test=self.load()
 
 	def rescan_model_zoo(self):
@@ -81,7 +84,10 @@ class Networks(BoxLayout):
 			return
 		self.ids.btn_run.text='Running'
 		self.model.set_input(selected_data['content'])
-		self.config=json.load(open(self.model.config_path))
+		if self.model.config_path!='':
+			self.config=json.load(open(self.model.config_path))
+		else:
+			self.config={'CLASS_NAMES':['background','target']}
 		self.sandbox=Sandbox(
 			selected_data,
 			use_selected_data=False,
