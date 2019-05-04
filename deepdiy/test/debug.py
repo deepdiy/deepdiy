@@ -1,5 +1,6 @@
 from kivy.app import App
 import threading
+import os,json
 
 
 def import_tf():
@@ -7,8 +8,8 @@ def import_tf():
 	graph = tf.get_default_graph()
 	print('333333333333333333333')
 
-def open():
-	app.widget_manager.ids.processing_screens.current='files'
+# def open():
+# 	app.widget_manager.ids.processing_screens.current='files'
 
 def load_demo():
 	app.widget_manager.ids.processing_screens.current='files'
@@ -31,10 +32,23 @@ def load_ecoli():
 def load_train():
 	app.widget_manager.ids.processing_screens.current='train'
 
+def load_coco():
+	app.widget_manager.ids.processing_screens.current='files'
+	app.widget_manager.ids.processing_screens.children[0].children[0].add_to_tree(os.sep.join(['plugins','processing','gallery','demos','Mask-RCNN+COCO_instance_segmentation','images']))
+	app.widget_manager.ids.processing_screens.current='networks'
+	json_path=os.sep.join(['plugins','processing','gallery','demos','Mask-RCNN+COCO_instance_segmentation','config.json'])
+	f=open(json_path,'r')
+	demo_config=json.load(f)
+	networks=app.widget_manager.ids.processing_screens.children[0].children[0]
+	networks.ids.model_spinner.text=demo_config['model']
+	networks.ids.weight_spinner.text=demo_config['weight']
+	networks.ids.config_spinner.text=demo_config['config']
+
 def debug():
 	global app
 	app=App.get_running_app()
-	open()
-	load_ecoli()
+	# open()
+	# load_ecoli()
 	# load_network()
 	# load_train()
+	load_coco()
