@@ -1,9 +1,4 @@
-.. _top:
-
-Hello world
+Mask-RCNN + COCO dataset
 ===========
 
-This is an **emphased text**, some ``interpreted text``.
-And this is a reference to top_::
-
-    $ print("Hello world")
+This is demo of Mask-RCNN networks trained with COCO dataset.
