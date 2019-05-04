@@ -41,6 +41,8 @@ This is an open source project to help people who are trying to use Deep Neural 
    ![train-run](https://imgur.com/ozgQfmZ.gif)
 
    ![train-colab](https://imgur.com/iYQO1B9.gif)
+   
+   ![train-evaluate](https://imgur.com/mgEMw1g.gif)
 
 
    # Installation
