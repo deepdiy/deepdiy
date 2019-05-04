@@ -10,20 +10,90 @@ This is an open source project to help people who are trying to use Deep Neural 
 - Train your own network on your own data in cloud (Free, One-click, fast, No programming)
 - A database of shared model zoo and weight available
 ![quicker_ae952ca6-4438-4db8-aedf-04cbcf1c9d75.png](https://i.loli.net/2019/04/09/5cabe077a59c3.png)
+# Quick Start
 
-### Installation
+### 1. Load image file or folder
 
-1. Clone this repository
+![load local image files](https://i.imgur.com/yb6n4E6.gif)
 
-2. Install dependencies
+### 2. Run a deep learning model
 
-   `pip3 install -r requirements.txt`
+![run_model](https://i.imgur.com/TIM8psK.gif)
 
-3. Run setup from the repository root directory
+### 3. Train a model on own data
 
-   `python3 setup.py install`
+#### 3.1 Edit the basic configuration of networks (eg. Number of classes)
 
-A Window executable package made by Pyinstaller is available
+   ![train_config](https://i.imgur.com/WUMJJFF.gif)
+
+#### 3.2 Labeling images using VIA or other annotation tools
+
+   ![train_config](https://i.imgur.com/fi64CJL.gif)
+
+#### 3.3 Pack data
+
+   ​	DeepDIY will split your training data (image + anotation file) into train set and validation set. And then pack all of data (train set, validation set and config file) into a zip file name "dataset.zip"
+
+   ![train-pack](https://imgur.com/4TSlOvX.gif)
+
+#### 3.4 Train on colab
+
+   ![train-run](https://imgur.com/ozgQfmZ.gif)
+
+   ![train-colab](https://imgur.com/iYQO1B9.gif)
+
+
+   # Installation
+
+   ------
+
+   ## Executable Version:
+
+   1. Download **win64 portable version**: https://github.com/deepdiy/deepdiy/releases
+
+   2. **Unzip** and go to
+
+      ```
+      ./path_of_downloaded_package/deepdiy/DeepDIY.exe
+      ```
+
+   3. **Double click** DeepDIY.exe , Done!
+
+   ## Source Code Version:
+
+   ### Method 1:
+
+   1. Clone this repository
+
+   2. Run setup from the repository root directory
+
+      ```python
+      python3 setup.py install
+      ```    
+
+   ### Method 2:
+
+   1. Clone this repository
+
+   2. Install dependencies
+
+      ```python
+      pip install -r requirements.txt
+      ```
+
+   3. Install kivy.garden.matplotlib
+
+      ```
+      garden install --kivy matplotlib
+      ```
+
+
+
+   ## Notice:
+
+   For OS X users, you may need to install kivy and kivy-garden manually. The 'garden' command is available only after kivy-garden is installed successfully. Please refer to following page:
+
+   https://kivy.org/doc/stable/installation/installation-osx.html
 
 ### Model Zoo in DeepDIY
 
