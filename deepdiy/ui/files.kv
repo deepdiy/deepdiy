@@ -2,14 +2,16 @@
 
 <Files>:
     id:select_path_panel
-    Button:
-        id:btn
-        text: 'File'
+    orientation: 'vertical'
+    BoxLayout:
+        Label:
+            text:"Please select an images file or folder by click following button"
+    BoxLayout:
         size_hint_y:None
         height:dp(40)
-        on_release: root.open_file()
-    Button:
-        text: 'Folder'
-        size_hint_y:None
-        height:dp(40)
-        on_release: root.open_folder()
+        Button:
+            text: 'File'
+            on_release: root.open_file()
+        Button:
+            text: 'Folder'
+            on_release: root.open_folder()
