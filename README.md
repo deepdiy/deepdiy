@@ -9,7 +9,7 @@ This is an open source project to help people who are trying to use Deep Neural 
 - Run mainstream deep learning models without coding, user-friendly GUI provided
 - Train your own network on your own data in cloud (Free, One-click, fast, No programming)
 - A database of shared model zoo and weight available
-![quicker_ae952ca6-4438-4db8-aedf-04cbcf1c9d75.png](https://i.loli.net/2019/04/09/5cabe077a59c3.png)
+
 # Quick Start
 
 ### 1. Load image file or folder
