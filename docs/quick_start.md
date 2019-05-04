@@ -30,3 +30,4 @@
 
    ![train-colab](https://imgur.com/iYQO1B9.gif)
 
+   ![train-evaluate](https://imgur.com/mgEMw1g.gif)
