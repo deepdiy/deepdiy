@@ -58,8 +58,8 @@ class Networks(BoxLayout):
 		import tensorflow as tf
 		self.graph=tf.get_default_graph()
 		self.ids.btn_load_weight.text='Loading'
-		self.model.weight_path=get_parent_path(4)+os.sep+'model_zoo'+os.sep+self.ids.model_spinner.text+os.sep+'weights'+os.sep+self.ids.weight_spinner.text
-		self.model.config_path=get_parent_path(4)+os.sep+'model_zoo'+os.sep+self.ids.model_spinner.text+os.sep+'configs'+os.sep+self.ids.config_spinner.text
+		self.model.weight_path=get_parent_path(3)+os.sep+'model_zoo'+os.sep+self.ids.model_spinner.text+os.sep+'weights'+os.sep+self.ids.weight_spinner.text
+		self.model.config_path=get_parent_path(3)+os.sep+'model_zoo'+os.sep+self.ids.model_spinner.text+os.sep+'configs'+os.sep+self.ids.config_spinner.text
 		test=self.load()
 
 	def rescan_model_zoo(self):

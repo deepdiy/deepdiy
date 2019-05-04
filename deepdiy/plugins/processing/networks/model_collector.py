@@ -8,7 +8,7 @@ from utils.get_file_list import get_file_list
 
 class ModelCollector(object):
 	"""docstring for Run."""
-	bundle_dir = get_parent_path(4)
+	bundle_dir = get_parent_path(3)
 
 	def __init__(self):
 		super(ModelCollector, self).__init__()

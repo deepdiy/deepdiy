@@ -16,7 +16,7 @@ class Dataset(object):
 		self.config_path=''
 		self.temp_dir=''
 		self.destination_dir=''
-		self.bundle_dir=get_parent_path(4)
+		self.bundle_dir=get_parent_path(3)
 		self.dataset={}
 
 	def make_temp_dir(self):
@@ -77,7 +77,7 @@ class Test(object):
 
 	def __init__(self):
 		super(Test, self).__init__()
-		bundle_dir=get_parent_path(4)
+		bundle_dir=get_parent_path(3)
 		dataset=Dataset()
 		dataset.img_dir=bundle_dir+os.sep+'datasets/dog'
 		dataset.destination_dir=bundle_dir+os.sep+'temp'

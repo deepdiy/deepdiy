@@ -25,7 +25,7 @@ class Train(BoxLayout):
 
 	def load_config(self,instance,text):
 		self.ids.config_panel.clear_widgets()
-		path=os.sep.join([get_parent_path(4),'model_zoo',text,'training','config_form.json'])
+		path=os.sep.join([get_parent_path(3),'model_zoo',text,'training','config_form.json'])
 		if not os.path.exists(path):
 			self.ids.config_panel.add_widget(Label(text='This network do not need configuration'))
 			return
