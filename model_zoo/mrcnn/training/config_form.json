@@ -1,4 +1,13 @@
-[
+[ {
+    "id": "NUM_CLASSES ",
+    "type": "text_input",
+    "text": "2"
+  },
+  {
+    "id": "CLASS_NAMES",
+    "type": "text_input",
+    "text": "['background','target']"
+  },
   {
     "id": "BACKBONE",
     "type": "spinner",
