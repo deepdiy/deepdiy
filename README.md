@@ -34,13 +34,14 @@ This is an open source project to help people who are trying to use Deep Neural 
 
    ​	DeepDIY will split your training data (image + anotation file) into train set and validation set. And then pack all of data (train set, validation set and config file) into a zip file name "dataset.zip"
 
-   ![train-pack](https://imgur.com/4TSlOvX.gif)
+   ![train-pack](https://i.imgur.com/8CuEIq7.gif)
 
 ### 3.4 Train on colab
 
-   ![train-run](https://imgur.com/ozgQfmZ.gif)
 
-   ![train-colab](https://imgur.com/iYQO1B9.gif)
+   ![train-run](https://i.imgur.com/Lx8W1RP.gif)
+
+   ![train-colab](https://i.imgur.com/C7x2ucW.gif)
 
    ![train-evaluate](https://imgur.com/mgEMw1g.gif)
 
