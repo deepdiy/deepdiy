@@ -2,27 +2,28 @@ import sys,os
 sys.path.append('../')
 from utils.get_parent_path import get_parent_path
 from core.form_parser import FormParser
+from core.data_mgr import Data
 
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.properties import DictProperty,ObjectProperty,ListProperty
 from kivy.uix.boxlayout import BoxLayout
 from pebble import concurrent
+import copy
 
 class QuickPlugin(BoxLayout):
 	"""docstring for QuickPlugin."""
 
-	data=ObjectProperty(lambda: None)
-	input_type=ListProperty()
+	data=ObjectProperty()
 	kwargs=ListProperty()
-	result_meta=DictProperty()
 
 	bundle_dir = get_parent_path(3)
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'quickplugin.kv')
 
-	def __init__(self,data=lambda:None,input_type=[],result_meta={},kwargs=[],call_back=lambda:None,tensorflow_graph=None):
+	def __init__(self,data=Data(),input_type=[],result_meta={},kwargs=[],call_back=lambda:None,tensorflow_graph=None):
 		super(QuickPlugin, self).__init__()
 		self.bind(kwargs=self.parse_form)
+		self.parse_form()
 		self.data=data
 		self.input_type=input_type
 		self.kwargs=kwargs
@@ -53,11 +54,13 @@ class QuickPlugin(BoxLayout):
 		return result
 
 	def run(self,input_data=None,**kwargs):
+		print('running')
+
 		pass
 		return True
 
 	def on_task_finished(self,task):
-		output=self.result_meta
+		output=copy.deepcopy(self.result_meta)
 		output['children']=[]
 		output['content']=task.result()
 		self.selected_data['children'].append(output)
@@ -72,15 +75,8 @@ class Test(App):
 		super(Test, self).__init__()
 
 	def build(self):
-		from data_mgr import Data
 		demo=QuickPlugin()
-		demo.data=Data()
-		demo.data.tree={
-			'node_id':'root',
-			'type':'file_path',
-			'content':'../img/face.jpg',
-			'display':'image_viewer',
-			'children':[]}
+		demo.data.load_sample_data()
 		demo.input_type=['file_path']
 		demo.output_type='img'
 		demo.display='image_viewer'
