@@ -82,10 +82,7 @@ class MyConfig(Config):
 
     def add_additional_info(self):
         for i,j in self.additional_info.items():
-            try:
-                setattr(self,i,eval(j))
-            except:
-                setattr(self,i,j)
+            setattr(self,i,j)
 
 
 
