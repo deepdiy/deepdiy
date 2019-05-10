@@ -1,15 +1,10 @@
-import sys,os
-bundle_dir=os.path.dirname(os.path.abspath(__file__))
-sys.path.append(bundle_dir)
-from mrcnn.config import Config
-import numpy as np
-import cv2,json
 
-class Predictor(object):
-	"""docstring for Predictor."""
+
+class Api(object):
+	"""docstring for Api."""
 
 	def __init__(self):
-		super(Predictor, self).__init__()
+		super(Api, self).__init__()
 		self.input_img_path=''
 		self.weight_path=''
 		self.config_path=''
@@ -19,7 +14,7 @@ class Predictor(object):
 		img=cv2.imdecode(array,cv2.IMREAD_COLOR)
 		self.input=np.array([img])
 
-	def load_network(self):
+	def load_config(self):
 		config = Config()
 		config.NAME = 'predict'
 		config.NUM_CLASSES = 1 + 1
@@ -32,9 +27,13 @@ class Predictor(object):
 				setattr(config,i,eval(j))
 			except:
 				setattr(config,i,j)
-		config.__init__()
+				config.__init__()
+
+	def load_network(self):
+		from keras.applications.xception import Xception
 		from mrcnn import model as modellib
 		self.model = modellib.MaskRCNN(mode="inference", model_dir='./',config=config)
+		keras.applications.xception.Xception(include_top=True, weights='imagenet', input_tensor=None, input_shape=None, pooling=None, classes=1000)
 
 	def load_weight(self):
 		self.model.load_weights(self.weight_path, by_name=True)
@@ -53,13 +52,13 @@ class Test(object):
 	def __init__(self):
 		super(Test, self).__init__()
 
-		predictor=Predictor()
-		predictor.set_input('../../deepdiy/img/face.jpg')
-		predictor.weight_path='weights/mask_rcnn_balloon_0300.h5'
-		predictor.config_path='configs/ecoli.json'
-		predictor.load_network()
-		predictor.load_weight()
-		predictor.predict()
+		api=Api()
+		api.set_input('../../img/face.jpg')
+		api.weight_path='weights/mask_rcnn_coco.h5'
+		api.config_path='configs/coco.json'
+		api.load_network()
+		api.load_weight()
+		api.predict()
 
 if __name__ == '__main__':
 	test=Test()

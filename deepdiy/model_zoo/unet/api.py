@@ -4,11 +4,11 @@ sys.path.append(bundle_dir)
 import numpy as np
 import cv2
 
-class Predictor(object):
-	"""docstring for Predictor."""
+class Api(object):
+	"""docstring for Api."""
 
 	def __init__(self):
-		super(Predictor, self).__init__()
+		super(Api, self).__init__()
 		self.input_img_path=''
 		self.weight_path=''
 
@@ -45,13 +45,13 @@ class Test(object):
 	def __init__(self):
 		super(Test, self).__init__()
 
-		predictor=Predictor()
-		predictor.set_input('../../deepdiy/img/face.jpg')
-		predictor.weight_path='assets/unet.hdf5'
-		predictor.load_network()
-		predictor.load_weight()
-		predictor.predict()
-		print(predictor.result)
+		api=Api()
+		api.set_input('../../img/face.jpg')
+		api.weight_path='assets/unet.hdf5'
+		api.load_network()
+		api.load_weight()
+		api.predict()
+		print(api.result)
 
 if __name__ == '__main__':
 	test=Test()
