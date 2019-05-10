@@ -58,8 +58,17 @@ class FormParser(BoxLayout):
 		self.clear_widgets()
 		self.parse()
 
-	def export(self,*args):
+	def get_form_data(self):
 		data={item.title:item.value for item in reversed(self.children)}
+		for i,j in data.items():
+			try:
+				data[i]=eval(j)
+			except:
+				data[i]=j
+		return data
+
+	def export(self,*args):
+		data=self.get_form_data()
 		path=select_folder()
 		with open(os.sep.join([path,'config.json']),'w') as outfile:
 			json.dump(data,outfile)
@@ -78,7 +87,7 @@ class Test(App):
 
 		form_parser=FormParser()
 		window.add_widget(form_parser)
-		form_parser.load_json('../../model_zoo/mrcnn/training/config_form.json')
+		form_parser.load_json('../model_zoo/mrcnn/config_form.json')
 
 		from kivy.uix.button import Button
 		root.add_widget(Button(text='reset',size_hint_x=None,width='100dp',on_release=form_parser.reset))
