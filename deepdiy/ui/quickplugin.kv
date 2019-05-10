@@ -6,5 +6,10 @@
 			id:btn
 			text: 'Run'
 			on_release: root.start()
-	BoxLayout:
-		id:form
+	ScrollView:
+		scroll_type:["bars"]
+		bar_width:20
+		BoxLayout:
+			id:form
+			size_hint_y:None
+			height:self.minimum_height
