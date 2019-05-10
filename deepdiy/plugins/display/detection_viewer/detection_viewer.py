@@ -32,22 +32,6 @@ class DetectionViewer(BoxLayout):
 		self.bind(size=self.draw)
 		self.bind(img=self.draw)
 
-	def img2texture(self):
-		img=self.img['img']
-		self.h,self.w=img.shape[:2]
-		w,h=self.size
-		if w*h==0:
-			self.w_out,self.h_out=self.size
-		elif w/h>self.w/self.h:
-			self.h_out=h
-			self.w_out=h*(self.w/self.h)
-		else:
-			self.h_out=w*(self.h/self.w)
-			self.w_out=w
-		self.texture = Texture.create(size=(self.w, self.h), colorfmt='rgb')
-		self.texture.blit_buffer(img.tostring(), colorfmt='bgr', bufferfmt='ubyte')
-		self.texture.flip_vertical()
-
 	def update(self, *args):
 		if self.data=={}:
 			return
@@ -55,7 +39,6 @@ class DetectionViewer(BoxLayout):
 		self.data['content']['image']=cv2.cvtColor(self.data['content']['image'],cv2.COLOR_BGR2RGB)
 		render=self.render()
 		render.add_done_callback(lambda job:Clock.schedule_once(partial(self.on_render_finished,job),0.01))
-
 
 	@concurrent.thread
 	def render(self):
@@ -83,7 +66,6 @@ class DetectionViewer(BoxLayout):
 	def draw(self,*args):
 		if len(self.img) ==0:
 			return
-		self.img2texture()
 		self.clear_widgets()
 		self.add_widget(FigureCanvasKivyAgg(plt.gcf()))
 
