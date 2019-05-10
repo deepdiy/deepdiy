@@ -22,7 +22,6 @@ class QuickPlugin(BoxLayout):
 
 	def __init__(self,data=lambda:None,input_type=[],result_meta={},kwargs=[],call_back=lambda:None,tensorflow_graph=None):
 		super(QuickPlugin, self).__init__()
-		self.parse_form()
 		self.bind(kwargs=self.parse_form)
 		self.data=data
 		self.input_type=input_type
@@ -32,9 +31,10 @@ class QuickPlugin(BoxLayout):
 		self.tensorflow_graph=tensorflow_graph
 
 	def parse_form(self,*args):
+		self.ids.form.clear_widgets()
 		self.form_parser=FormParser()
 		self.form_parser.form=self.kwargs
-		self.add_widget(self.form_parser)
+		self.ids.form.add_widget(self.form_parser)
 
 	def start(self):
 		kwargs=self.form_parser.get_form_data()

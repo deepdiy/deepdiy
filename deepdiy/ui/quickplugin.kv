@@ -1,7 +1,10 @@
 <QuickPlugin>:
-    Button:
-        id:btn
-        text: 'Run'
-        size_hint:None,None
-        height:dp(40)
-        on_release: root.start()
+	BoxLayout:
+		size_hint_x:None
+		width:dp(50)
+		Button:
+			id:btn
+			text: 'Run'
+			on_release: root.start()
+	BoxLayout:
+		id:form
