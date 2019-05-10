@@ -16,7 +16,6 @@ class ResourceTree(TreeView):
         self.bind(minimum_height = self.setter('height'))
         self.bind(selected_node = self.update_selection)
         self.hide_root=True
-        self.ignore_data_change=False
 
     def update_selection(self,instance,node):
         if node ==None:
@@ -61,10 +60,8 @@ class ResourceTree(TreeView):
             node=node.nodes[i]
         last_child=len(node.nodes)-1
         if last_child>-1:
-            self.ignore_data_change=True
             self.select_node(node.nodes[last_child])
         else:
-            self.ignore_data_change=True
             self.select_node(node)
 
 
