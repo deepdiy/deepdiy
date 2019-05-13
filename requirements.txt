@@ -13,3 +13,4 @@ kivy.deps.sdl2
 kivy.deps.glew
 pebble
 pysnooper
+rootpath
