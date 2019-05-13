@@ -41,6 +41,7 @@ setup(
 		'Matplotlib>=3.0.2',
 		'pebble',
 		'pysnooper',
+		'rootpath'
 	],
 	cmdclass={
 	'install': new_install,
