@@ -1,7 +1,5 @@
-import sys,os
-sys.path.append('../')
-from utils.get_parent_path import get_parent_path
-
+import os,rootpath
+rootpath.append(pattern='plugins')
 import inspect
 import plugins as plugins
 import pkgutil,importlib
@@ -35,7 +33,7 @@ class PluginManager(ModalView):
 	"""docstring for PluginManager."""
 	plugins=DictProperty()
 	data=ObjectProperty(lambda: None)
-	bundle_dir = get_parent_path(3)
+	bundle_dir = rootpath.detect(pattern='plugins')
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'plugin_mgr.kv')
 	def __init__(self,**kwargs):
 		super(PluginManager, self).__init__(**kwargs)

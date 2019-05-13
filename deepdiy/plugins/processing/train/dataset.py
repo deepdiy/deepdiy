@@ -1,13 +1,14 @@
+import os,rootpath
+rootpath.append(pattern='plugins')
 import shutil
 import random
 from datetime import datetime
-import os,sys
-sys.path.append('../../../')
-from utils.get_parent_path import get_parent_path
 import json
 
 class Dataset(object):
 	"""docstring for Dataset."""
+
+	bundle_dir = rootpath.detect(pattern='plugins')
 
 	def __init__(self):
 		super(Dataset, self).__init__()
@@ -16,7 +17,6 @@ class Dataset(object):
 		self.config_path=''
 		self.temp_dir=''
 		self.destination_dir=''
-		self.bundle_dir=get_parent_path(3)
 		self.dataset={}
 
 	def make_temp_dir(self):
@@ -77,7 +77,7 @@ class Test(object):
 
 	def __init__(self):
 		super(Test, self).__init__()
-		bundle_dir=get_parent_path(3)
+		bundle_dir = rootpath.detect()
 		dataset=Dataset()
 		dataset.img_dir=bundle_dir+os.sep+'datasets/dog'
 		dataset.destination_dir=bundle_dir+os.sep+'temp'

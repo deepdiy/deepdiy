@@ -1,6 +1,5 @@
-import sys,os
-sys.path.append('../')
-from utils.get_parent_path import get_parent_path
+import os,rootpath
+rootpath.append(pattern='plugins')
 from utils.select_path_dialog import select_folder
 import json
 from kivy.app import App
@@ -39,7 +38,7 @@ class Item(BoxLayout):
 class FormParser(BoxLayout):
 	"""docstring for FormParser."""
 	form=ListProperty()
-	bundle_dir = get_parent_path(3)
+	bundle_dir = rootpath.detect(pattern='plugins')
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'form_parser.kv')
 
 	def __init__(self,**kw):

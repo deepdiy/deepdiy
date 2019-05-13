@@ -1,7 +1,5 @@
-import sys,os
-sys.path.append('../')
-from utils.get_parent_path import get_parent_path
-
+import os,rootpath
+rootpath.append(pattern='plugins')
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ListProperty,DictProperty
@@ -15,7 +13,7 @@ class Data(BoxLayout):
 	# tree=DictProperty()
 	selected_data=DictProperty()
 
-	bundle_dir = get_parent_path(3)
+	bundle_dir = rootpath.detect(pattern='plugins')
 
 	def __init__(self):
 		super(Data, self).__init__()

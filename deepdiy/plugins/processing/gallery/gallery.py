@@ -1,7 +1,5 @@
-import sys,os
-sys.path.append('../../../')
-from utils.get_parent_path import get_parent_path
-
+import os,rootpath
+rootpath.append(pattern='plugins')
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.properties import DictProperty,StringProperty,ObjectProperty
@@ -52,7 +50,7 @@ class DemoCard(BoxLayout):
 class Gallery(BoxLayout):
 	"""docstring for Gallery."""
 
-	bundle_dir = get_parent_path(3)
+	bundle_dir = rootpath.detect(pattern='plugins')
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'gallery.kv')
 
 	def __init__(self):

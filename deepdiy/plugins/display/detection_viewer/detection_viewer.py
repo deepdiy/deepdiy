@@ -1,7 +1,5 @@
-import sys,os
-sys.path.append('../../../')
-from utils.get_parent_path import get_parent_path
-bundle_dir=get_parent_path(3)+os.sep+'model_zoo'+os.sep+'mrcnn'
+import os,rootpath
+rootpath.append(pattern='plugins')
 from utils.read_img import read_img
 
 from kivy.app import App

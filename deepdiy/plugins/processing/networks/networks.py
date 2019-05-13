@@ -1,11 +1,10 @@
-import sys,os
-sys.path.append('../../../')
+import os,rootpath
+rootpath.append(pattern='plugins')
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty,BooleanProperty
 from plugins.processing.networks.model_collector import ModelCollector
-from utils.get_parent_path import get_parent_path
 from core.quickplugin import QuickPlugin
 from pebble import concurrent
 import json
@@ -15,8 +14,8 @@ class Networks(BoxLayout):
 	"""docstring for Run."""
 	data=ObjectProperty(lambda: None)
 	is_weight_loaded=BooleanProperty(False)
-	bundle_dir = get_parent_path(3)
-	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'networks.kv')
+	bundle_dir = rootpath.detect(pattern='plugins')
+	Builder.load_file(os.sep.join([bundle_dir,'ui','networks.kv']))
 
 	def __init__(self):
 		super(Networks, self).__init__()
@@ -63,9 +62,10 @@ class Networks(BoxLayout):
 		import tensorflow as tf
 		self.graph=tf.get_default_graph()
 		self.ids.btn_load_weight.text='Loading'
-		self.model.weight_path=get_parent_path(3)+os.sep+'model_zoo'+os.sep+self.ids.model_spinner.text+os.sep+'weights'+os.sep+self.ids.weight_spinner.text
+		model_zoo_path=os.sep.join([self.bundle_dir,'model_zoo'])
+		self.model.weight_path=os.sep.join([model_zoo_path,self.ids.model_spinner.text,'weights',self.ids.weight_spinner.text])
 		if self.ids.config_spinner.text!='No config needed':
-			self.model.config_path=get_parent_path(3)+os.sep+'model_zoo'+os.sep+self.ids.model_spinner.text+os.sep+'configs'+os.sep+self.ids.config_spinner.text
+			self.model.config_path=os.sep.join([model_zoo_path,self.ids.model_spinner.text,'configs',self.ids.config_spinner.text])
 		else:
 			self.model.config_path=''
 		self.load()

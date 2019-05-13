@@ -1,6 +1,5 @@
-import sys,os
-sys.path.append('../')
-from utils.get_parent_path import get_parent_path
+import os,rootpath
+rootpath.append(pattern='plugins')
 from core.form_parser import FormParser
 from core.data_mgr import Data
 
@@ -17,7 +16,7 @@ class QuickPlugin(BoxLayout):
 	data=ObjectProperty()
 	kwargs=ListProperty()
 
-	bundle_dir = get_parent_path(3)
+	bundle_dir = rootpath.detect(pattern='plugins')
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'quickplugin.kv')
 
 	def __init__(self,data=Data(),input_type=[],result_meta={},kwargs=[],call_back=lambda:None,tensorflow_graph=None):

@@ -1,14 +1,12 @@
-import sys,os
-sys.path.append('../../../')
-sys.path.append('../../../../')
+import os,rootpath
+rootpath.append(pattern='plugins')
 import importlib
-from utils.get_parent_path import get_parent_path
 from utils.get_file_list import get_file_list
 
 
 class ModelCollector(object):
 	"""docstring for Run."""
-	bundle_dir = get_parent_path(3)
+	bundle_dir = rootpath.detect(pattern='plugins')
 
 	def __init__(self):
 		super(ModelCollector, self).__init__()

@@ -1,11 +1,10 @@
-import sys,os
-sys.path.append('../../../')
+import os,rootpath
+rootpath.append(pattern='plugins')
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.properties import DictProperty
-from utils.get_parent_path import get_parent_path
 from plugins.processing.networks.model_collector import ModelCollector
 import webbrowser
 from utils.select_path_dialog import select_file,select_folder
@@ -15,7 +14,7 @@ import json
 
 class Train(BoxLayout):
 	"""docstring for Train."""
-	bundle_dir = get_parent_path(3)
+	bundle_dir = rootpath.detect(pattern='plugins')
 	models=ModelCollector().models
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'train.kv')
 
@@ -25,7 +24,7 @@ class Train(BoxLayout):
 
 	def load_config(self,instance,text):
 		self.ids.config_panel.clear_widgets()
-		path=os.sep.join([get_parent_path(3),'model_zoo',text,'config_form.json'])
+		path=os.sep.join([self.bundle_dir,'model_zoo',text,'config_form.json'])
 		if not os.path.exists(path):
 			self.ids.config_panel.add_widget(Label(text='This network do not need configuration'))
 			return
