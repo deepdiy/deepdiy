@@ -1,9 +1,7 @@
 import os,rootpath
 rootpath.append(pattern='plugins')
-import inspect
-import plugins as plugins
-import pkgutil,importlib
-
+import plugins
+import pkgutil,importlib,inspect,string,shutil,time
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.factory import Factory
@@ -11,10 +9,6 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.modalview import ModalView
 from kivy.uix.button import Button
 from kivy.properties import DictProperty,StringProperty,ObjectProperty
-
-import threading
-import time
-import string,shutil
 
 class PluginCard(BoxLayout):
 	title=StringProperty()
@@ -125,7 +119,8 @@ class PluginManager(ModalView):
 		for i in package_names:
 			pycache_dir=os.sep.join([self.bundle_dir]+i.split('.')+['__pycache__'])
 			if os.path.exists(pycache_dir):
-				shutil.rmtree(pycache_dir)
+				try:shutil.rmtree(pycache_dir)
+				except:pass
 
 	def unload_kv_file(self,id):
 		try:
