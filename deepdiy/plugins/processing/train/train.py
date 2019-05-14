@@ -9,7 +9,7 @@ from plugins.processing.networks.model_collector import ModelCollector
 import webbrowser
 from utils.select_path_dialog import select_file,select_folder
 from plugins.processing.train.dataset import Dataset
-from core.form_parser import FormParser
+from utils.form_parser import FormParser
 import json
 
 class Train(BoxLayout):

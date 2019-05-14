@@ -1,6 +1,6 @@
 import os,rootpath
 rootpath.append(pattern='plugins')
-from core.form_parser import FormParser
+from utils.form_parser import FormParser
 from core.data_mgr import Data
 
 from kivy.app import App
