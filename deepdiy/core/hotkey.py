@@ -26,7 +26,7 @@ class Hotkey(BoxLayout):
 		########################################
 	#end def __init__
 
-	def _keyboard_released(self, window, keycode):
+	def _keyboard_released(self, window=None, keycode=None):
 		self.super = []
 
 	def _keyboard_on_key_down(self, window, keycode, text, super):
