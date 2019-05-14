@@ -18,7 +18,8 @@ class ModelCollector(object):
 		self.model_names=[name for name in self.model_names if name[:2]!='__']
 		for name in self.model_names:
 			module_name='.'.join(['model_zoo',name,'api'])
-			module=importlib.import_module(module_name)
+			try:module=importlib.import_module(module_name)
+			except:continue
 			self.models[name]=getattr(module,'Api')()
 			self.models[name].config_list=get_file_list(self.bundle_dir+os.sep+'model_zoo'+os.sep+name+os.sep+'configs')
 			self.models[name].weight_list=get_file_list(self.bundle_dir+os.sep+'model_zoo'+os.sep+name+os.sep+'weights')
