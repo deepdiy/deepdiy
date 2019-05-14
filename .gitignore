@@ -16,3 +16,6 @@ deepdiy.egg-info/*
 test_requirements
 dist
 test_setup.bat
+*.gif
+*.stg
+deepdiy/plugins/processing/canny/*
