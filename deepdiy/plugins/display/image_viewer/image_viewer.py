@@ -18,7 +18,6 @@ class ImageViewer(BoxLayout):
 		self.bind(size=self.update)
 		self.bind(data=self.update)
 
-
 	def img2texture(self,*arg):
 		self.h,self.w=self.img.shape[:2]
 		self.texture = Texture.create(size=(self.w, self.h), colorfmt='rgb')
