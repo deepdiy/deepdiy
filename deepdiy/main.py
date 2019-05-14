@@ -24,7 +24,7 @@ class MainWindow(App):
         debug()
 
     def build(self):
-        # self.hotkey=Hotkey()
+        self.hotkey=Hotkey()
         self.widget_manager=WidgetManager()
         Thread(target=self.load_plugins).start()
         return self.widget_manager
