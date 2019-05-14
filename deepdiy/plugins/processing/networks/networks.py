@@ -5,7 +5,7 @@ from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty,BooleanProperty
 from plugins.processing.networks.model_collector import ModelCollector
-from core.quickplugin import QuickPlugin
+from utils.quickplugin import QuickPlugin
 from pebble import concurrent
 import json
 

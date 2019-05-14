@@ -3,7 +3,7 @@ sys.path.append('../../deepdiy')
 sys.path.append('../../')
 
 from kivy.app import App
-from core.quickplugin import QuickPlugin
+from utils.quickplugin import QuickPlugin
 import cv2
 import numpy as np
 
