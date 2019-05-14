@@ -17,7 +17,9 @@ class QuickPlugin(BoxLayout):
 	kwargs=ListProperty()
 
 	bundle_dir = rootpath.detect(pattern='plugins')
-	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'quickplugin.kv')
+	try:Builder.unload_file(os.sep.join([bundle_dir,'ui','quickplugin.kv']))
+	except:pass
+	Builder.load_file(os.sep.join([bundle_dir,'ui','quickplugin.kv']))
 
 	def __init__(self,data=Data(),input_type=[],result_meta={},kwargs=[],call_back=lambda:None,tensorflow_graph=None):
 		super(QuickPlugin, self).__init__()
