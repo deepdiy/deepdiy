@@ -1,7 +1,7 @@
 # DeepDIY: Deep Learning, Do It Yourself
 
 
- <img src="https://i.imgur.com/y9XKKNz.png" width="600px" style="float: left;"/>
+<img src="https://i.imgur.com/y9XKKNz.png"/>
 
 ### Welcome to contact me: pubrcv@163.com
 
