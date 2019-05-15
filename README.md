@@ -3,6 +3,10 @@
 
 <img src="https://i.imgur.com/y9XKKNz.png"/>
 
+
+
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)  [![GitHub license](https://img.shields.io/github/license/deepdiy/deepdiy.svg)](https://github.com/deepdiy/deepdiy/blob/master/LICENSE)  [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/deepdiy/deepdiy/graphs/commit-activity)  [![GitHub release](https://img.shields.io/github/release/deepdiy/deepdiy.svg)](https://github.com/deepdiy/deepdiy/releases)  [![GitHub stars](https://img.shields.io/github/stars/deepdiy/deepdiy.svg?style=social)](https://GitHub.com/deepdiy/deepdiy/stargazers/)  [![GitHub downloads](https://img.shields.io/github/downloads/deepdiy/deepdiy/total.svg)](https://github.com/deepdiy/deepdiy/releases)
+
 ### Welcome to contact me: pubrcv@163.com
 
 ### Introduction
