@@ -1,5 +1,8 @@
 # DeepDIY: Deep Learning, Do It Yourself
 
+
+ <img src="https://i.imgur.com/y9XKKNz.png" width="600px" style="float: left;"/>
+
 ### Welcome to contact me: pubrcv@163.com
 
 ### Introduction
@@ -48,7 +51,7 @@ This is an open source project to help people who are trying to use Deep Neural 
 
    # Installation
 
-   ------
+------
 
    ## Executable Version:
 
@@ -72,7 +75,7 @@ This is an open source project to help people who are trying to use Deep Neural 
 
       ```python
       python3 setup.py install
-      ```    
+      ```
 
    ### Method 2:
 
