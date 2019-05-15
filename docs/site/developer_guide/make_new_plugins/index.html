@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>Make New Plugins - DeepDIY Documentation</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Make New Plugins";
+    var mkdocs_page_input_path = "developer_guide\\make_new_plugins.md";
+    var mkdocs_page_url = "/developer_guide/make_new_plugins/";
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> DeepDIY Documentation</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../..">Overview</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">User Guide</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../user_guide/install/">Install</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../user_guide/run_dl_models/">Run DL Models</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../user_guide/train_dl_models/">Train DL Models</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Developer Guide</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../how_deepdiy_works/">How DeepDIY works</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../make_new_models/">Make New Models</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">Make New Plugins</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#installation">Installation</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#executable-version">Executable Version:</a></li>
+        
+            <li><a class="toctree-l4" href="#source-code-version">Source Code Version:</a></li>
+        
+            <li><a class="toctree-l4" href="#notice">Notice:</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../use_quick_plugin/">Use Quick Plugin</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Examples</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../examples/mask_rcnn_on_coco_dataset/">Mask_RCNN with COCO dataset</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">About</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../about/release_notes/">Release Notes</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../about/contributing/">Contributing</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../about/license/">License</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">DeepDIY Documentation</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Developer Guide &raquo;</li>
+        
+      
+    
+    <li>Make New Plugins</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="http://github.com/deepdiy/deepdiy/edit/master/docs/developer_guide/make_new_plugins.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="installation">Installation</h1>
+<hr />
+<h2 id="executable-version">Executable Version:</h2>
+<ol>
+<li>
+<p>Download <strong>win64 portable version</strong>: https://github.com/deepdiy/deepdiy/releases</p>
+</li>
+<li>
+<p><strong>Unzip</strong> and go to </p>
+</li>
+</ol>
+<p><code>./path_of_downloaded_package/deepdiy/DeepDIY.exe</code></p>
+<ol>
+<li><strong>Double click</strong> DeepDIY.exe , Done!</li>
+</ol>
+<h2 id="source-code-version">Source Code Version:</h2>
+<h3 id="method-1">Method 1:</h3>
+<ol>
+<li>
+<p>Clone this repository</p>
+</li>
+<li>
+<p>Run setup from the repository root directory</p>
+</li>
+</ol>
+<p><code>python
+   python3 setup.py install</code></p>
+<h3 id="method-2">Method 2:</h3>
+<ol>
+<li>
+<p>Clone this repository</p>
+</li>
+<li>
+<p>Install dependencies</p>
+</li>
+</ol>
+<p><code>python
+   pip install -r requirements.txt</code></p>
+<ol>
+<li>Install kivy.garden.matplotlib</li>
+</ol>
+<p><code>garden install --kivy matplotlib</code></p>
+<h2 id="notice">Notice:</h2>
+<p>For OS X users, you may need to install kivy and kivy-garden manually. The 'garden' command is available only after kivy-garden is installed successfully. Please refer to following page:</p>
+<p>https://kivy.org/doc/stable/installation/installation-osx.html</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../use_quick_plugin/" class="btn btn-neutral float-right" title="Use Quick Plugin">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../make_new_models/" class="btn btn-neutral" title="Make New Models"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="http://github.com/deepdiy/deepdiy/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../make_new_models/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../use_quick_plugin/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+
+</body>
+</html>

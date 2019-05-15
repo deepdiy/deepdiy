@@ -1,0 +1,26 @@
+site_name: DeepDIY Documentation
+
+docs_dir: pages
+repo_url: http://github.com/deepdiy/deepdiy
+site_url: http://www.deepdiy.net/
+
+theme:
+  name: 'readthedocs'
+
+nav:
+  - Overview: index.md
+  - User Guide: 
+    - Install: user_guide/install.md
+    - Run DL Models: user_guide/run_dl_models.md
+    - Train DL Models: user_guide/train_dl_models.md
+  - Developer Guide:
+    - How DeepDIY works: developer_guide/how_deepdiy_works.md
+    - Make New Models: developer_guide/make_new_models.md
+    - Make New Plugins: developer_guide/make_new_plugins.md
+    - Use Quick Plugin: developer_guide/use_quick_plugin.md
+  - Examples:
+    - Mask_RCNN with COCO dataset: examples/mask_rcnn_on_coco_dataset.md
+  - About: 
+    - Release Notes: about/release_notes.md
+    - Contributing: about/contributing.md
+    - License: about/license.md
