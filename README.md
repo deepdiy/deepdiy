@@ -140,6 +140,9 @@ Plugin can acquire data from tree, after running your functions, just insert res
 
 When user click a node in resouce tree, certain display plugin will be activated. Plugin can acquire selected data from the tree, and return a Kivy widget, the widget will be embedded in the window.
 
+### Authors
+Peng Nie (Johnson)
+
 ### Requirements
 
 Python 3.7.1, Kivy 1.10.1, TensorFlow 1.13, Keras 2.2.4, OpenCV 4.0.0.21, Numpy 1.15.4, Scipy 1.1.0, Matplotlib 3.0.2
