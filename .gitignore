@@ -19,3 +19,4 @@ test_setup.bat
 *.gif
 *.stg
 deepdiy/plugins/processing/canny/*
+deepdiy/plugins/processing/model_zoo/*/*
