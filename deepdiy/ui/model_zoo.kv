@@ -1,0 +1,31 @@
+<ModelZoo>:
+	TabbedPanel:
+		do_default_tab:False
+		TabbedPanelItem:
+			text:'Models'
+			BoxLayout:
+				orientation: 'vertical'
+				ScrollView:
+					id:config_panel
+					scroll_type:["bars"]
+					bar_width:10
+					scroll_distance:1
+					scroll_timeout:0
+				BoxLayout:
+					size_hint_y:None
+					height:'40dp'
+					Spinner:
+						id:config_spinner
+						text:'Online Models'
+						size_hint_y:None
+						height:'40dp'
+						on_release:root.load_online_models()
+
+		TabbedPanelItem:
+			text:'Demos'
+			BoxLayout:
+				BoxLayout:
+					Button:
+						text:'Online Demos'
+						size_hint_y:None
+						height:'40dp'
