@@ -9,7 +9,7 @@
 
 ### Welcome to contact me: pubrcv@163.com
 
-### Introduction
+## Introduction
 
 This is an open source project to help people who are trying to use Deep Neural Network model for image processing but  troubled by programming or computation resources. With DeepDIY, you can:
 
@@ -150,20 +150,3 @@ Python 3.7.1, Kivy 1.10.1, TensorFlow 1.13, Keras 2.2.4, OpenCV 4.0.0.21, Numpy 
 ### Licence
 
 MIT is licensed under MIT license.
-# Welcome to MkDocs
-
-For full documentation visit [mkdocs.org](https://mkdocs.org).
-
-## Commands
-
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs help` - Print this help message.
-
-## Project layout
-
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
