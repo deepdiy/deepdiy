@@ -1,0 +1,13 @@
+<Downloader>:
+	BoxLayout:
+		orientation:'vertical'
+		size_hint_y:None
+		height:50
+		ProgressBar:
+			size_hint_y:None
+			height:10
+			value:root.percent
+		Label:
+			size_hint_y:None
+			height:40
+			text:root.status+' : '+str(root.percent)+' %'
