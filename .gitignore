@@ -20,3 +20,4 @@ test_setup.bat
 *.stg
 deepdiy/plugins/processing/canny/*
 deepdiy/plugins/processing/model_zoo/*/*
+*.zip
