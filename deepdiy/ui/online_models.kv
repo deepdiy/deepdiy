@@ -1,6 +1,6 @@
 <ModelCard>:
 	size_hint:(None,None)
-	width:'750dp'
+	width:'730dp'
 	height:'200dp'
 	BoxLayout:
 		size_hint_x:None
@@ -10,7 +10,7 @@
 			source:'http://www.aimechanic.com/wp-content/uploads/2017/10/Mask-R-CNN-TensorFlow-Keras.png'
 	BoxLayout:
 		size_hint_x:None
-		width:500
+		width:480
 		orientation:'vertical'
 		BoxLayout:
 			size_hint_y:None
@@ -67,17 +67,18 @@
 <OnlineModels>:
 	BoxLayout:
 		orientation:'vertical'
+		padding:10
 		BoxLayout:
 			size_hint_y:None
-			height:'40dp'
+			height:40
 			Button:
 				text:'Refresh'
 			Button:
 				text:'Close'
 				on_release:root.dismiss()
 		ScrollView:
-			bar_width:15
 			scroll_type:["bars"]
+			bar_width:15
 			StackLayout:
 				id:model_album
 				size_hint_y:None
