@@ -46,7 +46,7 @@ class OnlineModels(ModalView):
 		super(OnlineModels, self).__init__()
 		self.collect_local_models()
 		self.collect_online_models()
-		self.bind(online_models=self.insert_model_cards)
+		self.bind(online_models=self.render_model_cards)
 
 	def collect_local_models(self):
 		pass
@@ -54,7 +54,7 @@ class OnlineModels(ModalView):
 	def collect_online_models(self):
 		req = UrlRequest('http://www.deepdiy.net/model_zoo/api/model_list.json', lambda req,result:setattr(self,'online_models',result))
 
-	def insert_model_cards(self,*args):
+	def render_model_cards(self,*args):
 		for model in self.online_models:
 			self.ids.model_album.add_widget(Factory.ModelCard(
 				title=model['title'],id=model['id'],abstract=model['abstract'],download=model['download']))
