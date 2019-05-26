@@ -5,8 +5,9 @@ from core.data_mgr import Data
 from utils.hotkey import Hotkey
 from kivy.app import App
 from kivy.properties import ObjectProperty,DictProperty
-from threading import Thread
+from pebble.concurrent import thread
 from test.debug import *
+
 
 class MainWindow(App):
     title='DeepDIY'
@@ -16,6 +17,7 @@ class MainWindow(App):
     def __init__(self,**kwargs):
         super(MainWindow, self).__init__(**kwargs)
 
+    @ thread
     def load_plugins(self):
         self.plugin_manager=PluginManager()
         self.plugin_manager.load_plugins()
@@ -26,7 +28,7 @@ class MainWindow(App):
     def build(self):
         self.hotkey=Hotkey()
         self.widget_manager=WidgetManager()
-        Thread(target=self.load_plugins).start()
+        self.load_plugins()
         return self.widget_manager
 
 if __name__ == '__main__':
