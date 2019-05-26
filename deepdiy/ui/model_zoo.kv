@@ -1,31 +1,58 @@
 <ModelZoo>:
-	TabbedPanel:
-		do_default_tab:False
-		TabbedPanelItem:
-			text:'Models'
+	ScrollView:
+		scroll_type:["bars"]
+		bar_width:10
+		scroll_distance:1
+		scroll_timeout:0
+		BoxLayout:
+			orientation:'vertical'
+			size_hint_y:None
+			height:self.minimum_height
+			BoxLayout:
+				size_hint_y:None
+				height:35
+				padding:[10,0,0,0]
+				Label:
+					size_hint_y:None
+					height:35
+					text: 'Models'
+					text_size:self.size
+					font_size:22
+					markup:True
+			BoxLayout:
+				size_hint_y:None
+				height:'55dp'
+				padding:10
+				Button:
+					id:config_spinner
+					text:'Add Models from Web'
+					size_hint_y:None
+					height:'35dp'
+					on_release:root.load_online_models()
 			BoxLayout:
 				orientation: 'vertical'
-				ScrollView:
-					id:config_panel
-					scroll_type:["bars"]
-					bar_width:10
-					scroll_distance:1
-					scroll_timeout:0
+				size_hint_y:None
 				BoxLayout:
 					size_hint_y:None
-					height:'40dp'
-					Spinner:
-						id:config_spinner
-						text:'Online Models'
-						size_hint_y:None
-						height:'40dp'
-						on_release:root.load_online_models()
-
-		TabbedPanelItem:
-			text:'Demos'
+					id:local_model_container
 			BoxLayout:
-				BoxLayout:
-					Button:
-						text:'Online Demos'
-						size_hint_y:None
-						height:'40dp'
+				size_hint_y:None
+				height:35
+				padding:[10,0,0,0]
+				Label:
+					size_hint_y:None
+					height:35
+					text: 'Demos'
+					text_size:self.size
+					font_size:22
+					markup:True
+			BoxLayout:
+				size_hint_y:None
+				height:'55dp'
+				padding:10
+				Button:
+					id:config_spinner
+					text:'Add Demos from Web'
+					size_hint_y:None
+					height:'35dp'
+					on_release:root.load_online_models()
