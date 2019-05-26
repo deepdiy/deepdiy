@@ -28,7 +28,7 @@ class Installer(BoxLayout):
 		self.downloader.bind(status=self.setter('status'))
 		self.clear_widgets()
 		self.add_widget(self.downloader)
-		self.working_dir=os.sep.join([self.bundle_dir,type,id])
+		self.working_dir=os.sep.join([self.bundle_dir,type+'s',id])
 		os.makedirs(self.working_dir, exist_ok=True)
 
 	def on_status_changed(self,ins,value):
@@ -79,10 +79,10 @@ class Test(App):
 
 	def build(self):
 		demo=Installer()
-		# demo.install_model('mrcnn','http://www.deepdiy.net/model_zoo/models/mrcnn.zip')
+		demo.install_model('mrcnn','http://www.deepdiy.net/model_zoo/models/mrcnn.zip')
 		# demo.install_weight('mrcnn','http://www.deepdiy.net/model_zoo/models/mrcnn.zip')
 		# demo.install_weight('mrcnn','http://www.deepdiy.net/model_zoo/weights/mrcnn/mask_rcnn_coco.h5')
-		demo.install_demo('mrcnn_coco','mrcnn','http://www.deepdiy.net/model_zoo/demos/mrcnn_coco.zip','http://www.deepdiy.net/model_zoo/weights/mrcnn/mask_rcnn_coco.h5')
+		# demo.install_demo('mrcnn_coco','mrcnn','http://www.deepdiy.net/model_zoo/demos/mrcnn_coco.zip','http://www.deepdiy.net/model_zoo/weights/mrcnn/mask_rcnn_coco.h5')
 		return demo
 
 if __name__ == '__main__':
