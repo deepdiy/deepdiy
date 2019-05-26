@@ -1,0 +1,43 @@
+<LocalDemoCard>:
+	size_hint:(None,None)
+	width:'500dp'
+	height:'100'
+	padding:'10dp'
+	BoxLayout:
+		size_hint_x:None
+		width:'120dp'
+		AsyncImage:
+			source:root.demo_path+'/logo.png'
+	BoxLayout:
+		orientation:'vertical'
+		Label:
+			text:root.title
+			font_size:20
+			markup:True
+			pos_hint:{'center_x':0.5,'center_y':0.5}
+			height:self.size[1]
+			halign:'left'
+			valign:'middle'
+			text_size:self.size
+		Label:
+			text:root.abstract
+			text_size:self.size
+		BoxLayout:
+			size_hint_y:None
+			height:'10dp'
+		BoxLayout:
+			size_hint_y:None
+			height:'30dp'
+			Button:
+				text:'Details'
+				on_release:root.popup_readme()
+			Button:
+				text:'Load'
+				# on_release:root.load_demo()
+
+<LocalDemos>:
+	orientation:'lr-tb'
+	id:demo_album
+	size_hint_y:None
+	height:self.minimum_height
+	spacing:10
