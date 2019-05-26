@@ -6,6 +6,7 @@ from kivy.properties import ObjectProperty,DictProperty
 from kivy.uix.boxlayout import BoxLayout
 from plugins.processing.model_zoo.online_models import OnlineModels
 from plugins.processing.model_zoo.local_models import LocalModels
+from plugins.processing.model_zoo.local_demos import LocalDemos
 
 class ModelZoo(BoxLayout):
 	"""docstring for ModelZoo."""
@@ -17,7 +18,9 @@ class ModelZoo(BoxLayout):
 	def __init__(self):
 		super(ModelZoo, self).__init__()
 		self.local_models=LocalModels()
+		self.local_demos=LocalDemos()
 		self.ids.local_model_container.add_widget(self.local_models)
+		self.ids.local_demo_container.add_widget(self.local_demos)
 
 	def load_online_models(self,*args):
 		self.online_models=OnlineModels()

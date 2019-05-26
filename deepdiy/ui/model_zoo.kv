@@ -30,11 +30,8 @@
 					height:'35dp'
 					on_release:root.load_online_models()
 			BoxLayout:
-				orientation: 'vertical'
 				size_hint_y:None
-				BoxLayout:
-					size_hint_y:None
-					id:local_model_container
+				id:local_model_container
 			BoxLayout:
 				size_hint_y:None
 				height:35
@@ -56,3 +53,6 @@
 					size_hint_y:None
 					height:'35dp'
 					on_release:root.load_online_models()
+			BoxLayout:
+				size_hint_y:None
+				id:local_demo_container
