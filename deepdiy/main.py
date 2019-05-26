@@ -10,26 +10,26 @@ from test.debug import *
 
 
 class MainWindow(App):
-    title='DeepDIY'
-    data=ObjectProperty(lambda: None,force_dispatch=True)
-    plugins=DictProperty()
+	title='DeepDIY'
+	data=ObjectProperty(lambda: None,force_dispatch=True)
+	plugins=DictProperty()
 
-    def __init__(self,**kwargs):
-        super(MainWindow, self).__init__(**kwargs)
+	def __init__(self,**kwargs):
+		super(MainWindow, self).__init__(**kwargs)
 
-    @ thread
-    def load_plugins(self):
-        self.plugin_manager=PluginManager()
-        self.plugin_manager.load_plugins()
-        self.display_manager=DisplayManager()
-        self.data=Data()
-        debug()
+	@ thread
+	def load_plugins(self):
+		self.plugin_manager=PluginManager()
+		self.plugin_manager.load_plugins()
+		self.display_manager=DisplayManager()
+		self.data=Data()
+		debug()
 
-    def build(self):
-        self.hotkey=Hotkey()
-        self.widget_manager=WidgetManager()
-        self.load_plugins()
-        return self.widget_manager
+	def build(self):
+		self.hotkey=Hotkey()
+		self.widget_manager=WidgetManager()
+		self.load_plugins()
+		return self.widget_manager
 
 if __name__ == '__main__':
-    MainWindow().run()
+	MainWindow().run()
