@@ -21,6 +21,7 @@ class LocalDemoCard(BoxLayout):
 	tags=StringProperty()
 	abstract=StringProperty()
 	demo_path=StringProperty()
+	image_source=StringProperty()
 
 	def __init__(self,demo_path=''):
 		super(LocalDemoCard, self).__init__()
@@ -28,6 +29,7 @@ class LocalDemoCard(BoxLayout):
 		self.title=demo_path.split(os.sep)[-1]
 		# self.tags=kwargs['tags']
 		self.abstract='mrcnn'
+		self.image_source=os.sep.join([self.demo_path,'logo.png'])
 
 	def popup_readme(self):
 		f=open(os.sep.join([self.demo_path,'readme.md'])).read()
