@@ -14,7 +14,6 @@ class WidgetManager(BoxLayout):
 	bundle_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'frame.kv')
 
-
 	def __init__(self,**kwargs):
 		super(WidgetManager, self).__init__(**kwargs)
 		app=App.get_running_app()
@@ -42,7 +41,7 @@ class WidgetManager(BoxLayout):
 		elif type=='processing':
 			screen=Screen(name=id)
 			screen.add_widget(ins)
-			self.ids[type+'_screens'].add_widget(screen)
+			self.ids.processing_screens.add_widget(screen)
 			self.add_munu_button(id)
 		elif type=='display':
 			screen=Screen(name=id)
@@ -54,7 +53,7 @@ class WidgetManager(BoxLayout):
 			self.ids.resource_tree.remove_widget(ins)
 		elif type=='processing':
 			screen=self.ids.processing_screens.get_screen(id)
-			self.ids[type+'_screens'].remove_widget(screen)
+			self.ids.processing_screens.remove_widget(screen)
 			self.remove_menu_button(id)
 		elif type=='display':
 			screen=self.ids.display_screens.get_screen(id)
