@@ -31,15 +31,18 @@ class Files(BoxLayout):
 		print(args)
 		if self.path=='':
 			return
-		self.data.file_list=get_file_list(self.path,formats=['jpg','jpeg','bmp','png','tiff','tif'])
+		file_list={}
+		file_list['image']=get_file_list(self.path,formats=['jpg','jpeg','bmp','png','tiff','tif'])
+		file_list['video']=get_file_list(self.path,formats=['avi','mp4'])
 		tree={'node_id':'resources','children':[],'type':'root'}
-		for file_path in self.data.file_list:
-			tree['children'].append({
-				'node_id':file_path.split(os.sep)[-1],
-				'type':'file_path',
-				'content':file_path,
-				'display':'image_viewer',
-				'children':[]})
+		for data_format in file_list:
+			for file_path in file_list[data_format]:
+				tree['children'].append({
+					'node_id':file_path.split(os.sep)[-1],
+					'type':'file_path',
+					'content':file_path,
+					'display':data_format+'_viewer',
+					'children':[]})
 		self.data.tree=tree
 		self.property('data').dispatch(self)
 		print(self.path)
