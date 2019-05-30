@@ -1,0 +1,29 @@
+<VideoViewer>:
+	orientation:'vertical'
+	BoxLayout:
+		Image:
+			id:preview
+	BoxLayout:
+		size_hint_y:None
+		height:40
+		BoxLayout:
+			size_hint_x:None
+			width:150
+			Button:
+				text:'<'
+				on_release:root.to_previous_frame()
+			Button:
+				text:'play' if root.status!="play" else 'stop'
+				on_release:root.play() if root.status!="play" else root.pause()
+			Button:
+				text:'>'
+				on_release:root.to_next_frame()
+		BoxLayout:
+			Slider:
+				id:play_progress
+				min:1
+				max:root.total_frames
+				step:1
+			Label:
+				size_hint_x:None
+				text:str(play_progress.value)+'/'+str(int(root.total_frames))
