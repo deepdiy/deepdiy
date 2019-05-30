@@ -21,9 +21,9 @@
 		BoxLayout:
 			Slider:
 				id:play_progress
-				min:1
+				min:0
 				max:root.total_frames
 				step:1
 			Label:
 				size_hint_x:None
-				text:str(play_progress.value)+'/'+str(int(root.total_frames))
+				text:str(int(play_progress.value))+'/'+str(int(root.total_frames))
