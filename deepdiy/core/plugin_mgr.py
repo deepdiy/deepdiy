@@ -67,7 +67,7 @@ class PluginManager(ModalView):
 			self.plugins['time']=time.time()
 
 	def on_collect_plugins_finished(self,*args):
-		self.property('plugins').dispatch(self)
+		pass
 
 	def update_gui(self,*ars):
 		self.ids.plugin_album.clear_widgets()
