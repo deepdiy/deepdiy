@@ -1,5 +1,5 @@
 import os,rootpath
-rootpath.append(pattern='plugins')
+rootpath.append(pattern='main.py') # add the directory of main.py to PATH
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.properties import DictProperty,StringProperty,ObjectProperty
@@ -39,7 +39,7 @@ class DemoCard(BoxLayout):
 		if hasattr(app,'widget_manager'):
 			app.widget_manager.ids.processing_screens.children[0].children[0]
 			app.widget_manager.ids.processing_screens.current='files'
-			app.widget_manager.ids.processing_screens.children[0].children[0].add_to_tree(os.sep.join([self.demo_path,'images']))
+			app.widget_manager.ids.processing_screens.children[0].children[0].path=os.sep.join([self.demo_path,'images'])
 			app.widget_manager.ids.processing_screens.current='networks'
 			networks=app.widget_manager.ids.processing_screens.children[0].children[0]
 			networks.ids.model_spinner.text=demo_config['model']
@@ -50,7 +50,7 @@ class DemoCard(BoxLayout):
 class Gallery(BoxLayout):
 	"""docstring for Gallery."""
 
-	bundle_dir = rootpath.detect(pattern='plugins')
+	bundle_dir = rootpath.detect(pattern='main.py') # Obtain the dir of main.py
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'gallery.kv')
 
 	def __init__(self):
