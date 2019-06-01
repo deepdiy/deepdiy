@@ -10,16 +10,15 @@ import string
 class WidgetManager(BoxLayout):
 	"""docstring for WidgetManager."""
 
-	plugins=DictProperty({})
+	plugins=DictProperty(force_dispatch=True)
 	bundle_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'frame.kv')
 
 	def __init__(self,**kwargs):
 		super(WidgetManager, self).__init__(**kwargs)
 		app=App.get_running_app()
-		if app!=None:
-			app.bind(plugins=self.setter('plugins'))
-			self.bind(plugins=self.load_widgets)
+		app.bind(plugins=self.setter('plugins'))
+		self.bind(plugins=self.load_widgets)
 		self.widget_list=[]
 
 	def load_widgets(self,instance,value):
@@ -80,7 +79,6 @@ class Test(App):
 	plugins=DictProperty()
 	def __init__(self,**kwargs):
 		super(Test, self).__init__(**kwargs)
-
 
 	def build(self):
 		return WidgetManager()
