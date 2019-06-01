@@ -1,47 +1,35 @@
 import os,rootpath
-rootpath.append(pattern='plugins')
-import plugins
-import pkgutil,importlib,inspect,string,shutil,time
+rootpath.append(pattern='main.py') # add the directory of main.py to PATH
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.factory import Factory
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.modalview import ModalView
 from kivy.uix.button import Button
-from kivy.properties import DictProperty,StringProperty,ObjectProperty
-
-class PluginCard(BoxLayout):
-	title=StringProperty()
-	id=StringProperty()
-	type=StringProperty()
-	operations=ObjectProperty()
-	def __init__(self, **kwargs):
-		super(PluginCard, self).__init__()
-		self.title=kwargs['title']
-		self.id=kwargs['id']
-		self.type=kwargs['type']
-		self.operations=kwargs['operations']
+from kivy.properties import DictProperty,StringProperty,ObjectProperty,BooleanProperty,AliasProperty
+import plugins
+import pkgutil,importlib,inspect,string,shutil,time
+from pebble.concurrent import thread
+from core.plugin import Plugin
 
 
 class PluginManager(ModalView):
 	"""docstring for PluginManager."""
 	plugins=DictProperty()
-	data=ObjectProperty(lambda: None)
-	bundle_dir = rootpath.detect(pattern='plugins')
+	bundle_dir = rootpath.detect(pattern='main.py') # Obtain the dir of main.py
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'plugin_mgr.kv')
 	def __init__(self,**kwargs):
 		super(PluginManager, self).__init__(**kwargs)
 		app=App.get_running_app()
 		if app!=None:
-			app.bind(data=self.setter('data'))
-			self.bind(data=app.setter('data'))
 			app.bind(plugins=self.setter('plugins'))
 			self.bind(plugins=app.setter('plugins'))
-		self.bind(plugins=self.update_form)
+		self.bind(plugins=self.update_gui)
 
 	def load_plugins(self):
-			self.find_plugin_packages()
-			self.collect_plugins()
+		self.find_plugin_packages()
+		collect_plugin_task=self.collect_plugins()
+		collect_plugin_task.add_done_callback(self.on_collect_plugins_finished)
 
 	def find_plugin_packages(self):
 		self.plugin_package_names=[]
@@ -49,84 +37,50 @@ class PluginManager(ModalView):
 			if len(modname.split('.'))>2:
 				self.plugin_package_names.append(modname)
 
+	@ thread # run in separate thread
 	def collect_plugins(self):
 		plugins={}
 		for name in self.plugin_package_names:
-			type,id=name.split('.')[1:3]
-			package=importlib.import_module(name)
-			plugin_class=self.import_plugin(id,name)
-			if not plugin_class is None:
-				plugin_instance=self.instantiate_plugin(id,type,plugin_class)
-				plugins[id]={'type':type,'disabled':False,'class':plugin_class,'instance':plugin_instance}
+			plugin=Plugin(name)
+			if plugin.is_valid is True:
+				plugin.bind(is_disabled=self.on_plugin_disable_clicked)
+				plugin.bind(is_valid=self.on_plugin_validity_changed)
+				plugin.bind(instance=self.on_plugin_instance_changed)
+				plugins[plugin.id]={'type':plugin.type,'disabled':False,'card':plugin,'instance':plugin.instance}
 		self.plugins=plugins
 
-	def import_plugin(self,id,package_name):
-		plugin_class=None
-		package=importlib.import_module(package_name)
-		for atrribute in dir(package):
-			plugin_class = getattr(package, atrribute)
-			if inspect.isclass(plugin_class) and atrribute.lower()==id.replace('_',''):
-				return plugin_class
+	def on_plugin_disable_clicked(self,instance,value):
+		self.plugins[instance.id]['disabled'] = value
+		# value change is not in top-level, so need to dispatch manually
+		self.property('plugins').dispatch(self)
 
-	def instantiate_plugin(self,id,type,plugin_class):
-		app=App.get_running_app()
-		plugin_obj=None
-		plugin_obj=plugin_class()
-		if app!=None and hasattr(plugin_obj,'data') and type=='processing':
-			app.bind(data=plugin_obj.setter('data'))
-			plugin_obj.bind(data=app.setter('data'))
+	def on_plugin_validity_changed(self,instance,value):
+		if value == False:
+			self.plugins[instance.id]['disabled'] = True
+			# value change is not in top-level, so need to dispatch manually
+			self.property('plugins').dispatch(self)
+			del self.plugins[instance.id]
 
-		return plugin_obj
+	def on_plugin_instance_changed(self,plugin,value):
+		if plugin.instance != None:
+			self.plugins[plugin.id]={'type':plugin.type,'disabled':False,'card':plugin,'instance':plugin.instance}
+			self.plugins['time']=time.time()
 
-	def update_form(self,*ars):
+	def on_collect_plugins_finished(self,*args):
+		self.property('plugins').dispatch(self)
+
+	def update_gui(self,*ars):
 		self.ids.plugin_album.clear_widgets()
-		operations={'Disable':self.disable_plugin,'Remove':self.remove_plugin,'Reload':self.reload_plugin}
-		for id in self.plugins:
-			if id=='time':
+		for plugin_id in self.plugins:
+			if plugin_id=='time':
 				continue
-			self.ids.plugin_album.add_widget(Factory.PluginCard(
-				title=string.capwords(id.replace('_',' ')),id=id,type=string.capwords(self.plugins[id]['type']),operations=operations))
+			self.ids.plugin_album.add_widget(self.plugins[plugin_id]['card'])
 
 	def reload_all_plugins(self):
 		plugins=[str(id) for id in self.plugins]
 		for id in plugins:
 			self.reload_plugin(id)
 
-	def reload_plugin(self,id):
-		self.remove_plugin(id)
-		self.remove_pycache(id)
-		self.unload_kv_file(id)
-		package_names=[name for name in self.plugin_package_names if name.split('.')[-1]==id]
-		for name in package_names:
-			type=name.split('.')[1]
-			package=importlib.import_module(name)
-			importlib.reload(package)
-			plugin_class=self.import_plugin(id,name)
-			if not plugin_class is None:
-				plugin_instance=self.instantiate_plugin(id,type,plugin_class)
-				self.plugins[id]={'type':type,'class':plugin_class,'instance':plugin_instance,'disabled':False}
-
-	def disable_plugin(self,id):
-		self.plugins[id]['disabled']=True
-		self.plugins['time']=time.time()
-
-	def remove_plugin(self,id):
-		self.disable_plugin(id)
-		del self.plugins[id]
-
-	def remove_pycache(self,id):
-		package_names=[name for name in self.plugin_package_names if name.split('.')[-1]==id]
-		for i in package_names:
-			pycache_dir=os.sep.join([self.bundle_dir]+i.split('.')+['__pycache__'])
-			if os.path.exists(pycache_dir):
-				try:shutil.rmtree(pycache_dir)
-				except:pass
-
-	def unload_kv_file(self,id):
-		try:
-			Builder.unload_file(os.sep.join([self.bundle_dir,'ui',id+'.kv']))
-		except:
-			pass
 
 class Test(App):
 	data=DictProperty()
