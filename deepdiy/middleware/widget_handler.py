@@ -13,23 +13,20 @@ class WidgetHandler(BoxLayout):
 	which ensures every plugin can be tested independetly without error.
 	"""
 
-	root=ObjectProperty()
-	processing_screens=ObjectProperty(lambda:None)
-
+	widget_manager=ObjectProperty()
 	bundle_dir = rootpath.detect(pattern='main.py') # Obtain the dir of main.py
-
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'widget_handler.kv')
 
 	def __init__(self):
 		super(WidgetHandler, self).__init__()
-		self.bind(root=self._catch_screens)
+		self.bind(widget_manager=self._catch_screens)
 		self._catch_main_window()
 
 	def _catch_main_window(self):
 		'''Catch the main window widget of running DeepDIY App'''
 		app=App.get_running_app()
 		if hasattr(app,'widget_manager'):
-			self.root=app.widget_manager
+			self.widget_manager=app.widget_manager
 
 	def _catch_screens(self,*args):
 		'''Catch the screen manager in main window.
@@ -38,9 +35,9 @@ class WidgetHandler(BoxLayout):
 		and display_screens. screen_managers are responsible for switching
 		screens in processing panel and display panel. Screens are used to
 		contain widgets from each plugin'''
-		if self.root is not None:
-			self.processing_screens=self.root.ids.processing_screens
-			self.display_screens=self.root.ids.display_screens
+		if self.widget_manager is not None:
+			self.processing_screens=self.widget_manager.ids.processing_screens
+			self.display_screens=self.widget_manager.ids.display_screens
 			self.update_binding()
 
 	def update_binding(self,*args):
@@ -75,10 +72,13 @@ class Test(App):
 	def build(self):
 		'''Testing by take this middleware as a plugin of main program'''
 		from main import MainWindow
-		app=MainWindow()
-		window=app.build()
+		from core.plugin_wrapper import PluginWrapper
+		plugin_wrapper = PluginWrapper('plugins.processing.widget_handler')
+		app = MainWindow()
+		window = app.build()
+		widget_handler=WidgetHandler()
 		app.plugins['widget_handler']={
-			'type':'processing','disabled':False,'instance':WidgetHandler()}
+			'type':'processing','disabled':False,'wrapper':plugin_wrapper,'instance':widget_handler}
 		return window
 
 if __name__ == '__main__':
