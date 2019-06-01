@@ -1,5 +1,5 @@
 import os,rootpath
-rootpath.append(pattern='plugins')
+rootpath.append(pattern='main.py') # add the directory of main.py to PATH 
 from core.plugin_mgr import PluginManager
 from kivy.app import App
 from kivy.lang import Builder
@@ -10,7 +10,7 @@ class Demo(BoxLayout):
 	"""docstring for Demo."""
 
 	data=DictProperty()
-	bundle_dir = rootpath.detect(pattern='plugins')
+	bundle_dir = rootpath.detect(pattern='main.py') # Obtain the dir of main.py
 	# Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'gallery.kv')
 
 	def __init__(self):

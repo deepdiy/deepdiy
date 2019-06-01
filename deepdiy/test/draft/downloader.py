@@ -1,5 +1,5 @@
 import os,rootpath
-rootpath.append(pattern='plugins')
+rootpath.append(pattern='main.py') # add the directory of main.py to PATH 
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.properties import DictProperty,NumericProperty,StringProperty
@@ -14,7 +14,7 @@ class Demo(BoxLayout):
 	url=StringProperty()
 	filename=StringProperty()
 	percent=NumericProperty()
-	bundle_dir = rootpath.detect(pattern='plugins')
+	bundle_dir = rootpath.detect(pattern='main.py') # Obtain the dir of main.py
 	# Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'gallery.kv')
 	data=DictProperty()
 

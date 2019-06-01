@@ -1,5 +1,5 @@
 import os,rootpath
-rootpath.append(pattern='plugins')
+rootpath.append(pattern='main.py') # add the directory of main.py to PATH 
 from utils.read_img import read_img
 
 from kivy.app import App

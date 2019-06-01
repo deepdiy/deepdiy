@@ -1,5 +1,5 @@
 import os,rootpath
-rootpath.append(pattern='plugins')
+rootpath.append(pattern='main.py') # add the directory of main.py to PATH 
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty,DictProperty,NumericProperty,StringProperty
@@ -13,7 +13,7 @@ class Downloader(BoxLayout):
 	"""docstring for Downloader."""
 
 	data=ObjectProperty()
-	bundle_dir = rootpath.detect(pattern='plugins')
+	bundle_dir = rootpath.detect(pattern='main.py') # Obtain the dir of main.py
 	percent=NumericProperty(0)
 	file_name=StringProperty('')
 	status=StringProperty('')

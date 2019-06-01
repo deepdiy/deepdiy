@@ -1,5 +1,5 @@
 import os,rootpath
-rootpath.append(pattern='plugins')
+rootpath.append(pattern='main.py') # add the directory of main.py to PATH 
 import shutil
 import random
 from datetime import datetime
@@ -8,7 +8,7 @@ import json
 class Dataset(object):
 	"""docstring for Dataset."""
 
-	bundle_dir = rootpath.detect(pattern='plugins')
+	bundle_dir = rootpath.detect(pattern='main.py') # Obtain the dir of main.py
 
 	def __init__(self):
 		super(Dataset, self).__init__()

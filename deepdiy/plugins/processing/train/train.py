@@ -1,5 +1,5 @@
 import os,rootpath
-rootpath.append(pattern='plugins')
+rootpath.append(pattern='main.py') # add the directory of main.py to PATH 
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
@@ -14,7 +14,7 @@ import json
 
 class Train(BoxLayout):
 	"""docstring for Train."""
-	bundle_dir = rootpath.detect(pattern='plugins')
+	bundle_dir = rootpath.detect(pattern='main.py') # Obtain the dir of main.py
 	models=ModelCollector().models
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'train.kv')
 

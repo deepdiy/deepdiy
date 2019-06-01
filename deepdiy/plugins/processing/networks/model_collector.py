@@ -1,12 +1,12 @@
 import os,rootpath
-rootpath.append(pattern='plugins')
+rootpath.append(pattern='main.py') # add the directory of main.py to PATH 
 import importlib
 from utils.get_file_list import get_file_list
 
 
 class ModelCollector(object):
 	"""docstring for Run."""
-	bundle_dir = rootpath.detect(pattern='plugins')
+	bundle_dir = rootpath.detect(pattern='main.py') # Obtain the dir of main.py
 
 	def __init__(self):
 		super(ModelCollector, self).__init__()

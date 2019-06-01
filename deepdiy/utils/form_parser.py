@@ -1,5 +1,5 @@
 import os,rootpath
-rootpath.append(pattern='plugins')
+rootpath.append(pattern='main.py') # add the directory of main.py to PATH 
 from utils.select_path_dialog import select_folder
 import json
 from kivy.app import App
@@ -38,7 +38,7 @@ class Item(BoxLayout):
 class FormParser(BoxLayout):
 	"""docstring for FormParser."""
 	form=ListProperty()
-	bundle_dir = rootpath.detect(pattern='plugins')
+	bundle_dir = rootpath.detect(pattern='main.py') # Obtain the dir of main.py
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'form_parser.kv')
 
 	def __init__(self,**kw):

@@ -1,5 +1,5 @@
 import os,rootpath
-rootpath.append(pattern='plugins')
+rootpath.append(pattern='main.py') # add the directory of main.py to PATH 
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.factory import Factory
@@ -15,7 +15,7 @@ class DemoCard(BoxLayout):
 	id=StringProperty()
 	tags=StringProperty()
 	abstract=StringProperty()
-	bundle_dir = rootpath.detect(pattern='plugins')
+	bundle_dir = rootpath.detect(pattern='main.py') # Obtain the dir of main.py
 
 	def __init__(self, **kwargs):
 		super(DemoCard, self).__init__()
@@ -38,7 +38,7 @@ class OnlineDemos(ModalView):
 	data=ObjectProperty()
 	local_demos=ListProperty()
 	online_demos=ListProperty()
-	bundle_dir = rootpath.detect(pattern='plugins')
+	bundle_dir = rootpath.detect(pattern='main.py') # Obtain the dir of main.py
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'online_demos.kv')
 
 	def __init__(self):
