@@ -6,8 +6,23 @@ from kivy.properties import ObjectProperty,DictProperty,StringProperty,BooleanPr
 from kivy.uix.boxlayout import BoxLayout
 import pkgutil,importlib,inspect,string,shutil,time
 
-class Plugin(BoxLayout):
-	"""docstring for Plugin."""
+class PluginWrapper(BoxLayout):
+	"""A wrapper of plugin to manage the life-time of a plugin
+
+	PluginManager manage plugins by instances of this class
+	Attributs:
+		data: ObjectProperty, sync with App' data attribute.
+			used to sync with plugin instance's data attribute.
+		id: id of plugin, e.g. 'model_zoo'
+		type: string, e.g. 'processing'
+		title: string, e.g. 'Model Zoo'
+		is_valid: boolean, validity of the plugin,
+			if False, plugin will not be instantiated.
+			PlugnManager() will not load invalid Plugin, if loaded, will removed
+		is_disabled: boolean,
+			if False, WidgetManager() will remove the widgets of this plugin
+		instance:object, instance of plugin Plugin
+	"""
 	data=ObjectProperty()
 	id=StringProperty()
 	type=StringProperty()
@@ -16,10 +31,10 @@ class Plugin(BoxLayout):
 	is_disabled=BooleanProperty(False)
 	instance=ObjectProperty(allownone=True)
 	bundle_dir = rootpath.detect(pattern='main.py') # Obtain the dir of main.py
-	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'plugin.kv')
+	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'plugin_wrapper.kv')
 
 	def __init__(self,package_name):
-		super(Plugin, self).__init__()
+		super(PluginWrapper, self).__init__()
 		self.package_name=package_name
 		self.type=package_name.split('.')[1]
 		self.id=package_name.split('.')[2]
@@ -28,6 +43,8 @@ class Plugin(BoxLayout):
 		self.instantiate()
 
 	def import_package(self):
+		if importlib.util.find_spec(self.package_name) is None:
+			return
 		package=importlib.import_module(self.package_name)
 		for attr_id in dir(package):
 			attr = getattr(package, attr_id)
@@ -75,7 +92,7 @@ class Test(App):
 		super(Test, self).__init__()
 
 	def build(self):
-		demo=Plugin('plugins.processing.train.train')
+		demo=PluginWrapper('plugins.processing.train.train')
 		return demo
 
 if __name__ == '__main__':

@@ -10,7 +10,7 @@ from kivy.properties import DictProperty,StringProperty,ObjectProperty,BooleanPr
 import plugins
 import pkgutil,importlib,inspect,string,shutil,time
 from pebble.concurrent import thread
-from core.plugin import Plugin
+from core.plugin_wrapper import PluginWrapper
 
 
 class PluginManager(ModalView):
@@ -39,15 +39,15 @@ class PluginManager(ModalView):
 
 	@ thread # run in separate thread
 	def collect_plugins(self):
-		plugins={}
+		# plugins={}
 		for name in self.plugin_package_names:
-			plugin=Plugin(name)
-			if plugin.is_valid is True:
-				plugin.bind(is_disabled=self.on_plugin_disable_clicked)
-				plugin.bind(is_valid=self.on_plugin_validity_changed)
-				plugin.bind(instance=self.on_plugin_instance_changed)
-				plugins[plugin.id]={'type':plugin.type,'disabled':False,'card':plugin,'instance':plugin.instance}
-		self.plugins=plugins
+			plugin_wrapper=PluginWrapper(name)
+			if plugin_wrapper.is_valid is True:
+				plugin_wrapper.bind(is_disabled=self.on_plugin_disable_clicked)
+				plugin_wrapper.bind(is_valid=self.on_plugin_validity_changed)
+				plugin_wrapper.bind(instance=self.on_plugin_instance_changed)
+				self.plugins[plugin_wrapper.id]={'type':plugin_wrapper.type,'disabled':False,'wrapper':plugin_wrapper,'instance':plugin_wrapper.instance}
+		# self.plugins=plugins
 
 	def on_plugin_disable_clicked(self,instance,value):
 		self.plugins[instance.id]['disabled'] = value
@@ -61,9 +61,9 @@ class PluginManager(ModalView):
 			self.property('plugins').dispatch(self)
 			del self.plugins[instance.id]
 
-	def on_plugin_instance_changed(self,plugin,value):
-		if plugin.instance != None:
-			self.plugins[plugin.id]={'type':plugin.type,'disabled':False,'card':plugin,'instance':plugin.instance}
+	def on_plugin_instance_changed(self,plugin_wrapper,value):
+		if plugin_wrapper.instance != None:
+			self.plugins[plugin_wrapper.id]={'type':plugin_wrapper.type,'disabled':False,'wrapper':plugin_wrapper,'instance':plugin_wrapper.instance}
 			self.plugins['time']=time.time()
 
 	def on_collect_plugins_finished(self,*args):
@@ -74,12 +74,13 @@ class PluginManager(ModalView):
 		for plugin_id in self.plugins:
 			if plugin_id=='time':
 				continue
-			self.ids.plugin_album.add_widget(self.plugins[plugin_id]['card'])
+			self.ids.plugin_album.add_widget(self.plugins[plugin_id]['wrapper'])
 
 	def reload_all_plugins(self):
 		plugins=[str(id) for id in self.plugins]
 		for id in plugins:
 			self.reload_plugin(id)
+
 
 
 class Test(App):
