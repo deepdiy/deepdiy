@@ -1,5 +1,5 @@
 import os,rootpath
-rootpath.append(pattern='plugins')
+rootpath.append(pattern='main.py') # add the directory of main.py to PATH
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
@@ -9,17 +9,15 @@ from utils.get_file_list import get_file_list
 
 
 class Files(BoxLayout):
-	data=ObjectProperty(BoxLayout())
+	data=ObjectProperty()
 	path=StringProperty()
 
-	bundle_dir = rootpath.detect(pattern='plugins')
+	bundle_dir = rootpath.detect(pattern='main.py') # Obtain the dir of main.py
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'files.kv')
 
 	def __init__(self):
 		super(Files, self).__init__()
 		self.bind(path=self.add_to_tree)
-		self.data.apply_property(files_path=StringProperty('hi'))
-		self.data.bind(files_path=self.setter('path'))
 
 	def open_file(self):
 		self.path=select_file()
@@ -28,7 +26,6 @@ class Files(BoxLayout):
 		self.path=select_folder()
 
 	def add_to_tree(self,*args):
-		print(args)
 		if self.path=='':
 			return
 		file_list={}
@@ -52,7 +49,8 @@ class Test(App):
 	def build(self):
 
 		demo=Files()
-		demo.data.files_path='d:/'
+		demo.data=lambda:None
+		demo.data.tree={}
 		return demo
 
 if __name__ == '__main__':
