@@ -14,24 +14,21 @@ class PluginHandler(BoxLayout):
 	"""
 
 	plugins=DictProperty(force_dispatch=True)
-	processing_screens=ObjectProperty(lambda:None)
-
 	bundle_dir = rootpath.detect(pattern='main.py') # Obtain the dir of main.py
-
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'plugin_handler.kv')
 
 	def __init__(self):
 		super(PluginHandler, self).__init__()
-		self.bind(plugins=self.show_plugins)
 		self._catch_plugins()
+		self.ids.spinner_plugins.bind(text=self.update_plugin_attr_list)
 
 	def _catch_plugins(self):
 		'''Catch plugins loaded in the running app'''
 		app=App.get_running_app()
 		app.bind(plugins=self.setter('plugins'))
 
-	def show_plugins(self,*args):
-		print(self.plugins)
+	def update_plugin_attr_list(self,instance,value):
+		self.ids.spinner_plugin_attributes.values=self.plugins[value]['instance'].properties()
 
 	def get_plugin_attr(self,plugin_id,attr):
 		''' Get attributes of a plugin by plugin id and attribute name
@@ -53,7 +50,6 @@ class PluginHandler(BoxLayout):
 		plugin.setter(attr)(self,value)
 
 
-
 class Test(App):
 	"""docstring for Test."""
 
@@ -61,16 +57,16 @@ class Test(App):
 		super(Test, self).__init__()
 
 	def build(self):
-		'''Testing by take this middleware as a plugin of main program'''
+		'''Testing by take this middleware as a plugin of App'''
+
 		from main import MainWindow
-		app=MainWindow()
-		window=app.build()
-		plugin_handler=PluginHandler()
+		from core.plugin_wrapper import PluginWrapper
+		plugin_wrapper = PluginWrapper('plugins.processing.plugin_handler')
+		app = MainWindow()
+		window = app.build()
+		plugin_handler = PluginHandler()
 		app.plugins['plugin_handler']={
-		'type':'processing','disabled':False,'instance':plugin_handler}
-		# plugin_handler.set_plugin_attr('files','path',plugin_handler.bundle_dir+'/img/face.jpg')
-		# path=plugin_handler.get_plugin_attr('files','path')
-		# print(path)
+		'type':'processing','disabled':False,'instance':plugin_handler,'wrapper':plugin_wrapper}
 		return window
 
 if __name__ == '__main__':
