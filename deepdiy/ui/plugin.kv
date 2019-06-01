@@ -1,0 +1,35 @@
+<Plugin>:
+	size_hint:(None,None)
+	width:'250dp'
+	height:'120'
+	orientation:'vertical'
+	padding:'10dp'
+	visible:False
+	Label:
+		text:root.title
+		font_size:22
+		markup:True
+		text_size:self.size
+		disabled:root.is_disabled
+	Label:
+		text:root.type
+		text_size:self.size
+		markup:True
+		disabled:root.is_disabled
+	BoxLayout:
+		size_hint_y:None
+		height:'10dp'
+	BoxLayout:
+		size_hint_y:None
+		height:'40dp'
+		ToggleButton:
+			text:'Disable'
+			disabled:False
+			on_release:root.setter('is_disabled')(root,not root.is_disabled)
+		Button:
+			text:'Remove'
+			on_release:root.setter('is_valid')(root,False)
+		Button:
+			text:'Reload'
+			on_release:root.reload()
+			disabled:root.is_disabled
