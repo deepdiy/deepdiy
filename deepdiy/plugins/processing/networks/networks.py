@@ -1,5 +1,5 @@
 import os,rootpath
-rootpath.append(pattern='plugins')
+rootpath.append(pattern='main.py') # add the directory of main.py to PATH 
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
@@ -14,7 +14,7 @@ class Networks(BoxLayout):
 	"""docstring for Run."""
 	data=ObjectProperty(lambda: None)
 	is_weight_loaded=BooleanProperty(False)
-	bundle_dir = rootpath.detect(pattern='plugins')
+	bundle_dir = rootpath.detect(pattern='main.py') # Obtain the dir of main.py
 	Builder.load_file(os.sep.join([bundle_dir,'ui','networks.kv']))
 
 	def __init__(self):
@@ -89,14 +89,14 @@ class Networks(BoxLayout):
 	def run(self):
 		self.ids.btn_run.text='Running'
 		quickplugin=QuickPlugin(data=self.data,
-		input_type=['file_path'],
-		result_meta={'node_id':'detection_result',
-			'type':'img',
-			'display':'detection_viewer',
-			'class_names':self.config['CLASS_NAMES']
-			},
-		call_back=self.on_finished,
-		tensorflow_graph=self.graph)
+			input_type=['file_path'],
+			result_meta={'node_id':'detection_result',
+				'type':'img',
+				'display':'detection_viewer',
+				'class_names':self.config['CLASS_NAMES']
+				},
+			call_back=self.on_finished,
+			tensorflow_graph=self.graph)
 		quickplugin.run=self.predict
 		quickplugin.start()
 
