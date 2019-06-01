@@ -2,9 +2,9 @@
 	size_hint_y:None
 	height:50
 	Spinner:
-		id:spinner_processing_screens
+		id:spinner_plugins
 		text:'plugins'
-		values:app.plugins
-	Button:
-		text:'show plugins'
-		on_release:root.show_plugins()
+		values:root.plugins
+	Spinner:
+		id:spinner_plugin_attributes
+		text:'plugin attributes'
