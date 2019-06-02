@@ -4,7 +4,7 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty,DictProperty,StringProperty,BooleanProperty
 from kivy.uix.boxlayout import BoxLayout
-import pkgutil,importlib,inspect,string,shutil,time
+import pkgutil,importlib,inspect,string,shutil,time,logging
 
 class PluginWrapper(BoxLayout):
 	"""A wrapper of plugin to manage the life-time of a plugin
@@ -43,9 +43,11 @@ class PluginWrapper(BoxLayout):
 		self.instantiate()
 
 	def import_package(self):
-		if importlib.util.find_spec(self.package_name) is None:
+		try:
+			package=importlib.import_module(self.package_name)
+		except Exception as e:
+			logging.warning('Error when load {}:{}'.format(self.package_name,e))
 			return
-		package=importlib.import_module(self.package_name)
 		for attr_id in dir(package):
 			attr = getattr(package, attr_id)
 			if inspect.isclass(attr) and attr_id==self.title.replace(' ',''):
