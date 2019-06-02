@@ -1,7 +1,6 @@
 import os,rootpath
-rootpath.append(pattern='plugins')
+rootpath.append(pattern='main.py') # add the directory of main.py to PATH
 import importlib,glob
-from utils.get_file_list import get_file_list
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.factory import Factory
@@ -11,6 +10,9 @@ from kivy.uix.stacklayout import StackLayout
 from kivy.uix.button import Button
 from kivy.uix.popup import Popup
 from kivy.uix.rst import RstDocument
+from middleware.widget_handler import WidgetHandler
+from middleware.plugin_handler import PluginHandler
+import json
 
 
 class LocalDemoCard(BoxLayout):
@@ -22,12 +24,12 @@ class LocalDemoCard(BoxLayout):
 	abstract=StringProperty()
 	demo_path=StringProperty()
 	image_source=StringProperty()
+	bundle_dir=rootpath.detect(pattern='model_zoo')
 
 	def __init__(self,demo_path=''):
 		super(LocalDemoCard, self).__init__()
 		self.demo_path=demo_path
 		self.title=demo_path.split(os.sep)[-1]
-		# self.tags=kwargs['tags']
 		self.abstract='mrcnn'
 		self.image_source=os.sep.join([self.demo_path,'logo.png'])
 
@@ -36,6 +38,24 @@ class LocalDemoCard(BoxLayout):
 		description=Popup(title=self.title,size_hint=(None,None),height=500,width=700)
 		description.add_widget(RstDocument(text=f))
 		description.open()
+
+	def load_demo(self):
+		widget_handler=WidgetHandler()
+		plugin_handler=PluginHandler()
+		json_path=os.sep.join([self.demo_path,'config.json'])
+		demo_config=json.load(open(json_path))
+		widget_handler.switch_screens('processing','predict')
+		plugin_handler.set_plugin_attr(
+			'files','path',os.sep.join([self.demo_path,'images']))
+		plugin_handler.set_plugin_attr(
+			'predict','model_id',demo_config['model'])
+		plugin_handler.set_plugin_attr(
+			'predict','config_id',demo_config['config'])
+		plugin_handler.set_plugin_attr(
+			'predict','weight_id',demo_config['weight'])
+		# plugin_handler.set_plugin_attr(
+		# 	'networks','path',os.sep.join([self.demo_path,'images']))
+
 	#
 	# def load_demo(self):
 	# 	app=App.get_running_app()
@@ -55,7 +75,7 @@ class LocalDemoCard(BoxLayout):
 
 class LocalDemos(StackLayout):
 	"""docstring for Run."""
-	bundle_dir = rootpath.detect(pattern='plugins')
+	bundle_dir = rootpath.detect(pattern='main.py') # Obtain the dir of main.py
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'local_demos.kv')
 
 	def __init__(self):
@@ -66,7 +86,6 @@ class LocalDemos(StackLayout):
 	def collect_demos(self):
 		demos=glob.glob(os.sep.join([self.bundle_dir,'plugins','processing','model_zoo','demos','*']))
 		for demo in demos:
-			print(1)
 			self.add_widget(Factory.LocalDemoCard(demo_path=demo))
 
 
