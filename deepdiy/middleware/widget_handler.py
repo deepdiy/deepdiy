@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import os,rootpath
 rootpath.append(pattern='main.py') # add the directory of main.py to PATH
+import logging
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty,DictProperty
@@ -59,7 +60,7 @@ class WidgetHandler(BoxLayout):
 			screen_mgr=getattr(self,pannel_id+'_screens')
 			screen_mgr.current=screen_id
 		except Exception as e:
-			print(e)
+			logging.warning(e)
 
 
 class Test(App):
