@@ -69,6 +69,9 @@ class Hotkey(BoxLayout):
             p2=widget_handler.display_screens.current
             plugin_handler.plugins[p2]['wrapper'].reload()
             widget_handler.display_screens.current=p2
+        if 'f2' in  self.keycode:
+            app=App.get_running_app()
+            app.plugin_manager.reload_all_plugins()
 
 
 class Test(App):
