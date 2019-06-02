@@ -55,12 +55,11 @@ class WidgetHandler(BoxLayout):
 			pannel_id: string, e.g. 'processing'
 			screen_id: string, e.g. 'model_zoo'
 		'''
-		screen_mgr=getattr(self,pannel_id+'_screens')
-		if screen_mgr is not None:
-			try:
-				screen_mgr.current=screen_id
-			except Exception as e:
-				print(e)
+		try:
+			screen_mgr=getattr(self,pannel_id+'_screens')
+			screen_mgr.current=screen_id
+		except Exception as e:
+			print(e)
 
 
 class Test(App):
