@@ -8,7 +8,7 @@ from kivy.uix.modalview import ModalView
 from kivy.uix.button import Button
 from kivy.properties import DictProperty,StringProperty,ObjectProperty,BooleanProperty,AliasProperty
 import plugins
-import pkgutil,importlib,inspect,string,shutil,time
+import pkgutil,importlib,inspect,string,shutil
 from pebble.concurrent import thread
 from core.plugin_wrapper import PluginWrapper
 
@@ -64,7 +64,8 @@ class PluginManager(ModalView):
 	def on_plugin_instance_changed(self,plugin_wrapper,value):
 		if plugin_wrapper.instance != None:
 			self.plugins[plugin_wrapper.id]={'type':plugin_wrapper.type,'disabled':False,'wrapper':plugin_wrapper,'instance':plugin_wrapper.instance}
-			self.plugins['time']=time.time()
+			# value change is not in top-level, so need to dispatch manually
+			self.property('plugins').dispatch(self)
 
 	def on_collect_plugins_finished(self,*args):
 		pass
