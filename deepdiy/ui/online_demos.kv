@@ -43,7 +43,7 @@
 			bar_width:10
 			BoxLayout:
 				size_hint_y:None
-				height:lbl_abstract.size[1]
+				height:lbl_abstract.texture_size[1]
 				Label:
 					size_hint_y:None
 					id:lbl_abstract
@@ -62,6 +62,7 @@
 			id:installer
 
 <OnlineDemos>:
+	padding:10
 	BoxLayout:
 		orientation:'vertical'
 		BoxLayout:
@@ -72,12 +73,14 @@
 			Button:
 				text:'Close'
 				on_release:root.dismiss()
+		BoxLayout:
+			size_hint_y:None
+			height:10
 		ScrollView:
-			bar_width:15
+			bar_width:10
 			scroll_type:["bars"]
 			StackLayout:
 				id:model_album
 				size_hint_y:None
 				height:self.minimum_height
-				padding:20
 				spacing:10
