@@ -1,33 +1,3 @@
-<PluginCard>:
-	size_hint:(None,None)
-	width:'250dp'
-	height:'120'
-	orientation:'vertical'
-	padding:'10dp'
-	Label:
-		text:root.title
-		font_size:22
-		markup:True
-		text_size:self.size
-	Label:
-		text:root.type
-		text_size:self.size
-	BoxLayout:
-		size_hint_y:None
-		height:'10dp'
-	BoxLayout:
-		size_hint_y:None
-		height:'40dp'
-		Button:
-			text:'Disable'
-			on_release:root.operations[self.text](root.id)
-		Button:
-			text:'Remove'
-			on_release:root.operations[self.text](root.id)
-		Button:
-			text:'Reload'
-			on_release:root.operations[self.text](root.id)
-
 <PluginManager>:
 	title:'Manage Plugins'
 	auto_dismiss:False
