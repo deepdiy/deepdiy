@@ -25,6 +25,7 @@ class PluginHandler(BoxLayout):
 	def _catch_plugins(self):
 		'''Catch plugins loaded in the running app'''
 		app=App.get_running_app()
+		self.plugins=app.plugins
 		app.bind(plugins=self.setter('plugins'))
 
 	def update_plugin_attr_list(self,instance,value):
@@ -46,8 +47,11 @@ class PluginHandler(BoxLayout):
 			attr: string, e.g. 'path'
 			value: any type, e.g. 'd:/'
 		'''
-		plugin=self.plugins[plugin_id]['instance']
-		plugin.setter(attr)(self,value)
+		try:
+			plugin=self.plugins[plugin_id]['instance']
+			plugin.setter(attr)(self,value)
+		except Exception as e:
+			print(e)
 
 
 class Test(App):
