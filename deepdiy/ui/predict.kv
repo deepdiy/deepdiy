@@ -1,0 +1,53 @@
+<Predict>
+	ScreenManager:
+		id: screens
+		Screen:
+			name: 'intro'
+			Label:
+				text: 'Please select a model first from Model Zoo'
+			Button:
+				size_hint_y:None
+				height:40
+				text:'Select Model'
+		Screen:
+			name: 'work'
+			BoxLayout:
+				BoxLayout:
+					id:weight_col
+					orientation: 'vertical'
+					Button:
+						text:'Refresh'
+						# on_release:root.rescan_model_zoo()
+						size_hint_y:None
+						height:'40dp'
+					Spinner:
+						id:config_spinner
+						text:'Select Config' if root.config_id == '' else root.config_id
+						size_hint_y:None
+						height:'40dp'
+						values:root.config_dict
+						# disabled:not (model_spinner.text in model_spinner.values)
+					Spinner:
+						id:weight_spinner
+						text:'Select Weight' if root.weight_id == '' else root.weight_id
+						size_hint_y:None
+						height:'40dp'
+						values:root.weight_dict
+						# disabled:not (model_spinner.text in model_spinner.values)
+				BoxLayout:
+					id:run_col
+					orientation: 'vertical'
+					Button:
+						id:btn_load_weight
+						text:'Load Model'
+						size_hint_y:None
+						height:'40dp'
+						on_release:root.load_weight()
+						disabled: not (weight_spinner.text in weight_spinner.values and config_spinner.text in config_spinner.values+['No config needed'])
+					Button:
+						id:btn_run
+						text:'Run'
+						size_hint_y:None
+						height:'40dp'
+						disabled: not root.is_weight_loaded
+						on_release:root.run()
