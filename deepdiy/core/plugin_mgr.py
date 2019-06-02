@@ -78,9 +78,8 @@ class PluginManager(ModalView):
 			self.ids.plugin_album.add_widget(self.plugins[plugin_id]['wrapper'])
 
 	def reload_all_plugins(self):
-		plugins=[str(id) for id in self.plugins]
-		for id in plugins:
-			self.reload_plugin(id)
+		for id in self.plugins:
+			self.plugins[id]['wrapper'].reload()
 
 
 
