@@ -6,7 +6,16 @@ from kivy.properties import ObjectProperty
 
 
 class DisplayManager(BoxLayout):
-	"""docstring for DisplayManager."""
+	"""Monitor data changes and update contents in widgets
+
+	When data changes, refresh the resource_tree and monitor the change of
+	selected item index in the resource_tree, when the select index changes,
+	update the content in display_panel.
+
+	Attributes:
+		data: Data() object in App
+
+	"""
 
 	data=ObjectProperty(force_dispatch=True)
 
