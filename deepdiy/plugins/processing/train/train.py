@@ -1,28 +1,39 @@
 import os,rootpath
-rootpath.append(pattern='main.py') # add the directory of main.py to PATH 
+rootpath.append(pattern='main.py') # add the directory of main.py to PATH
+import json
+import webbrowser
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
-from kivy.properties import DictProperty
-from plugins.processing.networks.model_collector import ModelCollector
-import webbrowser
-from utils.select_path_dialog import select_file,select_folder
+from kivy.properties import DictProperty,StringProperty,ListProperty
 from plugins.processing.train.dataset import Dataset
+from utils.select_path_dialog import select_file,select_folder
 from utils.form_parser import FormParser
-import json
+from utils.get_file_list import get_file_list
+from middleware.widget_handler import WidgetHandler
 
 class Train(BoxLayout):
 	"""docstring for Train."""
 	bundle_dir = rootpath.detect(pattern='main.py') # Obtain the dir of main.py
-	models=ModelCollector().models
+	model_id = StringProperty()
+	train_notebooks = ListProperty()
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'train.kv')
 
 	def __init__(self):
 		super(Train, self).__init__()
-		self.ids.config_spinner.bind(text=self.load_config)
+		self.bind(model_id=self.switch_screens)
+		self.bind(model_id=self.show_config)
+		self.bind(model_id=self.collect_train_notebooks)
 
-	def load_config(self,instance,text):
+	def switch_screens(self,*args):
+		self.ids.screens.current='work'
+
+	def jump_to_model_zoo(self,*args):
+		widget_handler=WidgetHandler()
+		widget_handler.switch_screens('processing','model_zoo')
+
+	def show_config(self,instance,text):
 		self.ids.config_panel.clear_widgets()
 		path=os.sep.join([self.bundle_dir,'model_zoo',text,'config_form.json'])
 		if not os.path.exists(path):
@@ -32,11 +43,15 @@ class Train(BoxLayout):
 		self.form_parser.load_json(path)
 		self.ids.config_panel.add_widget(self.form_parser)
 
+	def collect_train_notebooks(self,*args):
+		self.train_notebooks=get_file_list(os.sep.join([
+			self.bundle_dir,'plugins','processing','model_zoo','models',self.model_id,'training']),formats=['ipynb'])
+
 	def open_via(self):
 		webbrowser.open('http://www.robots.ox.ac.uk/~vgg/software/via/via-2.0.4.html')
 
 	def train(self):
-		webbrowser.open('https://colab.research.google.com/github/deepdiy/deepdiy/blob/master/deepdiy/model_zoo/'+self.ids.run_net_spinner.text+'/training/'+self.ids.run_notebook_spinner.text)
+		webbrowser.open('https://colab.research.google.com/github/deepdiy/deepdiy/blob/master/deepdiy/model_zoo/'+self.model_id+'/training/'+self.ids.run_notebook_spinner.text)
 
 	def select_annotation_path(self):
 		self.annoation_path=select_file()
@@ -60,6 +75,7 @@ class Test(App):
 	def __init__(self,**kwargs):
 		super(Test, self).__init__(**kwargs)
 		self.train=Train()
+		self.train.model_id = 'mrcnn'
 
 	def build(self):
 		return self.train

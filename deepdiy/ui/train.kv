@@ -1,94 +1,91 @@
 #:import os os
 <Train>
-  TabbedPanel:
-    do_default_tab:False
-    TabbedPanelItem:
-      text:'1.Cofig'
-      BoxLayout:
-        orientation: 'vertical'
-        ScrollView:
-          id:config_panel
-          scroll_type:["bars"]
-          bar_width:10
-          scroll_distance:1
-          scroll_timeout:0
-        BoxLayout:
-          size_hint_y:None
-          height:'40dp'
-          Spinner:
-            id:config_spinner
-            text:'Select Network'
-            size_hint_y:None
-            height:'40dp'
-            values:root.models
-          Button:
-            text:'Reset'
-            size_hint_y:None
-            height:'40dp'
-            disabled:not (config_spinner.text in config_spinner.values)
-            on_release:root.form_parser.reset()
-          Button:
-            text:'Export config file'
-            size_hint_y:None
-            height:'40dp'
-            disabled:not (config_spinner.text in config_spinner.values)
-            on_release:root.form_parser.export()
+  ScreenManager:
+    id: screens
+    Screen:
+      name: 'wizard'
+      Label:
+        text: 'Please select a model first from Model Zoo'
+      Button:
+        size_hint_y:None
+        height:40
+        text:'Select Model'
+        on_release:root.jump_to_model_zoo()
+    Screen:
+      name: 'work'
+      TabbedPanel:
+        do_default_tab:False
+        TabbedPanelItem:
+          text:'1.Cofig'
+          BoxLayout:
+            orientation: 'vertical'
+            ScrollView:
+              id:config_panel
+              scroll_type:["bars"]
+              bar_width:10
+              scroll_distance:1
+              scroll_timeout:0
+            BoxLayout:
+              size_hint_y:None
+              height:'40dp'
+              Button:
+                text:'Reset'
+                size_hint_y:None
+                height:'40dp'
+                on_release:root.form_parser.reset()
+              Button:
+                text:'Export config file'
+                size_hint_y:None
+                height:'40dp'
+                on_release:root.form_parser.export()
 
 
-    TabbedPanelItem:
-      text:'2.Labelling'
-      BoxLayout:
-        BoxLayout:
-          Button:
-            text:'VIA label tool'
-            size_hint_y:None
-            height:'40dp'
-            on_release:root.open_via()
-    TabbedPanelItem:
-      text:'3.Pack Data'
-      BoxLayout:
-        BoxLayout:
-          orientation: 'vertical'
-          Button:
-            text:'Select image directory'
-            size_hint_y:None
-            height:'40dp'
-            on_release:root.select_img_dir()
-          Button:
-            text:'Select config file'
-            size_hint_y:None
-            height:'40dp'
-            on_release:root.select_config_path()
-          Button:
-            text:'Select annoation file'
-            size_hint_y:None
-            height:'40dp'
-            on_release:root.select_annotation_path()
-        Button:
-          text:'Run (select save directory)'
-          size_hint_y:None
-          height:'40dp'
-          on_release:root.save_zip()
-    TabbedPanelItem:
-      text:'4.Run'
-      BoxLayout:
-        Spinner:
-          id:run_net_spinner
-          text:'Select Network'
-          size_hint_y:None
-          height:'40dp'
-          values:root.models
-        Spinner:
-          id:run_notebook_spinner
-          text:'Select Notebook'
-          size_hint_y:None
-          height:'40dp'
-          disabled:not (run_net_spinner.text in root.models) 
-          train_notebooks:root.models[run_net_spinner.text].train_notebooks if not self.disabled else []
-          values:[value.split(os.sep)[-1] for value in self.train_notebooks]
-        Button:
-          text:'Open Colab'
-          size_hint_y:None
-          height:'40dp'
-          on_release:root.train()
-          disabled:not (run_notebook_spinner.text in run_notebook_spinner.values)
+        TabbedPanelItem:
+          text:'2.Labelling'
+          BoxLayout:
+            BoxLayout:
+              Button:
+                text:'VIA label tool'
+                size_hint_y:None
+                height:'40dp'
+                on_release:root.open_via()
+        TabbedPanelItem:
+          text:'3.Pack Data'
+          BoxLayout:
+            BoxLayout:
+              orientation: 'vertical'
+              Button:
+                text:'Select image directory'
+                size_hint_y:None
+                height:'40dp'
+                on_release:root.select_img_dir()
+              Button:
+                text:'Select config file'
+                size_hint_y:None
+                height:'40dp'
+                on_release:root.select_config_path()
+              Button:
+                text:'Select annoation file'
+                size_hint_y:None
+                height:'40dp'
+                on_release:root.select_annotation_path()
+            Button:
+              text:'Run (select save directory)'
+              size_hint_y:None
+              height:'40dp'
+              on_release:root.save_zip()
+        TabbedPanelItem:
+          text:'4.Run'
+          BoxLayout:
+            Spinner:
+              id:run_notebook_spinner
+              text:'Select Notebook'
+              size_hint_y:None
+              height:'40dp'
+              values:[value.split(os.sep)[-1] for value in root.train_notebooks]
+            Button:
+              text:'Open Colab'
+              size_hint_y:None
+              height:'40dp'
+              on_release:root.train()
+              disabled:not (run_notebook_spinner.text in run_notebook_spinner.values)
