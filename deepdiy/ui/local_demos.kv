@@ -7,11 +7,11 @@
 		size_hint_x:None
 		width:'120dp'
 		AsyncImage:
-			source:root.image_source
+			source:root.meta_info['logo'] if root.meta_info != {} else ''
 	BoxLayout:
 		orientation:'vertical'
 		Label:
-			text:root.title
+			text:root.meta_info['title'] if root.meta_info != {} else ''
 			font_size:20
 			markup:True
 			pos_hint:{'center_x':0.5,'center_y':0.5}
@@ -20,7 +20,7 @@
 			valign:'middle'
 			text_size:self.size
 		Label:
-			text:root.abstract
+			text:root.meta_info['abstract'] if root.meta_info != {} else ''
 			text_size:self.size
 		BoxLayout:
 			size_hint_y:None
