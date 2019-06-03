@@ -32,8 +32,11 @@
 				text:'Details'
 				on_release:root.popup_readme()
 			Button:
+				text:'Train'
+				on_release:root.train_model()
+			Button:
 				text:'Load'
-				on_release:root.load_demo()
+				on_release:root.load_model()
 
 <LocalModels>:
 	orientation:'lr-tb'

@@ -11,6 +11,8 @@ from kivy.uix.stacklayout import StackLayout
 from kivy.uix.button import Button
 from kivy.uix.popup import Popup
 from kivy.uix.rst import RstDocument
+from middleware.widget_handler import WidgetHandler
+from middleware.plugin_handler import PluginHandler
 
 
 class LocalModelCard(BoxLayout):
@@ -37,6 +39,20 @@ class LocalModelCard(BoxLayout):
 		description.add_widget(RstDocument(text=f))
 		description.open()
 
+	def load_model(self):
+		widget_handler=WidgetHandler()
+		plugin_handler=PluginHandler()
+		widget_handler.switch_screens('processing','predict')
+		plugin_handler.set_plugin_attr(
+			'predict','model_id',self.id)
+
+	def train_model(self):
+		widget_handler=WidgetHandler()
+		plugin_handler=PluginHandler()
+		widget_handler.switch_screens('processing','train')
+		plugin_handler.set_plugin_attr(
+			'train','model_id',self.id)
+		#
 class LocalModels(StackLayout):
 	"""docstring for Run."""
 	bundle_dir = rootpath.detect(pattern='main.py') # Obtain the dir of main.py
@@ -77,7 +93,6 @@ class Test(App):
 
 	def build(self):
 		demo=LocalModels()
-		print(demo.models)
 		return demo
 
 if __name__ == '__main__':
