@@ -1,5 +1,5 @@
 import os,rootpath
-rootpath.append(pattern='main.py') # add the directory of main.py to PATH 
+rootpath.append(pattern='main.py') # add the directory of main.py to PATH
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.factory import Factory
@@ -7,31 +7,28 @@ from kivy.properties import ObjectProperty,DictProperty,StringProperty,ListPrope
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.modalview import ModalView
 from kivy.network.urlrequest import UrlRequest
+from kivy.uix.popup import Popup
+from kivy.uix.rst import RstDocument
 from plugins.processing.model_zoo.installer import Installer
 
 
 class ModelCard(BoxLayout):
 
-	title=StringProperty()
-	id=StringProperty()
-	tags=StringProperty()
-	abstract=StringProperty()
-	bundle_dir = rootpath.detect(pattern='main.py') # Obtain the dir of main.py
+	meta_info = DictProperty()
 
-	def __init__(self, **kwargs):
+	def __init__(self, meta_info):
 		super(ModelCard, self).__init__()
-		self.title=kwargs['title']
-		self.id=kwargs['id']
-		# self.tags=kwargs['tags']
-		self.abstract=kwargs['abstract']
-		self.dowload=kwargs['download']
+		self.meta_info=meta_info
 
 	def install(self,*args):
 		installer=Installer()
-		url=self.dowload
 		self.ids.installer.clear_widgets()
 		self.ids.installer.add_widget(installer)
-		installer.install_model(self.id,self.dowload)
+		installer.install_model(
+			self.meta_info['id'],self.meta_info['install_url'])
+
+	def popup_readme(self):
+		pass
 
 class OnlineModels(ModalView):
 	"""docstring for OnlineModels."""
@@ -56,8 +53,7 @@ class OnlineModels(ModalView):
 
 	def render_model_cards(self,*args):
 		for model in self.online_models:
-			self.ids.model_album.add_widget(Factory.ModelCard(
-				title=model['title'],id=model['id'],abstract=model['abstract'],download=model['download']))
+			self.ids.model_album.add_widget(Factory.ModelCard(model))
 
 
 class Test(App):

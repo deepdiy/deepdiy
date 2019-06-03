@@ -19,7 +19,7 @@
 				size_hint_x:None
 				width:300
 				id:lbl_title
-				text:root.title
+				text: root.meta_info['title']  if root.meta_info != {} else ''
 				font_size:22
 				markup:True
 				pos_hint:{'center_x':0.5,'center_y':0.5}
@@ -29,13 +29,10 @@
 			BoxLayout:
 				Button:
 					text:'Details'
-					on_release:root.operations[self.text](root.id)
+					on_release:root.popup_readme()
 				Button:
 					text:'Install'
 					on_release:root.install()
-				Button:
-					text:'Demos'
-					on_release:root.operations[self.text](root.id)
 		BoxLayout:
 			size_hint_y:None
 			height:'10dp'
@@ -50,7 +47,7 @@
 				Label:
 					size_hint_y:None
 					id:lbl_abstract
-					text:root.abstract
+					text:root.meta_info['abstract']  if root.meta_info != {} else ''
 					font_size:17
 					markup:True
 					is_shortened:False
