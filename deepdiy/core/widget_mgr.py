@@ -8,7 +8,17 @@ from kivy.factory import Factory
 import string
 
 class WidgetManager(BoxLayout):
-	"""docstring for WidgetManager."""
+	"""Provide window for App and organize widgets in window
+
+	Monitor plugins in App. If new plugin appear add the GUI(
+	widgets) of the plugin into window; if a plugin is disabled, remove its
+	widgets.
+	This module also provide the main window and menu bar.
+
+	Attributes:
+		plugins: plugins in the App
+		bundle_dir: the dir of main.py
+	"""
 
 	plugins=DictProperty(force_dispatch=True)
 	bundle_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,10 +33,7 @@ class WidgetManager(BoxLayout):
 
 	def load_widgets(self,instance,value):
 		for id in self.plugins:
-			if id=='time':
-				continue
-			if self.plugins[id]['disabled']==False and not self.plugins[id]['instance'] is None and id not in self.widget_list:
-
+			if self.plugins[id]['disabled']==False and id not in self.widget_list:
 				self.add_widget_to_window(self.plugins[id]['instance'],self.plugins[id]['type'],id)
 				self.widget_list.append(id)
 		for id in self.widget_list:
@@ -59,13 +66,10 @@ class WidgetManager(BoxLayout):
 			self.ids.display_screens.remove_widget(screen)
 
 	def add_munu_button(self,id):
-		# if id in ['open','models','plugins','scripts','train']:
 		self.ids.action_view.add_widget(Factory.MenuButton(
 			text=string.capwords(id.replace('_',' ')),
 			on_release=lambda x:setattr(self.ids.processing_screens, 'current', id),
 			important=True))
-		# elif id in ['detect','segment']:
-		# 	self.ids.menu_btn_group.add_widget(Factory.MenuButton(text=string.capwords(id.replace('_',' '))))
 
 	def remove_menu_button(self,id):
 		for i in self.ids.action_view.children:
