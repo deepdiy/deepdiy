@@ -1,16 +1,16 @@
 import os,rootpath
 rootpath.append(pattern='main.py') # add the directory of main.py to PATH
-import importlib
-from utils.get_file_list import get_file_list
+import json
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.factory import Factory
-from kivy.properties import ObjectProperty,DictProperty,StringProperty
+from kivy.properties import ObjectProperty,DictProperty,StringProperty,ListProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.stacklayout import StackLayout
 from kivy.uix.button import Button
 from kivy.uix.popup import Popup
 from kivy.uix.rst import RstDocument
+from utils.get_file_list import get_file_list
 from middleware.widget_handler import WidgetHandler
 from middleware.plugin_handler import PluginHandler
 
@@ -22,14 +22,18 @@ class LocalModelCard(BoxLayout):
 	id=StringProperty()
 	tags=StringProperty()
 	abstract=StringProperty()
+	logo_path=StringProperty()
 	bundle_dir = rootpath.detect(pattern='main.py') # Obtain the dir of main.py
 
-	def __init__(self, **kwargs):
+	def __init__(self, model_id):
 		super(LocalModelCard, self).__init__()
-		self.title=kwargs['title']
-		self.id=kwargs['id']
-		# self.tags=kwargs['tags']
-		self.abstract=kwargs['abstract']
+		self.id = model_id
+		meta_path = os.sep.join([
+			self.bundle_dir,'plugins','processing','model_zoo','models',self.id,'meta.json'])
+		meta_info = json.load(open(meta_path))
+		self.title = meta_info['title']
+		self.abstract = meta_info['abstract']
+		self.logo_path = meta_info['logo']
 
 	def popup_readme(self):
 		readme_path=os.sep.join([
@@ -55,31 +59,23 @@ class LocalModelCard(BoxLayout):
 		#
 class LocalModels(StackLayout):
 	"""docstring for Run."""
+	models = ListProperty()
 	bundle_dir = rootpath.detect(pattern='main.py') # Obtain the dir of main.py
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'local_models.kv')
 
 	def __init__(self):
 		super(LocalModels, self).__init__()
-		self.models={}
-		self.scan_model_zoo()
+		self.collect_models()
 		self.render_model_cards()
 
-	def scan_model_zoo(self):
+	def collect_models(self):
 		model_zoo_dir=os.sep.join([self.bundle_dir,'plugins','processing','model_zoo'])
 		self.model_names=os.listdir(model_zoo_dir+os.sep+'models')
-		self.model_names=[name for name in self.model_names if name[:2]!='__']
-		for name in self.model_names:
-			module_name='.'.join(['plugins','processing','model_zoo','models',name,'api'])
-			module=importlib.import_module(module_name)
-			self.models[name]=getattr(module,'Api')()
-			# self.models[name].config_list=get_file_list(model_zoo_dir+os.sep+'models'+os.sep+name+os.sep+'configs')
-			# self.models[name].weight_list=get_file_list(model_zoo_dir+os.sep+'weights'+os.sep+name)
-			# self.models[name].train_notebooks=get_file_list(model_zoo_dir+os.sep+'models'+os.sep+name+os.sep+'training',formats=['ipynb'])
+		self.models=[name for name in self.model_names if name[:2]!='__']
 
 	def render_model_cards(self):
-		for model in self.models:
-			self.add_widget(Factory.LocalModelCard(
-				title='MRCNN',id='mrcnn',abstract='wwwwwwwww'))
+		for model_id in self.models:
+			self.add_widget(Factory.LocalModelCard(model_id))
 
 
 class Test(App):
