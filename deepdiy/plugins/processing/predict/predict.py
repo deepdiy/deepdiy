@@ -12,7 +12,31 @@ from utils.quickplugin import QuickPlugin
 
 
 class Predict(BoxLayout):
-	"""docstring for Predict."""
+	"""Make prediction/inference with deep learning models
+
+	Because this module rely on models from Model Zoo, so it is designed as
+	opening in a passive manner. To be specific, at start the gui will guide
+	user to select a model in Model Zoo module, only after deep learning model
+	is selected, this module will shift to work mode.
+
+	Attribues:
+		data: shared and synchornized within the App.
+			This module will use user selected item in data as input and make
+			prediction. The result will be saved as a child of selected item.
+		model: deep learning model which will be used to make prediction
+		model_id: id of model, used to find and load model
+		config_id: id of user-selected config file, used to find and load
+			config file. The config file stores the configurations of model,
+			such as input shape of network. Some model may not need config file.
+		weight_id: id of user-selected weight file.
+		config_dict: a dictionary stores pairs of id and path of all config
+			files available in the selected model.
+		weight_dict: a dictionary stores pairs fo id and path of all weight
+			files available in the selected model.
+		is_weight_loaded: True when weight is loaded. If False, the Run button
+			is disabled
+		bundle_dir: the dir of main.py
+	"""
 
 	data=ObjectProperty()
 	model=ObjectProperty()
@@ -31,8 +55,6 @@ class Predict(BoxLayout):
 		self.bind(model=self.collect_configs)
 		self.bind(model=self.collect_weights)
 		self.bind(model=self.switch_screens)
-		# self.ids.config_spinner(text=self.setter('config_id'))
-		# self.ids.weight_spinner(text=self.setter('weight_id'))
 
 	def import_model(self,*args):
 		module_name='.'.join(['model_zoo',self.model_id,'api'])
@@ -56,7 +78,6 @@ class Predict(BoxLayout):
 		self.ids.btn_load_weight.text='Loading'
 		model_zoo_path=os.sep.join([self.bundle_dir,'plugins','processing','model_zoo'])
 		self.model.weight_path=os.sep.join([model_zoo_path,'weights',self.model_id,self.ids.weight_spinner.text])
-		print(self.model.weight_path)
 		if self.ids.config_spinner.text!='No config needed':
 			self.model.config_path=os.sep.join([model_zoo_path,'configs',self.model_id,self.ids.config_spinner.text])
 		else:
