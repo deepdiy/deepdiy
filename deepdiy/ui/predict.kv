@@ -2,19 +2,25 @@
 	ScreenManager:
 		id: screens
 		Screen:
-			name: 'intro'
+			name: 'wizard'
 			Label:
 				text: 'Please select a model first from Model Zoo'
 			Button:
 				size_hint_y:None
 				height:40
 				text:'Select Model'
+				on_release:root.jump_to_model_zoo()
 		Screen:
 			name: 'work'
 			BoxLayout:
 				BoxLayout:
 					id:weight_col
 					orientation: 'vertical'
+					Button:
+						text: 'Reselct Model'
+						size_hint_y:None
+						height:40
+						on_release: root.jump_to_model_zoo()
 					Button:
 						text:'Refresh'
 						# on_release:root.rescan_model_zoo()

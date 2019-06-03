@@ -9,13 +9,14 @@ from kivy.properties import ObjectProperty,StringProperty,DictProperty,BooleanPr
 from kivy.uix.boxlayout import BoxLayout
 from utils.get_file_list import get_file_list
 from utils.quickplugin import QuickPlugin
+from middleware.widget_handler import WidgetHandler
 
 
 class Predict(BoxLayout):
 	"""Make prediction/inference with deep learning models
 
 	Because this module rely on models from Model Zoo, so it is designed as
-	opening in a passive manner. To be specific, at start the gui will guide
+	opening in a passive manner. To be specific, at start the GUI will guide
 	user to select a model in Model Zoo module, only after deep learning model
 	is selected, this module will shift to work mode.
 
@@ -56,13 +57,17 @@ class Predict(BoxLayout):
 		self.bind(model=self.collect_weights)
 		self.bind(model=self.switch_screens)
 
+	def switch_screens(self,*args):
+		self.ids.screens.current='work'
+
+	def jump_to_model_zoo(self,*args):
+		widget_handler=WidgetHandler()
+		widget_handler.switch_screens('processing','model_zoo')
+
 	def import_model(self,*args):
 		module_name='.'.join(['model_zoo',self.model_id,'api'])
 		module=importlib.import_module(module_name)
 		self.model=getattr(module,'Api')()
-
-	def switch_screens(self,*args):
-		self.ids.screens.current='work'
 
 	def collect_configs(self,*args):
 		config_list=get_file_list(os.sep.join([self.bundle_dir,'plugins','processing','model_zoo','configs',self.model_id]))
