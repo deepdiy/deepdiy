@@ -14,10 +14,23 @@ from utils.get_file_list import get_file_list
 from middleware.widget_handler import WidgetHandler
 
 class Train(BoxLayout):
-	"""docstring for Train."""
-	bundle_dir = rootpath.detect(pattern='main.py') # Obtain the dir of main.py
+	"""Train a deep learning model with own data
+
+	Because this module rely on models from Model Zoo, so it is designed as
+	opening in a passive manner. To be specific, at start the GUI will guide
+	user to select a model in Model Zoo module, only after deep learning model
+	is selected, this module will shift to work mode.
+
+	Attributes:
+		model_id: id of model, used to find and load configuration of the model
+		train_notebooks: list of notebook pathes. Each model may have one or
+		 	more notebooks for training different kind of data.
+		bundle_dir: the dir of main.py
+
+	"""
 	model_id = StringProperty()
 	train_notebooks = ListProperty()
+	bundle_dir = rootpath.detect(pattern='main.py') # Obtain the dir of main.py
 	Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'train.kv')
 
 	def __init__(self):
