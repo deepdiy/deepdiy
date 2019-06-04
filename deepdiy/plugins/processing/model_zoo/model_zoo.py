@@ -1,10 +1,11 @@
 import os,rootpath
-rootpath.append(pattern='main.py') # add the directory of main.py to PATH 
+rootpath.append(pattern='main.py') # add the directory of main.py to PATH
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty,DictProperty
 from kivy.uix.boxlayout import BoxLayout
 from plugins.processing.model_zoo.online_models import OnlineModels
+from plugins.processing.model_zoo.online_demos import OnlineDemos
 from plugins.processing.model_zoo.local_models import LocalModels
 from plugins.processing.model_zoo.local_demos import LocalDemos
 
@@ -25,6 +26,10 @@ class ModelZoo(BoxLayout):
 	def load_online_models(self,*args):
 		self.online_models=OnlineModels()
 		self.online_models.open()
+
+	def load_online_demos(self,*args):
+		self.online_demos=OnlineDemos()
+		self.online_demos.open()
 
 
 class Test(App):
