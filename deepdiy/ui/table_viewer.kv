@@ -1,0 +1,21 @@
+<Cell>:
+    size_hint_y:None
+    height:'30dp'
+    multiline:False
+    readonly:True
+
+<TabelViewer>:
+    orientation:'vertical'
+    ScrollView:
+        bar_width:10
+        scroll_type:["bars"]
+        GridLayout:
+        	id:grid
+            size_hint_y:None
+            height:self.minimum_height
+<NoCell>:
+    id:tb
+    size_hint:None,None
+    size:40,30
+    disabled:True
+    group:'a'
