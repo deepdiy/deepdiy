@@ -1,5 +1,5 @@
 import os,rootpath
-rootpath.append(pattern='main.py') # add the directory of main.py to PATH 
+rootpath.append(pattern='main.py') # add the directory of main.py to PATH
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty,DictProperty,StringProperty,ListProperty
@@ -14,7 +14,7 @@ class Installer(BoxLayout):
 	data=ObjectProperty()
 	status=StringProperty()
 	target=ListProperty()
-	bundle_dir = rootpath.detect(pattern='model_zoo')
+	bundle_dir = rootpath.detect(pattern='main.py')
 	# Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'demo.kv')
 
 	def __init__(self):
@@ -28,7 +28,8 @@ class Installer(BoxLayout):
 		self.downloader.bind(status=self.setter('status'))
 		self.clear_widgets()
 		self.add_widget(self.downloader)
-		self.working_dir=os.sep.join([self.bundle_dir,type+'s',id])
+		self.working_dir=os.sep.join([self.bundle_dir,'plugins','processing','model_zoo',type+'s',id])
+		print(self.working_dir)
 		os.makedirs(self.working_dir, exist_ok=True)
 
 	def on_status_changed(self,ins,value):
