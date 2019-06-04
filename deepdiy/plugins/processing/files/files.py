@@ -29,8 +29,8 @@ class Files(BoxLayout):
 		if self.path=='':
 			return
 		file_list={}
-		file_list['image']=get_file_list(self.path,formats=['jpg','jpeg','bmp','png','tiff','tif'])
-		file_list['video']=get_file_list(self.path,formats=['avi','mp4'])
+		file_list['image']=get_file_list(self.path,formats=['jpg','jpeg','bmp','png'])
+		file_list['video']=get_file_list(self.path,formats=['avi','mp4','tiff','tif'])
 		tree={'node_id':'resources','children':[],'type':'root'}
 		for data_format in file_list:
 			for file_path in file_list[data_format]:
