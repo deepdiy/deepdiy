@@ -5,25 +5,28 @@
 			id:preview
 	BoxLayout:
 		size_hint_y:None
-		height:40
+		height:35
 		BoxLayout:
 			size_hint_x:None
 			width:150
 			Button:
 				text:'<'
-				on_release:root.to_previous_frame()
+				on_release: root.frame_idx -= 1 if root.frame_idx > 0 else 0
 			Button:
-				text:'play' if root.status!="play" else 'stop'
-				on_release:root.play() if root.status!="play" else root.pause()
+				text:'Stop' if root.status == 'play' else 'Play'
+				on_release: root.on_play_clicked()
 			Button:
 				text:'>'
-				on_release:root.to_next_frame()
+				on_release: root.frame_idx += 1 if root.frame_idx < root.total_frames-1 else 0
 		BoxLayout:
 			Slider:
 				id:play_progress
-				min:0
+				min:1
 				max:root.total_frames
 				step:1
+				on_touch_down:root.frame_idx = self.value-1
+				on_touch_up:root.frame_idx = self.value-1
+				on_touch_move:root.frame_idx = self.value-1
 			Label:
 				size_hint_x:None
 				text:str(int(play_progress.value))+'/'+str(int(root.total_frames))
