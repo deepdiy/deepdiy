@@ -20,33 +20,35 @@ class NoCell(ToggleButton):
     def released(self,m):
         print(m)
 
-class TabelViewer(BoxLayout):
-    """docstring for TabelViewer."""
+class TableViewer(BoxLayout):
+    """docstring for TableViewer."""
 
-    data=ListProperty()
+    data=DictProperty()
     bundle_dir = rootpath.detect(pattern='main.py') # Obtain the dir of main.py
     Builder.load_file(bundle_dir +os.sep+'ui'+os.sep+'table_viewer.kv')
 
     def __init__(self):
-        super(TabelViewer, self).__init__()
+        super(TableViewer, self).__init__()
         self.is_selected_=False
+        self.bind(data=self.populate)
 
 
-    def populate(self):
-        if len(self.data)==0:
+    def populate(self,*args):
+        data =self.data['content']
+        if len(data)==0:
             pass
         else:
-            self.ids.grid.cols=len(self.data[0])+1
-            self.rows=len(self.data)
-            for i in range(len(self.data)):
-                for j in range(len(self.data[0])+1):
+            self.ids.grid.cols=len(data[0])+1
+            self.rows=len(data)
+            for i in range(len(data)):
+                for j in range(len(data[0])+1):
                     cell=Cell()
                     no=NoCell()
                     if j==0:
                     	no.text=str(i+1)
                     	self.ids.grid.add_widget(no)
                     else:
-                    	cell.text=str(self.data[i][j-1])
+                    	cell.text=str(data[i][j-1])
                     	self.ids.grid.add_widget(cell)
 
 
@@ -70,9 +72,8 @@ class Test(App):
             del y
 
         '''Populate the table'''
-        demo=TabelViewer()
-        demo.data=x
-        demo.populate()
+        demo=TableViewer()
+        demo.data={'content':x}
         return demo
 
 if __name__ == '__main__':
