@@ -9,10 +9,20 @@
     ScrollView:
         bar_width:10
         scroll_type:["bars"]
-        GridLayout:
-        	id:grid
+        BoxLayout:
+            orientation:'vertical'
             size_hint_y:None
             height:self.minimum_height
+            Button:
+                size_hint_y:None
+                height:30
+                text:'Save'
+                on_release:root.on_click_save()
+            GridLayout:
+            	id:grid
+                size_hint_y:None
+                height:self.minimum_height
+
 <NoCell>:
     id:tb
     size_hint:None,None

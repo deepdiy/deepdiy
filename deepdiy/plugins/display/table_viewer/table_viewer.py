@@ -8,6 +8,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.togglebutton import ToggleButton
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
+from utils.select_path_dialog import select_save_path
 
 
 class Cell(TextInput):
@@ -32,6 +33,16 @@ class TableViewer(BoxLayout):
         self.is_selected_=False
         self.bind(data=self.populate)
 
+    def on_click_save(self,*args):
+        out_file=select_save_path()
+        self.save(out_file)
+
+    def save(self,out_file):
+        import csv
+        with out_file as resultFile:
+            wr = csv.writer(resultFile, dialect='excel')
+            for item in self.data['content']:
+                wr.writerow(item)
 
     def populate(self,*args):
         data =self.data['content']
