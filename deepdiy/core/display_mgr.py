@@ -4,6 +4,7 @@ from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty,BooleanProperty
 from kivy.logger import Logger
+from kivy.clock import Clock
 
 
 class DisplayManager(BoxLayout):
@@ -15,9 +16,7 @@ class DisplayManager(BoxLayout):
 
 	Attributes:
 		data: Data() object in App
-
 	"""
-
 	data=ObjectProperty(force_dispatch=True)
 
 	def __init__(self,**kwargs):
@@ -25,8 +24,8 @@ class DisplayManager(BoxLayout):
 		self.app=App.get_running_app()
 		self.data=self.app.data
 		self.app.bind(data=self.setter('data'))
-		self.bind(data=self.on_data_changed)
-		self.data.bind(select_idx=self.update_display_panel)
+		self.bind(data=lambda x,y:Clock.schedule_once(self.on_data_changed))
+		self.data.bind(select_idx=lambda x,y:Clock.schedule_once(self.update_display_panel))
 
 	def on_data_changed(self,*args):
 		self.update_display_panel()
