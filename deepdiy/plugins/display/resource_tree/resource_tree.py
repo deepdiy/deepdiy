@@ -1,68 +1,48 @@
-import os
+import os,rootpath
+rootpath.append(pattern='main.py') # add the directory of main.py to PATH
 from kivy.uix.treeview import TreeView,TreeViewLabel
 from kivy.uix.scrollview import ScrollView
 from kivy.app import App
 from kivy.properties import ObjectProperty
 from kivy.core.window import Window
+from kivy.uix.boxlayout import BoxLayout
 import pysnooper
+from plugins.display.resource_tree.tree_widget import TreeWidget
 
 
-class ResourceTree(TreeView):
-    data=ObjectProperty(lambda: None)
+class ResourceTree(BoxLayout):
+
+    data=ObjectProperty(lambda:None)
+
     def __init__(self, **kwargs):
         super(ResourceTree, self).__init__()
-        self.bind(data=self.update_tree_view)
+        self.bind(data=self.refresh)
         self.size_hint_y = None
         self.bind(minimum_height = self.setter('height'))
-        self.bind(selected_node = self.update_selection)
+        # self.bind(selected_node = self.update_selection)
         self.hide_root=True
 
-    def update_selection(self,instance,node):
-        if node ==None:
-            return
-        index_chain=[]
-        current=node
-        for i in range(100):
-            if current.text!='Root':
-                index_chain.insert(0,current.parent_node.nodes.index(current))
-                current=current.parent_node
-            else:
-                break
-        self.data.select_idx=index_chain
-
-    def populate_tree_view(self, parent, node):
-        if parent is None:
-            tree_node = self.add_node(TreeViewLabel(text=node['node_id'],is_open=True))
-        else:
-            tree_node = self.add_node(TreeViewLabel(text=node['node_id'],is_open=True), parent)
-        for child_node in node['children']:
-            self.populate_tree_view(tree_node, child_node)
-
-    def depopulate(self,*arg):
-        self.deselect_node()
-        for node in self.iterate_all_nodes():
-            self.remove_node(node)
 
     # @pysnooper.snoop()
-    def update_tree_view(self,*arg):
+    def refresh(self,*arg):
         if not hasattr(self.data,'tree'):
             return
-        self.depopulate()
-        self.populate_tree_view(None, self.data.tree)
-        try:
-            self.auto_select()
-        except:
-            pass
+        self.tree=TreeWidget(self.data.tree)
+        self.tree.bind(select_idx=self.data.setter('select_idx'))
+        self.tree.select_idx = self.auto_select()
+        self.clear_widgets()
+        self.add_widget(self.tree)
 
     def auto_select(self):
-        node=self.root
-        for i in self.data.select_idx:
-            node=node.nodes[i]
-        last_child=len(node.nodes)-1
-        if last_child>-1:
-            self.select_node(node.nodes[last_child])
-        else:
-            self.select_node(node)
+        try:
+            selected_data = self.data.get_selected_data()
+            if len(selected_data['children'])>0:
+                return self.data.select_idx + [len(selected_data['children'])-1]
+            else:
+                return self.data.select_idx
+        except Exception as e:
+            print (e)
+
 
 
 class TestApp(App):
@@ -80,7 +60,7 @@ class TestApp(App):
             'children': []}]},
             {'node_id': '1.2',
             'children': []}]}
-        self.resource_tree.update_tree_view()
+        self.resource_tree.refresh()
 
     def build(self):
         from kivy.uix.boxlayout import BoxLayout
@@ -89,8 +69,6 @@ class TestApp(App):
         window=ScrollView(scroll_type=["bars"],  bar_width=20)
         root.add_widget(window)
         window.add_widget(self.resource_tree)
-        root.add_widget(Button(text='Clear',on_press=self.resource_tree.depopulate))
-        root.add_widget(Button(text='Update',on_press=self.resource_tree.update_tree_view))
         return root
 
 
