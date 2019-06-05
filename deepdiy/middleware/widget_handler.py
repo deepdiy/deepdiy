@@ -62,6 +62,12 @@ class WidgetHandler(BoxLayout):
 		except Exception as e:
 			logging.warning(e)
 
+	def set_progress_bar(self,value):
+		try:
+			self.widget_manager.ids.progress_bar.value=value
+		except Exception as e:
+			logging.warning(e)
+
 
 class Test(App):
 	"""docstring for Test."""
