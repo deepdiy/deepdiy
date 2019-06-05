@@ -4,6 +4,7 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty,StringProperty
+from kivy.logger import Logger
 from utils.select_path_dialog import select_file,select_folder
 from utils.get_file_list import get_file_list
 
@@ -42,7 +43,7 @@ class Files(BoxLayout):
 					'children':[]})
 		self.data.tree=tree
 		self.property('data').dispatch(self)
-		print(self.path)
+		Logger.debug('Files: Opened {}'.format(self.path))
 
 
 class Test(App):
