@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import os,rootpath
 rootpath.append(pattern='main.py') # add the directory of main.py to PATH
+import traceback
 import logging
 from kivy.app import App
 from kivy.lang import Builder
@@ -53,7 +54,7 @@ class PluginHandler(BoxLayout):
 			plugin.setter(attr)(self,value)
 		except Exception as e:
 			logging.warning(
-				'Error when setting attr <{}> in plugin <{}>: {} not fournd'.format(attr,plugin_id,e))
+				'Error when setting attr <{}> in plugin <{}>: {} ({})'.format(attr,plugin_id,e,traceback.format_exc()))
 
 
 class Test(App):
