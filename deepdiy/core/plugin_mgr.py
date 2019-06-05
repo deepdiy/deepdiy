@@ -55,7 +55,7 @@ class PluginManager(ModalView):
 	def find_plugin_packages(self):
 		self.plugin_package_names=[]
 		for importer, modname, ispkg in pkgutil.walk_packages(path=plugins.__path__,prefix=plugins.__name__+'.',onerror=lambda x: None):
-			if len(modname.split('.'))>2:
+			if len(modname.split('.')) ==4 and modname.split('.')[-2] ==modname.split('.')[-1]:
 				self.plugin_package_names.append(modname)
 
 	@ thread # run in separate thread
