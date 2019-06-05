@@ -32,7 +32,7 @@ class VideoViewer(BoxLayout):
 	FPS=20
 	data=DictProperty()
 	cap=ObjectProperty()
-	frame_idx=NumericProperty(-1)
+	frame_idx=NumericProperty()
 	total_frames=NumericProperty(1)
 	status=StringProperty('stop')
 	bundle_dir = rootpath.detect(pattern='main.py') # Obtain the dir of main.py
@@ -61,6 +61,8 @@ class VideoViewer(BoxLayout):
 		if self.cap != None:
 			self.total_frames = self.cap.get(cv2.CAP_PROP_FRAME_COUNT)
 			self.frame_idx = 0
+			'''in case of frame_idx unchange, force dispactch'''
+			self.property('frame_idx').dispatch(self)
 
 	def fetch_frame(self,*args):
 		'''Read a new frame, then render()'''
