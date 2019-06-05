@@ -54,7 +54,7 @@ class VideoViewer(BoxLayout):
 				self.cap = ImageStackCapture(path=self.data['content'])
 			else:
 				self.cap = cv2.VideoCapture(self.data['content'])
-		elif self.data['type'] == 'array':
+		elif self.data['type'] == 'img_stack':
 			self.cap = ImageStackCapture(stack=self.data['content'])
 		elif self.data['type'] == 'camera':
 			self.cap = cv2.VideoCapture(0)
