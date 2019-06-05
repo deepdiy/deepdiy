@@ -30,7 +30,7 @@ class VideoViewer(BoxLayout):
 		bundle_dir: the dir of main.py
 	"""
 	FPS=20
-	data=DictProperty()
+	data=DictProperty(force_dispatch=True)
 	cap=ObjectProperty()
 	frame_idx=NumericProperty()
 	total_frames=NumericProperty(1)
@@ -75,7 +75,6 @@ class VideoViewer(BoxLayout):
 			self.render()
 		else:
 			frame=None
-			print(self.status)
 			self.status = 'end'
 
 	def render(self,*args):
