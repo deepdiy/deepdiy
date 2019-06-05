@@ -25,6 +25,7 @@ class ImageStackCapture(BoxLayout):
 			self.path = path
 		if stack != []:
 			self.stack = stack
+			self.frame_count = len(self.stack)
 
 	def get(self,param):
 		if param == cv2.CAP_PROP_FRAME_COUNT:
@@ -58,15 +59,26 @@ class Test(App):
 	def __init__(self):
 		super(Test, self).__init__()
 
-	def build(self):
+	def build2(self):
 		demo=ImageStackCapture()
 		demo.path = 'D:\onedrive\program/for_liuyuan_rotation\data/test.tiff'
 		ret,img = demo.read()
 		img = img/np.max(img)*255
 		img = img.astype(np.uint8)
-		cv2.imshow('img',img)
+		cv2.imshow('img',cv2.resize(img,(512,512)))
 		cv2.waitKey(0)
-		# demo.path = 'D:\onedrive\program/for_liuyuan_rotation\data/rotartion/1_X55.tif'
+		return demo
+
+	def build(self):
+		path = 'D:\onedrive\program/for_liuyuan_rotation\data/test.tiff'
+		ret,video=cv2.imreadmulti(path,flags=cv2.IMREAD_ANYDEPTH)
+		demo=ImageStackCapture(stack=video)
+		ret,img = demo.read()
+		print(img)
+		img = img/np.max(img)*255
+		img = img.astype(np.uint8)
+		cv2.imshow('img',cv2.resize(img,(512,512)))
+		cv2.waitKey(0)
 		return demo
 
 if __name__ == '__main__':
