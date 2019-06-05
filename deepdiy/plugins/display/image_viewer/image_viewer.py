@@ -12,7 +12,7 @@ from functools import partial
 
 
 class ImageViewer(BoxLayout):
-	data=DictProperty()
+	data=DictProperty(force_dispatch=True)
 	def __init__(self,**kwargs):
 		super(ImageViewer, self).__init__(**kwargs)
 		self.bind(size=self.refresh)
