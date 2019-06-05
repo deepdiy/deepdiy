@@ -1,5 +1,5 @@
-import sys,os
-sys.path.append(os.path.dirname(os.path.dirname(sys.path[0])))
+import os,rootpath
+rootpath.append(pattern='main.py') # add the directory of main.py to PATH
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import DictProperty
@@ -15,8 +15,8 @@ class ImageViewer(BoxLayout):
 	data=DictProperty()
 	def __init__(self,**kwargs):
 		super(ImageViewer, self).__init__(**kwargs)
-		self.bind(size=self.update)
-		self.bind(data=self.update)
+		self.bind(size=self.refresh)
+		self.bind(data=self.refresh)
 
 	def img2texture(self,*arg):
 		self.h,self.w=self.img.shape[:2]
@@ -33,7 +33,7 @@ class ImageViewer(BoxLayout):
 			self.h_out=w*(self.h/self.w)
 			self.w_out=w
 
-	def update(self, *args):
+	def refresh(self, *args):
 		if self.data=={}:
 			return
 		if self.data['type']=='file_path':
@@ -58,9 +58,9 @@ class Test(App):
 
 	def build(self):
 		iv=ImageViewer()
-		img=cv2.imread('../../img/face.jpg',0)
-		# iv.data={'type':'file_path','content':'../../img/face.jpg'}
-		iv.data={'type':'img_gray','content':img}
+		img=cv2.imread('../../../img/face.jpg',0)
+		iv.data={'type':'file_path','content':'../../../img/face.jpg'}
+		# iv.data={'type':'img_gray','content':img}
 		return iv
 
 
