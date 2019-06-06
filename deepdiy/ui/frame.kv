@@ -31,6 +31,12 @@
                 scroll_timeout:0
         BoxLayout:
             orientation: 'vertical'
+            ProgressBar:
+                id:progress_bar
+                # size_hint_x:.5
+                size_hint_y:None
+                height:'5dp'
+                # value:(app.time*20)%100
             Splitter:
                 size_hint_y:None
                 height:dp(200)
@@ -41,9 +47,3 @@
                 orientation: 'vertical'
                 ScreenManager:
                     id:display_screens
-                ProgressBar:
-                    id:progress_bar
-                    # size_hint_x:.5
-                    size_hint_y:None
-                    height:'5dp'
-                    # value:(app.time*20)%100
