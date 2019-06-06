@@ -32,7 +32,7 @@ class Files(BoxLayout):
 		file_list={}
 		file_list['image']=get_file_list(self.path,formats=['jpg','jpeg','bmp','png'])
 		file_list['video']=get_file_list(self.path,formats=['avi','mp4','tiff','tif'])
-		tree={'node_id':'resources','children':[],'type':'root'}
+		tree={'node_id':'resources','children':[],'type':'root','display':'text_viewer'}
 		for data_format in file_list:
 			for file_path in file_list[data_format]:
 				tree['children'].append({
@@ -42,6 +42,7 @@ class Files(BoxLayout):
 					'display':data_format+'_viewer',
 					'children':[]})
 		self.data.tree=tree
+		self.data.select_idx=[0,0]
 		self.property('data').dispatch(self)
 		Logger.debug('Files: Opened {}'.format(self.path))
 
