@@ -1,20 +1,21 @@
 import os,rootpath
-rootpath.append(pattern='main.py') # add the directory of main.py to PATH 
-from utils.form_parser import FormParser
-from core.data_mgr import Data
-
-from kivy.app import App
-from kivy.lang import Builder
-from kivy.properties import DictProperty,ObjectProperty,ListProperty
-from kivy.uix.boxlayout import BoxLayout
+rootpath.append(pattern='main.py') # add the directory of main.py to PATH
 from pebble import concurrent
 import copy
+from kivy.app import App
+from kivy.lang import Builder
+from kivy.properties import DictProperty,ObjectProperty,ListProperty,NumericProperty
+from kivy.uix.boxlayout import BoxLayout
+from utils.form_parser import FormParser
+from core.data_mgr import Data
+from middleware.widget_handler import WidgetHandler
 
 class QuickPlugin(BoxLayout):
 	"""docstring for QuickPlugin."""
 
 	data=ObjectProperty()
 	kwargs=ListProperty()
+	progress_percent=DictProperty()
 
 	bundle_dir = rootpath.detect(pattern='main.py') # Obtain the dir of main.py
 	try:Builder.unload_file(os.sep.join([bundle_dir,'ui','quickplugin.kv']))
@@ -31,6 +32,8 @@ class QuickPlugin(BoxLayout):
 		self.result_meta=result_meta
 		self.call_back=call_back
 		self.tensorflow_graph=tensorflow_graph
+		self.widget_handler=WidgetHandler()
+		self.bind(progress_percent=self.on_progess)
 
 	def parse_form(self,*args):
 		self.ids.form.clear_widgets()
@@ -44,6 +47,9 @@ class QuickPlugin(BoxLayout):
 		if self.selected_data['type'] in self.input_type:
 			task=self.run_in_thread(self.selected_data['content'],**kwargs)
 			task.add_done_callback(self.on_task_finished)
+
+	def on_progess(self,*args):
+		self.widget_handler.set_progress_bar(self.progress_percent['value'])
 
 	@concurrent.thread
 	def run_in_thread(self,input_data,**kwargs):
