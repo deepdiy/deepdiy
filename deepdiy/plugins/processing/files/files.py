@@ -42,7 +42,10 @@ class Files(BoxLayout):
 					'display':data_format+'_viewer',
 					'children':[]})
 		self.data.tree=tree
-		self.data.select_idx=[0,0]
+		if len(self.data.tree['children'])>0:
+			self.data.select_idx=[0,0]
+		else:
+			self.data.select_idx=[0]
 		self.property('data').dispatch(self)
 		Logger.debug('Files: Opened {}'.format(self.path))
 
