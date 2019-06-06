@@ -34,7 +34,7 @@ def load_train():
 
 def load_coco():
 	app.widget_manager.ids.processing_screens.current='files'
-	app.widget_manager.ids.processing_screens.children[0].children[0].add_to_tree(os.sep.join(['plugins','processing','gallery','demos','Mask-RCNN+COCO_instance_segmentation','images']))
+	app.widget_manager.ids.processing_screens.children[0].children[0].path=os.sep.join(['plugins','processing','gallery','demos','Mask-RCNN+COCO_instance_segmentation','images'])
 	app.widget_manager.ids.processing_screens.current='networks'
 	json_path=os.sep.join(['plugins','processing','gallery','demos','Mask-RCNN+COCO_instance_segmentation','config.json'])
 	f=open(json_path,'r')

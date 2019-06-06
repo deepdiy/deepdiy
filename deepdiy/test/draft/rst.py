@@ -1,5 +1,5 @@
 import os,rootpath
-rootpath.append(pattern='main.py') # add the directory of main.py to PATH 
+rootpath.append(pattern='main.py') # add the directory of main.py to PATH
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty,DictProperty
@@ -15,14 +15,10 @@ class Demo(BoxLayout):
 
 	def __init__(self):
 		super(Demo, self).__init__()
-		text = '''
+		text = """
 
-			This is an **emphased text**, some ``interpreted text``.
-			And this is a reference to top
-
-			    $ print("Hello world")
-
-			'''
+			<h1>la</h1>
+			"""
 		document = RstDocument(text=text)
 		self.add_widget(document)
 
