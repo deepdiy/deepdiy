@@ -1,9 +1,10 @@
 import os,rootpath
-rootpath.append(pattern='main.py') # add the directory of main.py to PATH 
+rootpath.append(pattern='main.py') # add the directory of main.py to PATH
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty,DictProperty
 from kivy.uix.boxlayout import BoxLayout
+from kivy.logger import Logger
 
 class Demo(BoxLayout):
 	"""docstring for Demo."""
