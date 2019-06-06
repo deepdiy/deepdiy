@@ -21,6 +21,30 @@ class NoCell(ToggleButton):
     def released(self,m):
         print(m)
 
+class Table(BoxLayout):
+    """docstring for Table."""
+
+    def __init__(self, data):
+        super(Table, self).__init__()
+        self.data = data
+        self.populate(data)
+
+    def populate(self,data):
+        if len(data)==0:
+            pass
+        else:
+            self.ids.grid.cols=len(data[0])+1
+            for i in range(len(data)):
+                for j in range(len(data[0])+1):
+                    cell=Cell()
+                    no=NoCell()
+                    if j==0:
+                        no.text=str(i+1)
+                        self.ids.grid.add_widget(no)
+                    else:
+                        cell.text=str(data[i][j-1])
+                        self.ids.grid.add_widget(cell)
+
 class TableViewer(BoxLayout):
     """docstring for TableViewer."""
 
@@ -31,36 +55,25 @@ class TableViewer(BoxLayout):
     def __init__(self):
         super(TableViewer, self).__init__()
         self.is_selected_=False
-        self.bind(data=self.populate)
+        self.bind(data=self.refresh)
 
     def on_click_save(self,*args):
         out_file=select_save_path()
         self.save(out_file)
 
+    def refresh(self,*args):
+        table=Table(self.data['content'])
+        self.ids.table.clear_widgets()
+        self.ids.table.add_widget(table)
+
     def save(self,out_file):
+        if out_file is None:
+            return
         import csv
-        with out_file as resultFile:
+        with open(out_file.name, 'w', newline='') as resultFile:
             wr = csv.writer(resultFile, dialect='excel')
             for item in self.data['content']:
                 wr.writerow(item)
-
-    def populate(self,*args):
-        data =self.data['content']
-        if len(data)==0:
-            pass
-        else:
-            self.ids.grid.cols=len(data[0])+1
-            self.rows=len(data)
-            for i in range(len(data)):
-                for j in range(len(data[0])+1):
-                    cell=Cell()
-                    no=NoCell()
-                    if j==0:
-                    	no.text=str(i+1)
-                    	self.ids.grid.add_widget(no)
-                    else:
-                    	cell.text=str(data[i][j-1])
-                    	self.ids.grid.add_widget(cell)
 
 
 class Test(App):

@@ -4,8 +4,15 @@
     multiline:False
     readonly:True
 
+<Table>:
+    size_hint_y:None
+    height:self.minimum_height
+    GridLayout:
+        id:grid
+        size_hint_y:None
+        height:self.minimum_height
+
 <TableViewer>:
-    orientation:'vertical'
     ScrollView:
         bar_width:10
         scroll_type:["bars"]
@@ -18,8 +25,8 @@
                 height:30
                 text:'Save'
                 on_release:root.on_click_save()
-            GridLayout:
-            	id:grid
+            BoxLayout:
+            	id:table
                 size_hint_y:None
                 height:self.minimum_height
 
