@@ -47,9 +47,12 @@ class TreeWidget(TreeView):
 
     def on_select_idx(self,*args):
         node=self.root
-        for i in self.select_idx:
-            node=node.nodes[i]
-        self.select_node(node)
+        try:
+            for i in self.select_idx:
+                node=node.nodes[i]
+            self.select_node(node)
+        except Exception as e:
+            print(self.select_idx,e)
 
 
 class TestApp(App):
