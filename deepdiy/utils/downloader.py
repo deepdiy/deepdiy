@@ -1,5 +1,5 @@
 import os,rootpath
-rootpath.append(pattern='main.py') # add the directory of main.py to PATH 
+rootpath.append(pattern='main.py') # add the directory of main.py to PATH
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty,DictProperty,NumericProperty,StringProperty
@@ -25,7 +25,7 @@ class Downloader(BoxLayout):
 	def on_success(self,*args):
 		self.status='Download Finished'
 		if self.extract_dir is None:
-			return
+			pass
 		elif self.extract_dir=='./':
 			self.unzip(self.file_path,os.path.dirname(self.file_path))
 		else:
