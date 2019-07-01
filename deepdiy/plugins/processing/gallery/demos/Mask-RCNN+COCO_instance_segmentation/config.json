@@ -1,6 +1,0 @@
-{
-	"files_path":"images",
-	"model":"mrcnn",
-	"weight":"mask_rcnn_coco.h5",
-	"config":"coco.json"
-}

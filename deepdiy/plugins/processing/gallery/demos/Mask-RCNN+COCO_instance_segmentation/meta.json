@@ -1,0 +1,11 @@
+{
+	"title":"Mask-RCNN",
+	"abstract":"The model generates bounding boxes and segmentation masks for each instance of an object in the image. It's based on Feature Pyramid Network (FPN) and a ResNet101 backbone.",
+	"id":"mrcnn_coco",
+	"ref_url":"https://github.com/matterport/Mask_RCNN",
+	"model":"mrcnn",
+	"model_config":"coco.json",
+	"demo_url":"http://www.deepdiy.net/model_zoo/demos/mrcnn_coco.zip",
+	"model_url":"http://www.deepdiy.net/model_zoo/models/mrcnn.zip",
+	"weight_url":"http://www.deepdiy.net/model_zoo/weights/mrcnn/mask_rcnn_coco.h5"
+}
