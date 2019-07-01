@@ -57,6 +57,7 @@ class LocalModelCard(BoxLayout):
 		plugin_handler.set_plugin_attr(
 			'train','model_id',self.id)
 		#
+
 class LocalModels(StackLayout):
 	"""docstring for Run."""
 	models = ListProperty()
@@ -65,17 +66,23 @@ class LocalModels(StackLayout):
 
 	def __init__(self):
 		super(LocalModels, self).__init__()
-		self.collect_models()
-		self.render_model_cards()
+		self.refresh()
 
 	def collect_models(self):
 		model_zoo_dir=os.sep.join([self.bundle_dir,'plugins','processing','model_zoo'])
+		if not os.path.isdir(model_zoo_dir+os.sep+'models'):
+			return
 		self.model_names=os.listdir(model_zoo_dir+os.sep+'models')
 		self.models=[name for name in self.model_names if name[:2]!='__']
 
 	def render_model_cards(self):
 		for model_id in self.models:
 			self.add_widget(Factory.LocalModelCard(model_id))
+
+	def refresh(self,*args):
+		self.clear_widgets()
+		self.collect_models()
+		self.render_model_cards()
 
 
 class Test(App):
