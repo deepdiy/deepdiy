@@ -19,15 +19,20 @@ class ModelCard(BoxLayout):
 	def __init__(self, meta_info):
 		super(ModelCard, self).__init__()
 		self.meta_info=meta_info
+		self.register_event_type('on_install')
 
 	def install(self,*args):
 		installer=Installer()
 		self.ids.installer.clear_widgets()
 		self.ids.installer.add_widget(installer)
+		installer.bind(on_success=lambda x:self.dispatch('on_install'))
 		installer.install_model(
 			self.meta_info['id'],self.meta_info['install_url'])
 
 	def popup_readme(self):
+		pass
+
+	def on_install(self,*args):
 		pass
 
 class OnlineModels(ModalView):
@@ -44,6 +49,7 @@ class OnlineModels(ModalView):
 		self.collect_local_models()
 		self.collect_online_models()
 		self.bind(online_models=self.render_model_cards)
+		self.register_event_type('on_install')
 
 	def collect_local_models(self):
 		pass
@@ -53,7 +59,12 @@ class OnlineModels(ModalView):
 
 	def render_model_cards(self,*args):
 		for model in self.online_models:
-			self.ids.model_album.add_widget(Factory.ModelCard(model))
+			card=Factory.ModelCard(model)
+			self.ids.model_album.add_widget(card)
+			card.bind(on_install=lambda x:self.dispatch('on_install'))
+
+	def on_install(self,*args):
+		print('hi')
 
 
 class Test(App):
