@@ -1,0 +1,6 @@
+{
+	"title":"Mask-RCNN",
+	"id":"mrcnn",
+	"abstract":"Object segmentation",
+	"logo":"http://www.aimechanic.com/wp-content/uploads/2017/10/Mask-R-CNN-TensorFlow-Keras.png"
+}
