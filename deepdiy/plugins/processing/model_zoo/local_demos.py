@@ -26,7 +26,8 @@ class LocalDemoCard(BoxLayout):
 	def __init__(self,demo_id):
 		super(LocalDemoCard, self).__init__()
 		self.demo_id = demo_id
-		self.demo_path = os.sep.join([self.bundle_dir,'plugins','processing','model_zoo','demos',self.demo_id])
+		self.demo_path = os.sep.join([
+			self.bundle_dir,'plugins','processing','model_zoo','demos',self.demo_id])
 		self.load_meta_info()
 
 	def load_meta_info(self):
@@ -51,7 +52,7 @@ class LocalDemoCard(BoxLayout):
 		plugin_handler.set_plugin_attr(
 			'predict','config_id',self.meta_info['model_config'])
 		plugin_handler.set_plugin_attr(
-			'predict','weight_id',self.meta_info['weight'].split('/')[-1])
+			'predict','weight_id',self.meta_info['weight_url'].split('/')[-1])
 
 
 class LocalDemos(StackLayout):
@@ -62,7 +63,7 @@ class LocalDemos(StackLayout):
 	def __init__(self):
 		super(LocalDemos, self).__init__()
 		self.models={}
-		self.collect_demos()
+		self.refresh()
 
 	def collect_demos(self):
 		demos_path_list=glob.glob(os.sep.join([self.bundle_dir,'plugins','processing','model_zoo','demos','*']))
@@ -70,6 +71,10 @@ class LocalDemos(StackLayout):
 			demo_id = path.split(os.sep)[-1]
 			self.add_widget(
 				Factory.LocalDemoCard(demo_id))
+
+	def refresh(self,*arg):
+		self.clear_widgets()
+		self.collect_demos()
 
 
 class Test(App):
