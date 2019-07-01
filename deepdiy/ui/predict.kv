@@ -21,11 +21,6 @@
 						size_hint_y:None
 						height:40
 						on_release: root.jump_to_model_zoo()
-					Button:
-						text:'Refresh'
-						# on_release:root.rescan_model_zoo()
-						size_hint_y:None
-						height:'40dp'
 					Spinner:
 						id:config_spinner
 						text:'Select Config' if root.config_id == '' else root.config_id
