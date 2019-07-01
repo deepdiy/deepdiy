@@ -21,3 +21,5 @@ test_setup.bat
 deepdiy/plugins/processing/canny/*
 deepdiy/plugins/processing/model_zoo/*/*
 *.zip
+*__pycache__/
+deepdiy/plugins/system/debugger/*/__init__.py
