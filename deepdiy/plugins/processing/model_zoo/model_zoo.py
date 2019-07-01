@@ -26,10 +26,12 @@ class ModelZoo(BoxLayout):
 	def load_online_models(self,*args):
 		self.online_models=OnlineModels()
 		self.online_models.open()
+		self.online_models.bind(on_install=self.local_models.refresh)
 
 	def load_online_demos(self,*args):
 		self.online_demos=OnlineDemos()
 		self.online_demos.open()
+		self.online_demos.bind(on_install=self.local_demos.refresh)
 
 
 class Test(App):
