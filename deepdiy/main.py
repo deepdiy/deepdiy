@@ -5,7 +5,6 @@ from core.plugin_mgr import PluginManager
 from kivy.app import App
 from kivy.properties import ObjectProperty,DictProperty
 
-# from test.debug import *
 
 class MainWindow(App):
 	''' The entrance of App
