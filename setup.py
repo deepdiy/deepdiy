@@ -33,7 +33,7 @@ setup(
 	url='https://www.deepdiy.net',
 	# packages=['deepdiy'],
 	install_requires=[
-		'tensorflow==1.13.1',
+		'tensorflow==2.3.1',
 		'Keras>=2.1',
 		'opencv-python',
 		'Numpy>=1.15.4',
